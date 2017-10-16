@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="OfertaPaquetesEAR">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="OfertaPaquetesEJB.jar" deploy-path="/" handle="module:/resource/OfertaPaquetesEJB/OfertaPaquetesEJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="OfertaPaquetesEJBClient.jar" deploy-path="/" handle="module:/resource/OfertaPaquetesEJBClient/OfertaPaquetesEJBClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="nuevasOfertas.war" deploy-path="/" handle="module:/resource/nuevasOfertas/nuevasOfertas">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
