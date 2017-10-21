@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.ofertaPaquetes.util.EnumEstadoSolicitud;
@@ -24,15 +25,14 @@ public class Solicitud {
 
 	String estado;
 	
-	@ManyToOne
-	@JoinColumn(name="idAgencia")
-	Agencia agencia;
+	@OneToOne
+	@JoinColumn(name="idPaquete")
+	Paquete paquete;
 
-	public Solicitud(Date fechaCreacion, String estado, Agencia agencia) {
+	public Solicitud(Date fechaCreacion, String estado) {
 		super();
 		this.fechaCreacion = fechaCreacion;
 		this.estado = estado;
-		this.agencia = agencia;
 	}
 
 	public int getIdSolicitud() {
@@ -59,13 +59,14 @@ public class Solicitud {
 		this.estado = estado;
 	}
 
-	public Agencia getAgencia() {
-		return agencia;
+	public Paquete getPaquete() {
+		return paquete;
 	}
 
-	public void setAgencia(Agencia agencia) {
-		this.agencia = agencia;
+	public void setPaquete(Paquete paquete) {
+		this.paquete = paquete;
 	}
+
 	
 	
 }
