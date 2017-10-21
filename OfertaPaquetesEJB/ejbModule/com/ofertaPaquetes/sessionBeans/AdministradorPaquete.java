@@ -1,5 +1,7 @@
 package com.ofertaPaquetes.sessionBeans;
 
+import java.util.Date;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
@@ -24,7 +26,7 @@ public class AdministradorPaquete implements AdministradorPaqueteRemote, Adminis
     }
 	
 	public void nuevoPaquete(){
-		Paquete tarea = new Paquete("Paquete A");
+		Paquete tarea = new Paquete("Paquete A", new Date(), new Date(), "Descripcion Paquete A", 200D, "", 100, 2, true, true);
 		try{
 			manager.persist(tarea);
 		}
