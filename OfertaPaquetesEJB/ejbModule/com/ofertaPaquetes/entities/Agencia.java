@@ -23,6 +23,9 @@ public class Agencia {
 	boolean estado;
 	
 	@OneToMany(mappedBy="agencia")
+	List<Solicitud> solicitudes;
+
+	@OneToMany(mappedBy="agencia")
 	List<Paquete> paquetes;
 
 	public Agencia(String nombre, boolean estado) {
@@ -63,6 +66,13 @@ public class Agencia {
 		this.paquetes = paquetes;
 	}
 	
+	public List<Solicitud> getSolicitudes() {
+		return solicitudes;
+	}
+
+	public void setSolicitudes(List<Solicitud> solicitudes) {
+		this.solicitudes = solicitudes;
+	}
 
 	@Override
 	public String toString() {
