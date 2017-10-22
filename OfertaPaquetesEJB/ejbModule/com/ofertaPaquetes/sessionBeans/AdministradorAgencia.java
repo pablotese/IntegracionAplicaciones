@@ -8,25 +8,28 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.ofertaPaquetes.entities.Paquete;
+import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.entities.Agencia;
+
 /**
  * Session Bean implementation class AdministradorTareas
  */
 @Stateless
 @LocalBean
-public class AdministradorPaquete{
+public class AdministradorAgencia {
 
 	@PersistenceContext(unitName="MyPU")
 	private EntityManager manager;
     
-	public AdministradorPaquete() {
+	public AdministradorAgencia() {
         // TODO Auto-generated constructor stub
     }
 	
-	public void nuevoPaquete(){
-		Paquete paquete = new Paquete("Paquete A", new Date(), new Date(), "Descripcion Paquete A", 200D, "", 100, 2, true, true);
+	public void nuevaAgencia(AgenciaDTO agenciaDto){
+		
+		Agencia agencia = new Agencia(agenciaDto.getNombre(), false);
 		try{
-			manager.persist(paquete);
+			manager.persist(agencia);
 		}
 		catch(Exception e){
 			e.printStackTrace();
