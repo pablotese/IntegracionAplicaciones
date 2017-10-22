@@ -1,29 +1,19 @@
-package com.ofertaPaquetes.entities;
+package com.ofertaPaquetes.dtos;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-import com.ofertaPaquetes.util.EnumEstadoSolicitud;
+public class SolicitudDTO implements Serializable {
 
-@Entity
-@Table(name="Solicitudes")
-public class Solicitud {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	private static final long serialVersionUID = 1L;
 	int idSolicitud;
 	Date fechaCreacion;
 	String estado;
 
-
-	public Solicitud(Date fechaCreacion, String estado) {
+	public SolicitudDTO(Date fechaCreacion, String estado) {
 		super();
 		this.fechaCreacion = fechaCreacion;
 		this.estado = estado;
@@ -52,5 +42,5 @@ public class Solicitud {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+
 }
