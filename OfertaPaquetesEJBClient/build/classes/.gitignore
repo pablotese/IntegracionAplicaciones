@@ -1,3 +1,7 @@
 /META-INF/
 /com/
-.classpath
+OfertaPaquetesClientePrueba/.classpath
+OfertaPaquetesEJB/.classpath
+OfertaPaquetesEJBClient/.classpath
+enviarSolicitud/.classpath
+nuevasOfertas/.classpath
