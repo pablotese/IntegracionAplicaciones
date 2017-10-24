@@ -20,23 +20,41 @@ public class Agencia {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	int idAgencia;
+	private int idAgencia;
 
-	String nombre;
+	private String nombre;
 
-	boolean estado;
+	private boolean estado;
+	private String calle;
+	private int nro;
+	private String piso;
+	private String depto;
+	private String localidad;
+	
+	@ManyToOne
+	@JoinColumn(name="idPais")
+	private Pais pais;
+	
 	
 	@OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name="idSolicitud")
-	Solicitud solicitud;
+	private Solicitud solicitud;
 
 	@OneToMany(mappedBy="agencia")
-	List<Paquete> paquetes;
+	private List<Paquete> paquetes;
 
-	public Agencia(String nombre, boolean estado) {
+	
+	public Agencia(String nombre, boolean estado, String calle, int nro, String piso, String depto, String localidad,
+			Pais pais) {
 		super();
 		this.nombre = nombre;
 		this.estado = estado;
+		this.calle = calle;
+		this.nro = nro;
+		this.piso = piso;
+		this.depto = depto;
+		this.localidad = localidad;
+		this.pais = pais;
 	}
 
 	public int getIdAgencia() {
@@ -79,6 +97,54 @@ public class Agencia {
 
 	public void setSolicitud(Solicitud solicitud) {
 		this.solicitud = solicitud;
+	}
+	
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public int getNro() {
+		return nro;
+	}
+
+	public void setNro(int nro) {
+		this.nro = nro;
+	}
+
+	public String getPiso() {
+		return piso;
+	}
+
+	public void setPiso(String piso) {
+		this.piso = piso;
+	}
+
+	public String getDepto() {
+		return depto;
+	}
+
+	public void setDepto(String depto) {
+		this.depto = depto;
+	}
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 	@Override

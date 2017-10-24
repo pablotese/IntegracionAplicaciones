@@ -15,13 +15,13 @@ public class Imagen {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	int idImagen;
+	private int idImagen;
 	
-	byte[] imagen;
+	private byte[] imagen;
 	
 	@ManyToOne
 	@JoinColumn(name="idPaquete")
-	Paquete paquete;
+	private Paquete paquete;
 
 	
 	public Imagen(byte[] imagen, Paquete paquete) {

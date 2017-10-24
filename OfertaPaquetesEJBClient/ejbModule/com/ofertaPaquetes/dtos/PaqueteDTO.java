@@ -9,17 +9,17 @@ public class PaqueteDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	 int idPaquete;
-	 String nombre;
-	 Date fechaDesde;
-	 Date fechaHasta;
-	 String descripcion;
-	 Double precio;
-	 String politicasCancelacion;
-	 int cupo;
-	 int cantPersonas;
-	 boolean estado;
-	 boolean nuevaOferta;
+	private int idPaquete;
+	private String nombre;
+	private Date fechaDesde;
+	private Date fechaHasta;
+	private String descripcion;
+	private Double precio;
+	private String politicasCancelacion;
+	private int cupo;
+	private int cantPersonas;
+	private boolean estado;
+	private boolean nuevaOferta;
 	 /*
 	  *  List<ImagenDTO> imagenes;
 	  *  AgenciaDTO agencia;

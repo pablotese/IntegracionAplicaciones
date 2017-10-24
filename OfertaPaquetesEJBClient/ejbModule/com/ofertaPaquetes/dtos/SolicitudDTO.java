@@ -9,9 +9,9 @@ import javax.persistence.ManyToOne;
 public class SolicitudDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	int idSolicitud;
-	Date fechaCreacion;
-	String estado;
+	private int idSolicitud;
+	private Date fechaCreacion;
+	private String estado;
 
 	public SolicitudDTO(Date fechaCreacion, String estado) {
 		super();

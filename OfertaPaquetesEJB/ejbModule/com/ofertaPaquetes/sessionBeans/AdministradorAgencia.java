@@ -1,15 +1,14 @@
 package com.ofertaPaquetes.sessionBeans;
 
-import java.util.Date;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.entities.Agencia;
+import com.ofertaPaquetes.entities.Pais;
 
 /**
  * Session Bean implementation class AdministradorTareas
@@ -27,13 +26,31 @@ public class AdministradorAgencia {
 	
 	public void nuevaAgencia(AgenciaDTO agenciaDto){
 		
-		Agencia agencia = new Agencia(agenciaDto.getNombre(), false);
+		/****************************************************/
+		/*Este codigo debe removerse, por ahora sirve para crear pais al inicializar de cero y borrar la bd*/
+		Pais pais = new Pais(agenciaDto.getPais().getNombre());
+		try{
+			
+			manager.persist(pais);
+			manager.flush();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al guardar pais");
+		} 
+		/*
+		 * Pais pais =manager.find(Pais.class, agenciaDto.getPais().getIdPais());
+		 * */
+		/****************************************************/
+		
+		Agencia agencia = new Agencia(agenciaDto.getNombre(),false,agenciaDto.getCalle(), agenciaDto.getNro(),agenciaDto.getPiso(),
+				agenciaDto.getDepto(), agenciaDto.getLocalidad(),pais);
 		try{
 			manager.persist(agencia);
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			System.out.println("Conectandose a "+ e.getMessage());
+			System.out.println("Error al guardar Agencia");
 		}
 	}
 
