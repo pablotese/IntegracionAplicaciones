@@ -14,12 +14,12 @@ import javax.persistence.Table;
 public class Destino {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	int idDestino;
+	private int idDestino;
 
-	String nombre;
+	private String nombre;
 	
 	@OneToMany(mappedBy="destino")
-	List<Paquete> paquetes;
+	private List<Paquete> paquetes;
 
 	public Destino(String nombre) {
 		super();

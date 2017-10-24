@@ -18,9 +18,9 @@ public class Solicitud {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	int idSolicitud;
-	Date fechaCreacion;
-	String estado;
+	private int idSolicitud;
+	private Date fechaCreacion;
+	private String estado;
 
 
 	public Solicitud(Date fechaCreacion, String estado) {

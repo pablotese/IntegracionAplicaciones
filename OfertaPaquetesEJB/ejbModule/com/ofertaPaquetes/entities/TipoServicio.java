@@ -15,14 +15,14 @@ public class TipoServicio {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	int idTipoServicio;
+	private int idTipoServicio;
 
-	String nombre;
+	private String nombre;
 
-	String descripcion;
+	private String descripcion;
 	
 	@ManyToMany(mappedBy="servicios")
-	List<Paquete> paquetes;
+	private List<Paquete> paquetes;
 
 	public TipoServicio(String nombre, String descripcion) {
 		super();

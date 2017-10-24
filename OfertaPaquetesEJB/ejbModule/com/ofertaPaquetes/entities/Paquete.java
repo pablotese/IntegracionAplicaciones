@@ -9,15 +9,15 @@ import javax.persistence.*;
 @Table(name="Paquetes")
 public class Paquete {
 	    @Id @GeneratedValue(strategy=GenerationType.AUTO)   
-	    Long idPaquete;
+	    private int idPaquete;
 	    
-	    String nombre;
-	    Date fechaDesde;
-	    Date fechaHasta;
-	    String descripcion;
-	    Double precio;
-	    String politicasCancelacion;
-	    int cupo;
+	    private String nombre;
+	    private Date fechaDesde;
+	    private Date fechaHasta;
+	    private String descripcion;
+	    private Double precio;
+	    private String politicasCancelacion;
+	    private int cupo;
 	    
 	    @ManyToMany
 	    @JoinTable(
@@ -25,22 +25,22 @@ public class Paquete {
 	            joinColumns = { @JoinColumn(name = "idPaquete") }, 
 	            inverseJoinColumns = { @JoinColumn(name = "idTipoServicio") }
 	        )
-	    List<TipoServicio> servicios;
+	    private List<TipoServicio> servicios;
 	    
 	    @ManyToOne
 	    @JoinColumn(name="idDestino")
-	    Destino destino;
+	    private Destino destino;
 	    
-	    int cantPersonas;
-	    boolean estado;
-	    boolean nuevaOferta;
+	    private int cantPersonas;
+	    private boolean estado;
+	    private boolean nuevaOferta;
 	    
 	    @ManyToOne
 	    @JoinColumn(name="idAgencia")
-	    Agencia agencia;
+	    private Agencia agencia;
 	    
 	    @OneToMany(mappedBy = "paquete", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	    List<Imagen> imagenes;
+	    private List<Imagen> imagenes;
 	    
 	    	    
 		public Paquete(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
@@ -58,10 +58,10 @@ public class Paquete {
 			this.estado = estado;
 			this.nuevaOferta = nuevaOferta;
 		}
-		public Long getIdPaquete() {
+		public int getIdPaquete() {
 			return idPaquete;
 		}
-		public void setIdPaquete(Long idPaquete) {
+		public void setIdPaquete(int idPaquete) {
 			this.idPaquete = idPaquete;
 		}
 		public String getNombre() {
