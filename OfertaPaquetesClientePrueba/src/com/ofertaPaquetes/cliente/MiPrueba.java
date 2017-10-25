@@ -2,6 +2,7 @@ package com.ofertaPaquetes.cliente;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.naming.NamingException;
 
@@ -23,6 +24,13 @@ public class MiPrueba {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		List<AgenciaDTO> agencias = bd.listarAgenciasPorEstado("PENDIENTE");
+		if(agencias!=null){
+			for(AgenciaDTO dto:agencias){
+				System.out.println(dto.toString());
+			}
 		}
 
 	}

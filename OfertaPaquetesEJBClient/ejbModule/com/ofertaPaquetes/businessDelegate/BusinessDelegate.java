@@ -1,6 +1,7 @@
 package com.ofertaPaquetes.businessDelegate;
 
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -54,10 +55,53 @@ public class BusinessDelegate {
 			stub.nuevaAgencia(agenciaDto);
 		}
 		catch(Exception e){
-			System.out.println("ERROR");
+			System.out.println("Error al crear agencia");
 			e.printStackTrace();
 			
 		}
+	}
+	
+	public void modificarAgencia(AgenciaDTO agenciaDto){
+		try{
+			stub.modificarAgencia(agenciaDto);
+		}
+		catch(Exception e){
+			System.out.println("Error al modificar agencia");
+			e.printStackTrace();
+			
+		}
+	}
+	public void eliminarAgencia(int idAgencia){
+		try{
+			stub.eliminarAgencia(idAgencia);
+		}
+		catch(Exception e){
+			System.out.println("Error al eliminar agencia");
+			e.printStackTrace();
+			
+		}
+	}
+	public void modificarEstadoSolicitud(int idSolicitud, String estado){
+		try{
+			stub.modificarEstadoSolicitud(idSolicitud, estado);
+		}
+		catch(Exception e){
+			System.out.println("Error al modificar solicitud");
+			e.printStackTrace();
+			
+		}
+	}		
+	
+	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
+		try{
+			return stub.listarAgenciasPorEstado(estado);
+		}
+		catch(Exception e){
+			System.out.println("Error al listar agencias");
+			e.printStackTrace();
+			
+		}
+		return null;
 	}
 }
 

@@ -53,6 +53,11 @@ public class Imagen {
 	public void setPaquete(Paquete paquete) {
 		this.paquete = paquete;
 	}
+
+	public Imagen() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	

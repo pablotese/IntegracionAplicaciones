@@ -1,5 +1,7 @@
 package com.ofertaPaquetes.sessionBeans.facade;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Remote;
@@ -29,6 +31,26 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	@Override
 	public void nuevaAgencia(AgenciaDTO agenciaDto) {
 		ag.nuevaAgencia(agenciaDto);
+	}
+	
+	@Override
+	public void modificarAgencia(AgenciaDTO agenciaDto){
+		ag.modificarAgencia(agenciaDto);
+	}
+	
+	@Override
+	public void eliminarAgencia(int idAgencia){
+		ag.eliminarAgencia(idAgencia);
+	}
+	
+	@Override
+	public void modificarEstadoSolicitud(int idSolicitud, String estado){
+		ag.modificarEstadoSolicitud(idSolicitud, estado);
+	}
+		
+	@Override
+	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
+		return ag.listarAgenciasPorEstado(estado);
 	}
 
 }
