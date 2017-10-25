@@ -7,6 +7,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBRemote;
 
 public class BusinessDelegate {
@@ -103,5 +104,51 @@ public class BusinessDelegate {
 		}
 		return null;
 	}
+	
+	public void nuevoPaquete(PaqueteDTO paqueteDto){
+		try{
+			stub.nuevoPaquete(paqueteDto);
+		}
+		catch(Exception e){
+			System.out.println("Error al crear paquete");
+			e.printStackTrace();
+			
+		}
+	}
+	public void modificarPaquete(PaqueteDTO paqueteDto){
+		try{
+			stub.modificarPaquete(paqueteDto);
+		}
+		catch(Exception e){
+			System.out.println("Error al modificar paquete");
+			e.printStackTrace();
+			
+		}
+		
+	}
+	public void eliminarPaquete(int idPaquete){
+		try{
+			stub.eliminarPaquete(idPaquete);
+		}
+		catch(Exception e){
+			System.out.println("Error al eliminar paquete");
+			e.printStackTrace();
+			
+		}
+	}
+	
+	public List<PaqueteDTO> listarPaquetes(){
+		try{
+			return stub.listarPaquetes();
+		}
+		catch(Exception e){
+			System.out.println("Error al listar paquetes");
+			e.printStackTrace();
+			
+		}
+		return null;	
+	}
+
 }
+
 

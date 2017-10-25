@@ -1,6 +1,5 @@
 package com.ofertaPaquetes.entities;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +23,12 @@ public class Imagen {
 	private Paquete paquete;
 
 	
+	
+	public Imagen(byte[] imagen) {
+		super();
+		this.imagen = imagen;
+	}
+
 	public Imagen(byte[] imagen, Paquete paquete) {
 		super();
 		this.imagen = imagen;
