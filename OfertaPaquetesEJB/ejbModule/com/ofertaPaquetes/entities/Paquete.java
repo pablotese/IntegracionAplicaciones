@@ -156,6 +156,10 @@ public class Paquete {
 					+ ", precio=" + precio + ", politicasCancelacion=" + politicasCancelacion + ", cupo=" + cupo
 					+ ", cantPersonas=" + cantPersonas + ", estado=" + estado + ", nuevaOferta=" + nuevaOferta + "]";
 		}
+		public Paquete() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
 	    
 	    
 }

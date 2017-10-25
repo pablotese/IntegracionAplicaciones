@@ -31,6 +31,10 @@ public class Pais {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	public Pais() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 }

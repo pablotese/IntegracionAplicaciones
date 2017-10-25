@@ -52,5 +52,11 @@ public class Solicitud {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public Solicitud() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 }

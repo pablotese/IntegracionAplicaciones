@@ -1,12 +1,17 @@
 package com.ofertaPaquetes.sessionBeans;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.PaisDTO;
+import com.ofertaPaquetes.dtos.SolicitudDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Solicitud;
@@ -107,4 +112,34 @@ public class AdministradorAgencia {
 		}
 	}
 
+	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
+
+		try{
+			List<AgenciaDTO> lista = new ArrayList<AgenciaDTO>();
+		
+			List<Agencia> agencias = (List<Agencia>) manager.createQuery(" FROM Agencia  a "
+				+ "WHERE a.solicitud.estado like :estado").setParameter("estado",estado)
+				.getResultList();
+		
+			for(Agencia ag:agencias){
+				
+				PaisDTO pais = new PaisDTO(ag.getPais().getNombre());
+				pais.setIdPais(ag.getPais().getIdPais());
+				
+				SolicitudDTO solicitud = new SolicitudDTO(ag.getSolicitud().getFechaCreacion(), ag.getSolicitud().getEstado());
+				solicitud.setIdSolicitud(ag.getSolicitud().getIdSolicitud());
+							
+				AgenciaDTO dto= new AgenciaDTO(ag.getNombre(),ag.isEstado(),ag.getCalle(),ag.getNro(),ag.getPiso(),ag.getDepto(),ag.getLocalidad(),pais);
+				
+				dto.setSolicitud(solicitud);
+				
+				lista.add(dto);
+			}
+			return lista;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

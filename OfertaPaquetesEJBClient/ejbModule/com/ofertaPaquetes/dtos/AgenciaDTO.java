@@ -10,16 +10,13 @@ public class AgenciaDTO implements Serializable {
 	private String nombre;
 	private boolean estado;
 	private SolicitudDTO solicitud;
-	private int idDireccion;
 	private String calle;
 	private int nro;
 	private String piso;
 	private String depto;
 	private String localidad;
 	private PaisDTO pais;
-	
-
-	List<PaqueteDTO> paquetes;
+	private List<PaqueteDTO> paquetes;
 
 	public AgenciaDTO(String nombre, boolean estado, String calle, int nro,
 			String piso, String depto, String localidad, PaisDTO pais) {
@@ -82,13 +79,6 @@ public class AgenciaDTO implements Serializable {
 		this.pais = pais;
 	}
 
-	public int getIdDireccion() {
-		return idDireccion;
-	}
-
-	public void setIdDireccion(int idDireccion) {
-		this.idDireccion = idDireccion;
-	}
 
 	public String getCalle() {
 		return calle;
@@ -130,6 +120,14 @@ public class AgenciaDTO implements Serializable {
 		this.localidad = localidad;
 	}
 
+	@Override
+	public String toString() {
+		return "AgenciaDTO [idAgencia=" + idAgencia + ", nombre=" + nombre + ", solicitud creada="
+				+ solicitud.getFechaCreacion() + ", calle=" + calle + ", nro=" + nro + ", piso=" + piso + ", depto=" + depto
+				+ ", localidad=" + localidad + ", pais=" + pais.getNombre() + "]";
+	}
+
+	
 	
 	
 }

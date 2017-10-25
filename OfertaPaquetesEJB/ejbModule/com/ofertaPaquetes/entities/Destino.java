@@ -49,6 +49,11 @@ public class Destino {
 	public void setPaquetes(List<Paquete> paquetes) {
 		this.paquetes = paquetes;
 	}
+
+	public Destino() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	

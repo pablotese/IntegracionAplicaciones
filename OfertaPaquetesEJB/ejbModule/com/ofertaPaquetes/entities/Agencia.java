@@ -36,7 +36,7 @@ public class Agencia {
 	private Pais pais;
 	
 	
-	@OneToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinColumn(name="idSolicitud")
 	private Solicitud solicitud;
 
@@ -44,6 +44,13 @@ public class Agencia {
 	private List<Paquete> paquetes;
 
 	
+	
+	public Agencia() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public Agencia(String nombre, boolean estado, String calle, int nro, String piso, String depto, String localidad,
 			Pais pais) {
 		super();
@@ -56,6 +63,25 @@ public class Agencia {
 		this.localidad = localidad;
 		this.pais = pais;
 	}
+	
+	
+	public Agencia(int idAgencia, String nombre, boolean estado, String calle, int nro, String piso, String depto,
+			String localidad, Pais pais, Solicitud solicitud, List<Paquete> paquetes) {
+		super();
+		this.idAgencia = idAgencia;
+		this.nombre = nombre;
+		this.estado = estado;
+		this.calle = calle;
+		this.nro = nro;
+		this.piso = piso;
+		this.depto = depto;
+		this.localidad = localidad;
+		this.pais = pais;
+		this.solicitud = solicitud;
+		this.paquetes = paquetes;
+	}
+
+
 
 	public int getIdAgencia() {
 		return idAgencia;
