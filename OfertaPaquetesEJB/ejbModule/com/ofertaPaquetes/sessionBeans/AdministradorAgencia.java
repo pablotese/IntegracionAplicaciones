@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Pais;
+import com.ofertaPaquetes.entities.Solicitud;
 
 /**
  * Session Bean implementation class AdministradorTareas
@@ -45,12 +46,64 @@ public class AdministradorAgencia {
 		
 		Agencia agencia = new Agencia(agenciaDto.getNombre(),false,agenciaDto.getCalle(), agenciaDto.getNro(),agenciaDto.getPiso(),
 				agenciaDto.getDepto(), agenciaDto.getLocalidad(),pais);
+		
+		/*Al crearse una Agencia siempre se creará una solicitud pendiente.
+		 * Quizás deba realizarse en este método la creación sin esperar el estado desde el admin 
+		 */
+		Solicitud solicitud = new Solicitud(agenciaDto.getSolicitud().getFechaCreacion(), agenciaDto.getSolicitud().getEstado());
+		agencia.setSolicitud(solicitud);  
+		
 		try{
 			manager.persist(agencia);
 		}
 		catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Error al guardar Agencia");
+		}
+	}
+	
+	public void modificarAgencia(AgenciaDTO ag){
+		try{
+			Agencia agencia = manager.find(Agencia.class,ag.getIdAgencia());
+			agencia.setCalle(ag.getCalle());
+			agencia.setDepto(ag.getDepto());
+			agencia.setEstado(ag.isEstado());
+			agencia.setLocalidad(ag.getLocalidad());
+			agencia.setNombre(ag.getNombre());
+			agencia.setNro(ag.getNro());
+			agencia.setPiso(ag.getPiso());
+			
+			Pais pais = manager.find(Pais.class, ag.getPais().getIdPais());
+			agencia.setPais(pais);
+			
+			manager.merge(agencia);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al actualizar Agencia");
+		}
+	}
+	
+	public void eliminarAgencia(int idAgencia){
+		try{
+			Agencia agencia = manager.find(Agencia.class, idAgencia);
+			manager.remove(agencia);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al eliminar Agencia");
+		}
+	}
+	
+	public void modificarEstadoSolicitud(int idSolicitud, String estado){
+		try{
+			Solicitud solicitud = manager.find(Solicitud.class, idSolicitud);
+			solicitud.setEstado(estado);
+			manager.merge(solicitud);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al actualizar el estado de la solicitud");
 		}
 	}
 
