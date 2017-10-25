@@ -20,12 +20,10 @@ public class PaqueteDTO implements Serializable {
 	private int cantPersonas;
 	private boolean estado;
 	private boolean nuevaOferta;
-	 /*
-	  *  List<ImagenDTO> imagenes;
-	  *  AgenciaDTO agencia;
-	  *  DestinoDTO destino;
-	  *  List<TipoServicio> servicios;
-	  * */
+	private List<ImagenDTO> imagenes;
+	private AgenciaDTO agencia;
+	private DestinoDTO destino;
+	private List<TipoServicioDTO> servicios;
 	 
 	 
 	public PaqueteDTO(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
@@ -108,10 +106,29 @@ public class PaqueteDTO implements Serializable {
 	public void setNuevaOferta(boolean nuevaOferta) {
 		this.nuevaOferta = nuevaOferta;
 	}
-	  
-	
-	
-	
-	
+	public List<ImagenDTO> getImagenes() {
+		return imagenes;
+	}
+	public void setImagenes(List<ImagenDTO> imagenes) {
+		this.imagenes = imagenes;
+	}
+	public AgenciaDTO getAgencia() {
+		return agencia;
+	}
+	public void setAgencia(AgenciaDTO agencia) {
+		this.agencia = agencia;
+	}
+	public DestinoDTO getDestino() {
+		return destino;
+	}
+	public void setDestino(DestinoDTO destino) {
+		this.destino = destino;
+	}
+	public List<TipoServicioDTO> getServicios() {
+		return servicios;
+	}
+	public void setServicios(List<TipoServicioDTO> servicios) {
+		this.servicios = servicios;
+	}
 	
 }

@@ -3,9 +3,6 @@ package com.ofertaPaquetes.dtos;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 public class SolicitudDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

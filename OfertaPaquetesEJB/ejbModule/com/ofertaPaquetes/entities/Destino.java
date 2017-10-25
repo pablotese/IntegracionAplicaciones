@@ -55,7 +55,4 @@ public class Destino {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	
-	
 }

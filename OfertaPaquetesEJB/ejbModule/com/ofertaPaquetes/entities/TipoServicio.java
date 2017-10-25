@@ -61,6 +61,12 @@ public class TipoServicio {
 	public void setPaquetes(List<Paquete> paquetes) {
 		this.paquetes = paquetes;
 	}
+
+	public TipoServicio() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 	
 	

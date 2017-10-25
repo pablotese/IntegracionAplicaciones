@@ -112,6 +112,7 @@ public class AdministradorAgencia {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
 
 		try{
