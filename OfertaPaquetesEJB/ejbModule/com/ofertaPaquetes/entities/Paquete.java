@@ -27,7 +27,7 @@ public class Paquete {
 	        )
 	    private List<TipoServicio> servicios;
 	    
-	    @ManyToOne
+	    @ManyToOne(fetch=FetchType.EAGER)
 	    @JoinColumn(name="idDestino")
 	    private Destino destino;
 	    
@@ -35,7 +35,7 @@ public class Paquete {
 	    private boolean estado;
 	    private boolean nuevaOferta;
 	    
-	    @ManyToOne
+	    @ManyToOne(fetch=FetchType.EAGER)
 	    @JoinColumn(name="idAgencia")
 	    private Agencia agencia;
 	    
@@ -150,11 +150,16 @@ public class Paquete {
 		public void setAgencia(Agencia agencia) {
 			this.agencia = agencia;
 		}
+		
+		
+		
 		@Override
 		public String toString() {
-			return "Paquete [idPaquete=" + idPaquete + ", nombre=" + nombre + ", descripcion=" + descripcion
-					+ ", precio=" + precio + ", politicasCancelacion=" + politicasCancelacion + ", cupo=" + cupo
-					+ ", cantPersonas=" + cantPersonas + ", estado=" + estado + ", nuevaOferta=" + nuevaOferta + "]";
+			return "Paquete [idPaquete=" + idPaquete + ", nombre=" + nombre + ", fechaDesde=" + fechaDesde
+					+ ", fechaHasta=" + fechaHasta + ", descripcion=" + descripcion + ", precio=" + precio
+					+ ", politicasCancelacion=" + politicasCancelacion + ", cupo=" + cupo 
+					+ ", cantPersonas=" + cantPersonas + ", estado=" + estado + ", nuevaOferta=" + nuevaOferta
+					+ ", agencia=" + agencia.getIdAgencia() + "]";
 		}
 		public Paquete() {
 			super();

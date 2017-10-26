@@ -30,6 +30,15 @@ public class AgenciaDTO implements Serializable {
 		this.localidad = localidad;
 		this.pais = pais;
 	}
+	
+	
+
+	public AgenciaDTO(int idAgencia) {
+		super();
+		this.idAgencia = idAgencia;
+	}
+
+
 
 	public int getIdAgencia() {
 		return idAgencia;

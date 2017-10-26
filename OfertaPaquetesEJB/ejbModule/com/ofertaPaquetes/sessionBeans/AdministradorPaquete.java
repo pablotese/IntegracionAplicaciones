@@ -41,20 +41,24 @@ public class AdministradorPaquete{
 			
 			
 			/*Imagenes se crean al persistir el paquete*/
-			List<Imagen> imagenes = new ArrayList<Imagen>();
-			List<ImagenDTO> imagenesDto = paquete.getImagenes();
-			for(ImagenDTO im:imagenesDto){
-				imagenes.add(new Imagen(im.getImagen()));
+			if(!paquete.getImagenes().isEmpty()){
+				List<Imagen> imagenes = new ArrayList<Imagen>();
+				List<ImagenDTO> imagenesDto = paquete.getImagenes();
+				for(ImagenDTO im:imagenesDto){
+					imagenes.add(new Imagen(im.getImagen()));
+				}
+				paq.setImagenes(imagenes);
 			}
-			paq.setImagenes(imagenes);
 			
 			/*TipoServicios, se vincula a existentes*/
-			List<TipoServicio> servicios = new ArrayList<TipoServicio>();
-			List<TipoServicioDTO> serviciosDto = paquete.getServicios();
-			for(TipoServicioDTO serv:serviciosDto){
-				servicios.add(manager.find(TipoServicio.class, serv.getIdTipoServicio()));
+			if(!paquete.getServicios().isEmpty()){
+				List<TipoServicio> servicios = new ArrayList<TipoServicio>();
+				List<TipoServicioDTO> serviciosDto = paquete.getServicios();
+				for(TipoServicioDTO serv:serviciosDto){
+					servicios.add(manager.find(TipoServicio.class, serv.getIdTipoServicio()));
+				}
+				paq.setServicios(servicios);
 			}
-			paq.setServicios(servicios);
 			
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
@@ -135,11 +139,15 @@ public class AdministradorPaquete{
 		
 			for(Paquete paq:paquetes){
 				PaqueteDTO dto = new PaqueteDTO(paq.getNombre(),paq.getFechaDesde(),paq.getFechaHasta(),paq.getDescripcion(),paq.getPrecio(),paq.getPoliticasCancelacion(),paq.getCupo(),paq.getCantPersonas(),paq.isEstado(),paq.isNuevaOferta());
+				dto.setIdPaquete(paq.getIdPaquete());
 				PaisDTO pais = new PaisDTO(paq.getAgencia().getPais().getIdPais(), paq.getAgencia().getPais().getNombre());
 				AgenciaDTO agencia = new AgenciaDTO(paq.getAgencia().getNombre(), paq.getAgencia().isEstado(),paq.getAgencia().getCalle(),paq.getAgencia().getNro(),paq.getAgencia().getPiso(),paq.getAgencia().getDepto(),paq.getAgencia().getLocalidad(),pais);
-				DestinoDTO destino = new DestinoDTO(paq.getDestino().getIdDestino(),paq.getDestino().getNombre());
 				
-				dto.setDestino(destino);
+				if(paq.getDestino()!=null){
+					DestinoDTO destino = new DestinoDTO(paq.getDestino().getIdDestino(),paq.getDestino().getNombre());
+					dto.setDestino(destino);
+				}
+				
 				dto.setAgencia(agencia);
 				
 				/*no cargo imagenes y tipo de servicios ya que esto es solo una lista*/
@@ -150,6 +158,45 @@ public class AdministradorPaquete{
 		}
 		catch(Exception e){
 			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public PaqueteDTO obtenerPaquete(int idPaquete){
+		try{
+			Paquete paquete = manager.find(Paquete.class, idPaquete);
+			PaqueteDTO paq = new PaqueteDTO(paquete.getNombre(),paquete.getFechaDesde(),paquete.getFechaHasta(),paquete.getDescripcion(),paquete.getPrecio(),paquete.getPoliticasCancelacion(),paquete.getCupo(),paquete.getCantPersonas(),paquete.isEstado(),paquete.isNuevaOferta());
+			System.out.println(paquete.toString());
+			
+			AgenciaDTO agencia = new AgenciaDTO(paquete.getAgencia().getIdAgencia());
+			paq.setAgencia(agencia);
+			
+			if(paquete.getDestino()!=null){
+				DestinoDTO destino = new DestinoDTO(paquete.getDestino().getIdDestino(),paquete.getDestino().getNombre());
+				paq.setDestino(destino);
+			}
+			
+			/*Imagenes*/
+			List<Imagen> imagenes = paquete.getImagenes();
+			List<ImagenDTO> imagenesDto = new ArrayList<ImagenDTO>();
+			for(Imagen im:imagenes){
+				imagenesDto.add(new ImagenDTO(im.getIdImagen(),im.getImagen()));
+			}
+			paq.setImagenes(imagenesDto);
+			
+			/*TipoServicios*/
+			List<TipoServicio> servicios = paquete.getServicios();
+			List<TipoServicioDTO> serviciosDto = new ArrayList<TipoServicioDTO>();
+			for(TipoServicio serv:servicios){
+				serviciosDto.add(new TipoServicioDTO(serv.getNombre(), serv.getDescripcion()));
+			}	
+			paq.setServicios(serviciosDto);
+			
+			return paq;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al obtener paquete");
 		}
 		return null;
 	}
