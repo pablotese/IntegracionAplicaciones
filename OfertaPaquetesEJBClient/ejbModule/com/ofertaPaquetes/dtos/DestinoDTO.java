@@ -12,6 +12,14 @@ public class DestinoDTO implements Serializable{
 		this.idDestino = idDestino;
 		this.nombre = nombre;
 	}
+	
+	
+	public DestinoDTO(int idDestino) {
+		super();
+		this.idDestino = idDestino;
+	}
+
+
 	public DestinoDTO() {
 		super();
 		// TODO Auto-generated constructor stub

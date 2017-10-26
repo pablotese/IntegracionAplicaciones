@@ -130,5 +130,13 @@ public class PaqueteDTO implements Serializable {
 	public void setServicios(List<TipoServicioDTO> servicios) {
 		this.servicios = servicios;
 	}
+	@Override
+	public String toString() {
+		return "PaqueteDTO [idPaquete=" + idPaquete + ", nombre=" + nombre + ", fechaDesde=" + fechaDesde
+				+ ", fechaHasta=" + fechaHasta + ", descripcion=" + descripcion + ", precio=" + precio
+				+ ", politicasCancelacion=" + politicasCancelacion + ", cupo=" + cupo + ", cantPersonas=" + cantPersonas
+				+ ", estado=" + estado + ", nuevaOferta=" + nuevaOferta + ", agencia=" + agencia.getIdAgencia() + "]";
+	}
+	
 	
 }

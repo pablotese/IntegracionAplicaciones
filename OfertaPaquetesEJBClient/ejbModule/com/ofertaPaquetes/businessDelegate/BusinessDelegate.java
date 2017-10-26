@@ -98,9 +98,32 @@ public class BusinessDelegate {
 			return stub.listarAgenciasPorEstado(estado);
 		}
 		catch(Exception e){
+			System.out.println("Error al listar agencias por estado");
+			e.printStackTrace();
+			
+		}
+		return null;
+	}
+	
+	public List<AgenciaDTO> listarAgencias(){
+		try{
+			return stub.listarAgencias();
+		}
+		catch(Exception e){
 			System.out.println("Error al listar agencias");
 			e.printStackTrace();
 			
+		}
+		return null;
+	}
+	
+	public AgenciaDTO obtenerAgencia(int idAgencia){
+		try{
+			return stub.obtenerAgencia(idAgencia);
+		}
+		catch(Exception e){
+			System.out.println("Error al obtener agencia");
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -147,6 +170,18 @@ public class BusinessDelegate {
 			
 		}
 		return null;	
+	}
+	
+	public PaqueteDTO obtenerPaquete(int idPaquete){
+		try{
+			return stub.obtenerPaquete(idPaquete);
+		}
+		catch(Exception e){
+			System.out.println("Error al obtener paquete");
+			e.printStackTrace();
+			
+		}
+		return null;
 	}
 
 }

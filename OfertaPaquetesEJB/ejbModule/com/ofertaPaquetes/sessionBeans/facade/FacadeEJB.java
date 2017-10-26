@@ -55,7 +55,18 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
 		return ag.listarAgenciasPorEstado(estado);
 	}
+	
+	public List<AgenciaDTO> listarAgencias(){
+		return ag.listarAgencias();
+	}
 
+	@Override
+	public AgenciaDTO obtenerAgencia(int idAgencia) {
+		// TODO Auto-generated method stub
+		return ag.obtenerAgencia(idAgencia);
+	}
+
+	
 	@Override
 	public void nuevoPaquete(PaqueteDTO paqueteDto) {
 		ap.nuevoPaquete(paqueteDto);
@@ -75,5 +86,10 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	public List<PaqueteDTO> listarPaquetes() {
 		return ap.listarPaquetes();
 	}
-
+	
+	@Override
+	public PaqueteDTO obtenerPaquete(int idPaquete){
+		return ap.obtenerPaquete(idPaquete);
+	}
+	
 }

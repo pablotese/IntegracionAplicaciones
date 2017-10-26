@@ -11,9 +11,11 @@ import javax.persistence.PersistenceContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
+import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.SolicitudDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Pais;
+import com.ofertaPaquetes.entities.Paquete;
 import com.ofertaPaquetes.entities.Solicitud;
 
 /**
@@ -131,6 +133,7 @@ public class AdministradorAgencia {
 				solicitud.setIdSolicitud(ag.getSolicitud().getIdSolicitud());
 							
 				AgenciaDTO dto= new AgenciaDTO(ag.getNombre(),ag.isEstado(),ag.getCalle(),ag.getNro(),ag.getPiso(),ag.getDepto(),ag.getLocalidad(),pais);
+				dto.setIdAgencia(ag.getIdAgencia());
 				
 				dto.setSolicitud(solicitud);
 				
@@ -140,6 +143,59 @@ public class AdministradorAgencia {
 		}
 		catch(Exception e){
 			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<AgenciaDTO> listarAgencias(){
+		try{
+			List<AgenciaDTO> lista = new ArrayList<AgenciaDTO>();
+		
+			List<Agencia> agencias = (List<Agencia>) manager.createQuery(" FROM Agencia  a ").getResultList();
+		
+			for(Agencia ag:agencias){
+				
+				PaisDTO pais = new PaisDTO(ag.getPais().getNombre());
+				pais.setIdPais(ag.getPais().getIdPais());
+				
+				SolicitudDTO solicitud = new SolicitudDTO(ag.getSolicitud().getFechaCreacion(), ag.getSolicitud().getEstado());
+				solicitud.setIdSolicitud(ag.getSolicitud().getIdSolicitud());
+							
+				AgenciaDTO dto= new AgenciaDTO(ag.getNombre(),ag.isEstado(),ag.getCalle(),ag.getNro(),ag.getPiso(),ag.getDepto(),ag.getLocalidad(),pais);
+				dto.setIdAgencia(ag.getIdAgencia());
+				
+				dto.setSolicitud(solicitud);
+				
+				lista.add(dto);
+			}
+			return lista;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public AgenciaDTO obtenerAgencia(int idAgencia){
+		try{
+			Agencia agencia = manager.find(Agencia.class, idAgencia);
+			Pais pais = manager.find(Pais.class,agencia.getPais().getIdPais());
+			PaisDTO paisDto = new PaisDTO(pais.getIdPais(),pais.getNombre());
+			AgenciaDTO ag = new AgenciaDTO(agencia.getNombre(),agencia.isEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(), agencia.getDepto(),agencia.getLocalidad(),paisDto);
+			
+			List<Paquete> paquetes = agencia.getPaquetes();
+			List<PaqueteDTO> listPaquetesDto = new ArrayList<PaqueteDTO>();
+			for(Paquete p:paquetes){
+				PaqueteDTO pdto = new PaqueteDTO(p.getNombre(),p.getFechaDesde(),p.getFechaHasta(),p.getDescripcion(),p.getPrecio(),p.getPoliticasCancelacion(),p.getCupo(),p.getCantPersonas(),p.isEstado(),p.isNuevaOferta());
+				pdto.setIdPaquete(p.getIdPaquete());
+				listPaquetesDto.add(pdto);
+			}
+			
+			return ag;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al obtener agencia "+ idAgencia);
 		}
 		return null;
 	}
