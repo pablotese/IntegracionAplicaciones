@@ -6,6 +6,7 @@
 		<project>OfertaPaquetesEJB</project>
 		<project>OfertaPaquetesEJBClient</project>
 		<project>nuevasOfertas</project>
+		<project>enviarSolicitud</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
