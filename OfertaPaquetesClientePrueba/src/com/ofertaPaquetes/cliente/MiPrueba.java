@@ -13,7 +13,6 @@ import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.ImagenDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
-import com.ofertaPaquetes.dtos.SolicitudDTO;
 import com.ofertaPaquetes.dtos.TipoServicioDTO;
 
 public class MiPrueba {
@@ -23,9 +22,8 @@ public class MiPrueba {
 		
 		/*Test Agencia*/
 		PaisDTO pais= new PaisDTO(1,"Argentina");
-		AgenciaDTO ag = new AgenciaDTO("Prueba",false, "calle",123,"1","C","capital Federal",pais);
-		SolicitudDTO solicitud = new SolicitudDTO(new Date(), "PENDIENTE");
-		ag.setSolicitud(solicitud);
+		AgenciaDTO ag = new AgenciaDTO("Prueba",false, "calle",123,"1","C","capital Federal",pais, new Date());
+		
 		try {
 			bd.nuevaAgencia(ag);
 		} catch (Exception e) {
@@ -33,7 +31,7 @@ public class MiPrueba {
 			e.printStackTrace();
 		}
 		
-		List<AgenciaDTO> agencias = bd.listarAgenciasPorEstado("PENDIENTE");
+		List<AgenciaDTO> agencias = bd.listarAgenciasPorEstado(false);
 		if(agencias!=null){
 			for(AgenciaDTO dto:agencias){
 				System.out.println(dto.toString());

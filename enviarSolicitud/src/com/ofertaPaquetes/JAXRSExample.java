@@ -22,7 +22,7 @@ public class JAXRSExample {
 			List<AgenciaDTO> agencias = bd.listarAgencias();
 			List<AgenciaJSON> test=new ArrayList<AgenciaJSON>();
 			for(AgenciaDTO agencia:agencias){
-				AgenciaJSON jag = new AgenciaJSON(agencia.getIdAgencia(),agencia.getNombre(),agencia.getSolicitud().getIdSolicitud(),agencia.getSolicitud().getFechaCreacion(),agencia.getSolicitud().getEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(),agencia.getDepto(),agencia.getLocalidad(),agencia.getPais().getNombre());
+				AgenciaJSON jag = new AgenciaJSON(agencia.getIdAgencia(),agencia.getNombre(),agencia.getIdAgenciaBO(),agencia.getFechaCreacion(),agencia.isEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(),agencia.getDepto(),agencia.getLocalidad(),agencia.getPais().getNombre());
 				test.add(jag);
 			}
 			return test;
@@ -40,15 +40,16 @@ public class JAXRSExample {
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	public String aprobarAgencia(EstadoSolicitudJSON jestado) {
-		try {
+		/*try {
 			BusinessDelegate bd = BusinessDelegate.getInstance();
 
-			bd.modificarEstadoSolicitud(jestado.getIdSolicitud(), jestado.getEstado());
+			bd.modificarEstadoSolicitud(jestado.getId(), jestado.getEstado());
 			return "OK";
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		return "Error";
+		return "Error";*/
+		return "";
 	}
 }

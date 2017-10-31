@@ -1,16 +1,18 @@
 package com.ofertaPaquetes.dtos;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class AgenciaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idAgencia;
+	private int idAgenciaBO;
 	private String nombre;
 	private boolean estado;
-	private SolicitudDTO solicitud;
 	private String calle;
+	private Date fechaCreacion;
 	private int nro;
 	private String piso;
 	private String depto;
@@ -19,7 +21,7 @@ public class AgenciaDTO implements Serializable {
 	private List<PaqueteDTO> paquetes;
 
 	public AgenciaDTO(String nombre, boolean estado, String calle, int nro,
-			String piso, String depto, String localidad, PaisDTO pais) {
+			String piso, String depto, String localidad, PaisDTO pais, Date fechaCreacion) {
 		super();
 		this.nombre = nombre;
 		this.estado = estado;
@@ -29,6 +31,7 @@ public class AgenciaDTO implements Serializable {
 		this.depto = depto;
 		this.localidad = localidad;
 		this.pais = pais;
+		this.fechaCreacion = fechaCreacion;
 	}
 	
 	
@@ -38,7 +41,7 @@ public class AgenciaDTO implements Serializable {
 		this.idAgencia = idAgencia;
 	}
 
-
+	
 
 	public int getIdAgencia() {
 		return idAgencia;
@@ -72,13 +75,6 @@ public class AgenciaDTO implements Serializable {
 		this.paquetes = paquetes;
 	}
 
-	public SolicitudDTO getSolicitud() {
-		return solicitud;
-	}
-
-	public void setSolicitud(SolicitudDTO solicitud) {
-		this.solicitud = solicitud;
-	}
 
 	public PaisDTO getPais() {
 		return pais;
@@ -129,10 +125,34 @@ public class AgenciaDTO implements Serializable {
 		this.localidad = localidad;
 	}
 
+	
+	public int getIdAgenciaBO() {
+		return idAgenciaBO;
+	}
+
+
+
+	public void setIdAgenciaBO(int idAgenciaBO) {
+		this.idAgenciaBO = idAgenciaBO;
+	}
+
+
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "AgenciaDTO [idAgencia=" + idAgencia + ", nombre=" + nombre + ", solicitud creada="
-				+ solicitud.getFechaCreacion() + ", calle=" + calle + ", nro=" + nro + ", piso=" + piso + ", depto=" + depto
+		return "AgenciaDTO [idAgencia=" + idAgencia + ", nombre=" + nombre + ",  calle=" + calle + ", nro=" + nro + ", piso=" + piso + ", depto=" + depto
 				+ ", localidad=" + localidad + ", pais=" + pais.getNombre() + "]";
 	}
 
