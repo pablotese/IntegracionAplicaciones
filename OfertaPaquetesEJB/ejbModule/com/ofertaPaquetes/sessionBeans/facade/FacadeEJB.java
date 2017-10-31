@@ -46,15 +46,6 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 		ag.eliminarAgencia(idAgencia);
 	}
 	
-	@Override
-	public void modificarEstadoSolicitud(int idSolicitud, String estado){
-		ag.modificarEstadoSolicitud(idSolicitud, estado);
-	}
-		
-	@Override
-	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
-		return ag.listarAgenciasPorEstado(estado);
-	}
 	
 	public List<AgenciaDTO> listarAgencias(){
 		return ag.listarAgencias();
@@ -90,6 +81,12 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	@Override
 	public PaqueteDTO obtenerPaquete(int idPaquete){
 		return ap.obtenerPaquete(idPaquete);
+	}
+
+	@Override
+	public List<AgenciaDTO> listarAgenciasPorEstado(boolean estado) {
+		// TODO Auto-generated method stub
+		return ag.listarAgenciasPorEstado(estado);
 	}
 	
 }

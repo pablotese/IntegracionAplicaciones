@@ -1,5 +1,6 @@
 package com.ofertaPaquetes.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,6 +22,8 @@ public class Agencia {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idAgencia;
+	
+	private int idAgenciaBO;
 
 	private String nombre;
 
@@ -30,15 +33,13 @@ public class Agencia {
 	private String piso;
 	private String depto;
 	private String localidad;
+	private Date fechaCreacion;
 	
 	@ManyToOne
 	@JoinColumn(name="idPais")
 	private Pais pais;
 	
 	
-	@OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.ALL})
-	@JoinColumn(name="idSolicitud")
-	private Solicitud solicitud;
 
 	@OneToMany(mappedBy="agencia")
 	private List<Paquete> paquetes;
@@ -52,7 +53,7 @@ public class Agencia {
 
 
 	public Agencia(String nombre, boolean estado, String calle, int nro, String piso, String depto, String localidad,
-			Pais pais) {
+			Pais pais, Date fechaAgencia) {
 		super();
 		this.nombre = nombre;
 		this.estado = estado;
@@ -62,13 +63,15 @@ public class Agencia {
 		this.depto = depto;
 		this.localidad = localidad;
 		this.pais = pais;
+		this.fechaCreacion=fechaAgencia;
 	}
 	
 	
-	public Agencia(int idAgencia, String nombre, boolean estado, String calle, int nro, String piso, String depto,
-			String localidad, Pais pais, Solicitud solicitud, List<Paquete> paquetes) {
+	public Agencia(int idAgencia, int idAgenciaBO, String nombre, boolean estado, String calle, int nro, String piso, String depto,
+			String localidad, Pais pais, Date fechaCreacion, List<Paquete> paquetes) {
 		super();
 		this.idAgencia = idAgencia;
+		this.idAgenciaBO = idAgenciaBO;
 		this.nombre = nombre;
 		this.estado = estado;
 		this.calle = calle;
@@ -77,7 +80,7 @@ public class Agencia {
 		this.depto = depto;
 		this.localidad = localidad;
 		this.pais = pais;
-		this.solicitud = solicitud;
+		this.fechaCreacion= fechaCreacion;
 		this.paquetes = paquetes;
 	}
 
@@ -116,15 +119,16 @@ public class Agencia {
 	}
 	
 	
-
-	public Solicitud getSolicitud() {
-		return solicitud;
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
-	public void setSolicitud(Solicitud solicitud) {
-		this.solicitud = solicitud;
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
-	
+
+
 	public String getCalle() {
 		return calle;
 	}
@@ -172,6 +176,17 @@ public class Agencia {
 	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
+
+	
+	public int getIdAgenciaBO() {
+		return idAgenciaBO;
+	}
+
+
+	public void setIdAgenciaBO(int idAgenciaBO) {
+		this.idAgenciaBO = idAgenciaBO;
+	}
+
 
 	@Override
 	public String toString() {
