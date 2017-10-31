@@ -5,15 +5,13 @@ import java.util.List;
 
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
-import com.ofertaPaquetes.dtos.SolicitudDTO;
-
 public class AgenciaJSON {
 	private static final long serialVersionUID = 1L;
 	private int idAgencia;
 	private String nombre;
-	private int idSolicitud;
+	private int idAgenciaBO;
 	private Date fechaCreacion;
-	private String estado;
+	private boolean estado;
 	private String calle;
 	private int nro;
 	private String piso;
@@ -25,12 +23,12 @@ public class AgenciaJSON {
 	
 	
 
-	public AgenciaJSON(int idAgencia, String nombre,  int idSolicitud, Date fechaCreacion,
-			String estado, String calle, int nro, String piso, String depto, String localidad, String pais) {
+	public AgenciaJSON(int idAgencia, String nombre,  int idAgenciaBO, Date fechaCreacion,
+			boolean estado, String calle, int nro, String piso, String depto, String localidad, String pais) {
 		super();
 		this.idAgencia = idAgencia;
 		this.nombre = nombre;
-		this.idSolicitud = idSolicitud;
+		this.idAgenciaBO = idAgenciaBO;
 		this.fechaCreacion = fechaCreacion;
 		this.estado = estado;
 		this.calle = calle;
@@ -57,12 +55,24 @@ public class AgenciaJSON {
 		this.nombre = nombre;
 	}
 	
-	public int getIdSolicitud() {
-		return idSolicitud;
+	
+
+	public int getIdAgenciaBO() {
+		return idAgenciaBO;
 	}
 
-	public void setIdSolicitud(int idSolicitud) {
-		this.idSolicitud = idSolicitud;
+	public void setIdAgenciaBO(int idAgenciaBO) {
+		this.idAgenciaBO = idAgenciaBO;
+	}
+
+	
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 	public Date getFechaCreacion() {

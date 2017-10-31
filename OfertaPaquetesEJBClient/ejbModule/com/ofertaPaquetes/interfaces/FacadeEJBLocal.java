@@ -9,9 +9,8 @@ public interface FacadeEJBLocal {
 
 	public void nuevaAgencia(AgenciaDTO agenciaDto);
 	public void modificarAgencia(AgenciaDTO agenciaDto);
-	public void eliminarAgencia(int idAgencia);
-	public void modificarEstadoSolicitud(int idSolicitud, String estado);		
-	public List<AgenciaDTO> listarAgenciasPorEstado(String estado);
+	public void eliminarAgencia(int idAgencia);	
+	public List<AgenciaDTO> listarAgenciasPorEstado(boolean estado);
 	public List<AgenciaDTO> listarAgencias();
 	public AgenciaDTO obtenerAgencia(int idAgencia);
 	

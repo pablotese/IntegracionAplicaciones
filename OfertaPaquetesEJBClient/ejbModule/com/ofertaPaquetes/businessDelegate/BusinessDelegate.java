@@ -82,18 +82,9 @@ public class BusinessDelegate {
 			
 		}
 	}
-	public void modificarEstadoSolicitud(int idSolicitud, String estado){
-		try{
-			stub.modificarEstadoSolicitud(idSolicitud, estado);
-		}
-		catch(Exception e){
-			System.out.println("Error al modificar solicitud");
-			e.printStackTrace();
-			
-		}
-	}		
 	
-	public List<AgenciaDTO> listarAgenciasPorEstado(String estado){
+	
+	public List<AgenciaDTO> listarAgenciasPorEstado(boolean estado){
 		try{
 			return stub.listarAgenciasPorEstado(estado);
 		}
