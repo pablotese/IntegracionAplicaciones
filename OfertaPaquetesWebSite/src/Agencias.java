@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
-import com.ofertaPaquetes.dtos.SolicitudDTO;
 import com.sun.mail.iap.Response;
 
 import models.agencia;
@@ -111,8 +110,6 @@ public class Agencias extends HttpServlet {
 				if(accion.equals("crear"))
 				{
 					//Nueva agencia
-					SolicitudDTO solicitud = new SolicitudDTO(new Date(), "PENDIENTE");
-					viewModel.setSolicitud(solicitud);
 					PaisDTO pais= new PaisDTO(1,"Argentina");
 					viewModel.setPais(pais);
 					
