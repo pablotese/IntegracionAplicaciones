@@ -63,8 +63,7 @@ public class AdministradorPaquete{
 	
 						
 			//Servicios
-			
-			
+
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
 			paq.setAgencia(agencia);
@@ -100,6 +99,7 @@ public class AdministradorPaquete{
 
 			
 			/*Servicios*/
+
 			
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
@@ -171,10 +171,10 @@ public class AdministradorPaquete{
 				paq.setDestino(destino);
 			}
 			
+
 			/*Imagenes*/
 			paq.setImagen(paquete.getImagen());
-			
-			
+
 			/*Servicios*/
 			
 			return paq;

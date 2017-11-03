@@ -45,9 +45,19 @@ public class Paquete {
 	    @ManyToOne(fetch=FetchType.EAGER)
 	    @JoinColumn(name="idAgencia")
 	    private Agencia agencia;
+<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
 
 	    private String imagen;
 
+=======
+	  
+	    /*  
+	    @OneToMany(mappedBy = "paquete", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	    private List<Imagen> imagenes;
+	    */
+	    
+	    private String foto;
+>>>>>>> Cambio a entities
 	    
 	    	    
 		public Paquete(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
@@ -70,7 +80,11 @@ public class Paquete {
 		public Paquete(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion,
 				Double precio, String politicasCancelacion, int cupo, List<PaqueteServicio> servicios, Destino destino,
 				int cantPersonas, boolean estado, boolean nuevaOferta, float latitud, float longitud,
+<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
 				List<MedioDePago> mediosDePago, Agencia agencia, String imagen) {
+=======
+				List<MedioDePago> mediosDePago, Agencia agencia, String foto) {
+>>>>>>> Cambio a entities
 			super();
 			this.idPaquete = idPaquete;
 			this.nombre = nombre;
@@ -89,7 +103,11 @@ public class Paquete {
 			this.longitud = longitud;
 			this.mediosDePago = mediosDePago;
 			this.agencia = agencia;
+<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
 			this.imagen = imagen;
+=======
+			this.foto = foto;
+>>>>>>> Cambio a entities
 		}
 
 
@@ -173,10 +191,22 @@ public class Paquete {
 		public void setNuevaOferta(boolean nuevaOferta) {
 			this.nuevaOferta = nuevaOferta;
 		}
+<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
 
 		public String getImagen() {
 			return imagen;
 		}
+=======
+	
+		/*public List<Imagen> getImagenes() {
+			return imagenes;
+		}
+		public void setImagenes(List<Imagen> imagenes) {
+			this.imagenes = imagenes;
+		}
+		*/
+		
+>>>>>>> Cambio a entities
 					
 		public Agencia getAgencia() {
 			return agencia;
@@ -199,7 +229,16 @@ public class Paquete {
 		public void setMediosDePago(List<MedioDePago> mediosDePago) {
 			this.mediosDePago = mediosDePago;
 		}
+<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
 		
+=======
+		public String getFoto() {
+			return foto;
+		}
+		public void setFoto(String foto) {
+			this.foto = foto;
+		}
+>>>>>>> Cambio a entities
 		public void setAgencia(Agencia agencia) {
 			this.agencia = agencia;
 		}
