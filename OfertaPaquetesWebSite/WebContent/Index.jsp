@@ -8,16 +8,8 @@
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
+<link type="text/css" href="css/Site.css" rel="stylesheet" />
 
-<style>
-  #menu{
-    background: black!important;
-  }
-  .menu-link{
-    color:white!important;
-  }
-  
-</style>
 </head>
 <nav id="menu" class="navbar navbar-default">
   <div class="container-fluid">
@@ -35,7 +27,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a class="menu-link" href="/OfertaPaquetesWebSite/paquetes">Paquetes</a></li>
+        <li><a class="menu-link" href="/OfertaPaquetesWebSite/Paquetes">Paquetes</a></li>
         <li><a class="menu-link" href="/OfertaPaquetesWebSite/Agencias">Agencias</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->

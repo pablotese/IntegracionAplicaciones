@@ -1,0 +1,22 @@
+#menu{
+    background: black!important;
+  }
+  .menu-link{
+    color:white!important;
+  }
+  
+  input.error{
+	border-color:red;
+  }
+  
+  textarea.error{
+	border-color:red;
+  }
+  
+  select.error{
+	border-color:red;
+  }
+  
+  label.error{
+  	color:red;
+  }
