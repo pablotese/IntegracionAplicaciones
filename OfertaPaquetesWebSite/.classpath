@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OfertaPaquetesEJBClient"/>
+	<classpathentry kind="lib" path="/home/dana/wildfly-9.0.1.Final/modules/system/layers/base/org/apache/commons/io/main/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/home/dana/wildfly-9.0.1.Final/modules/system/layers/base/javax/mail/api/main/javax.mail-1.5.3.jar"/>
+	<classpathentry kind="lib" path="/home/dana/wildfly-9.0.1.Final/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

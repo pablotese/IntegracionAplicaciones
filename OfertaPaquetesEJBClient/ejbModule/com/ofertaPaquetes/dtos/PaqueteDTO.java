@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 
+
 public class PaqueteDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,7 +24,10 @@ public class PaqueteDTO implements Serializable {
 	private String imagen;
 	private AgenciaDTO agencia;
 	private DestinoDTO destino;
-	private List<TipoServicioDTO> servicios;
+	private float latitud;
+    private float longitud;
+    private List<MedioDePagoDTO> mediosDePago;
+	private List<PaqueteServicioDTO> servicios;
 	 
 	
 	
@@ -41,9 +45,33 @@ public class PaqueteDTO implements Serializable {
 		this.estado = estado;
 		this.nuevaOferta = nuevaOferta;
 	}
+	
+	
+	
+	public PaqueteDTO(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
+			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta, String imagen,
+			float latitud, float longitud, List<MedioDePagoDTO> mediosDePago) {
+		super();
+		this.idPaquete = idPaquete;
+		this.nombre = nombre;
+		this.fechaDesde = fechaDesde;
+		this.fechaHasta = fechaHasta;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.politicasCancelacion = politicasCancelacion;
+		this.cupo = cupo;
+		this.cantPersonas = cantPersonas;
+		this.estado = estado;
+		this.nuevaOferta = nuevaOferta;
+		this.imagen = imagen;
+		this.latitud = latitud;
+		this.longitud = longitud;
+		this.mediosDePago = mediosDePago;
+	}
+
 	public PaqueteDTO(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
 			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta, String imagen,
-			AgenciaDTO agencia, DestinoDTO destino, List<TipoServicioDTO> servicios) {
+			AgenciaDTO agencia, DestinoDTO destino, List<PaqueteServicioDTO> servicios) {
 		super();
 		this.nombre = nombre;
 		this.fechaDesde = fechaDesde;
@@ -144,11 +172,30 @@ public class PaqueteDTO implements Serializable {
 	public void setDestino(DestinoDTO destino) {
 		this.destino = destino;
 	}
-	public List<TipoServicioDTO> getServicios() {
+	public List<PaqueteServicioDTO> getServicios() {
 		return servicios;
 	}
-	public void setServicios(List<TipoServicioDTO> servicios) {
+	public void setServicios(List<PaqueteServicioDTO> servicios) {
 		this.servicios = servicios;
+	}
+	
+	public float getLatitud() {
+		return latitud;
+	}
+	public void setLatitud(float latitud) {
+		this.latitud = latitud;
+	}
+	public float getLongitud() {
+		return longitud;
+	}
+	public void setLongitud(float longitud) {
+		this.longitud = longitud;
+	}
+	public List<MedioDePagoDTO> getMediosDePago() {
+		return mediosDePago;
+	}
+	public void setMediosDePago(List<MedioDePagoDTO> mediosDePago) {
+		this.mediosDePago = mediosDePago;
 	}
 	@Override
 	public String toString() {

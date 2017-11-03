@@ -1,4 +1,4 @@
-package src;
+
 
 import java.io.IOException;
 import java.sql.Date;
@@ -18,7 +18,7 @@ import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.ImagenDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
-import com.ofertaPaquetes.dtos.TipoServicioDTO;
+import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
 
 
 
@@ -75,14 +75,14 @@ public class Paquetes extends HttpServlet {
 			 
 			 @SuppressWarnings("unused")
 			 java.util.Date test = (java.util.Date) formatter.parse(request.getParameter("fechaSalida"));
-			 List<TipoServicioDTO> lstServicios = new ArrayList<TipoServicioDTO>();
+			 List<PaqueteServicioDTO> lstServicios = new ArrayList<PaqueteServicioDTO>();
 			 String[] servicios = request.getParameterValues("servicios");
 			 
 			 //Armo lista de servicio asociados al paquete.
 			 for(String s : servicios)
 			 {
-				 TipoServicioDTO serv = new TipoServicioDTO("hardCode","hardCode");
-				 serv.setIdTipoServicio(Integer.parseInt(s));
+				 PaqueteServicioDTO serv = new PaqueteServicioDTO(1,"wifi");
+				// serv.setIdTipoServicio(Integer.parseInt(s));
 				 lstServicios.add(serv);
 			 }
 			 
@@ -110,7 +110,7 @@ public class Paquetes extends HttpServlet {
 			 List<ImagenDTO> imagenes = new ArrayList<ImagenDTO>();
 			 //nuevoPaquete.setImagen(imagenes.get(0).ge);
 			 //TODO: guardar una URL a la imagen, que guardamos en un server local primero.
-			 //Cuando se ejecuta el envío por JMS la ponemos en un server remoto
+			 //Cuando se ejecuta el envï¿½o por JMS la ponemos en un server remoto
 			 nuevoPaquete.setImagen("Fotito.JPG");
 			 
 			 //Persistencia
@@ -124,16 +124,16 @@ public class Paquetes extends HttpServlet {
 		response.sendRedirect("/OfertaPaquetesWebSite/Paquetes");
 	}
 	
-	private List<TipoServicioDTO> getServiciosList()
+	private List<PaqueteServicioDTO> getServiciosList()
 	{
-		List<TipoServicioDTO> ret = new ArrayList<TipoServicioDTO>();
+		List<PaqueteServicioDTO> ret = new ArrayList<PaqueteServicioDTO>();
 		
-		TipoServicioDTO serv = new TipoServicioDTO("Servicio_1","Desc_1");
-		serv.setIdTipoServicio(1);
+		PaqueteServicioDTO serv = new PaqueteServicioDTO(1,"wifi");
+		//serv.setIdTipoServicio(1);
 		ret.add(serv);
 		
-		serv = new TipoServicioDTO("Servicio_3","Desc_3");
-		serv.setIdTipoServicio(3);
+		serv = new PaqueteServicioDTO(2,"servicio 2");
+		//serv.setIdTipoServicio(3);
 		ret.add(serv);
 		return ret;
 	}

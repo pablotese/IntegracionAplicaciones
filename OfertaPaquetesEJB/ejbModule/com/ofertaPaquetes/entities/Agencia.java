@@ -34,12 +34,15 @@ public class Agencia {
 	private String depto;
 	private String localidad;
 	private Date fechaCreacion;
+	private String email;
+	
+	@ManyToOne
+	@JoinColumn(name="idProvincia")
+	private Provincia provincia;
 	
 	@ManyToOne
 	@JoinColumn(name="idPais")
 	private Pais pais;
-	
-	
 
 	@OneToMany(mappedBy="agencia")
 	private List<Paquete> paquetes;
@@ -84,6 +87,23 @@ public class Agencia {
 		this.paquetes = paquetes;
 	}
 
+
+	public Agencia(int idAgencia, String nombre, boolean estado, String calle, int nro, String piso, String depto,
+			String localidad, Date fechaCreacion, String email, Provincia provincia, Pais pais) {
+		super();
+		this.idAgencia = idAgencia;
+		this.nombre = nombre;
+		this.estado = estado;
+		this.calle = calle;
+		this.nro = nro;
+		this.piso = piso;
+		this.depto = depto;
+		this.localidad = localidad;
+		this.fechaCreacion = fechaCreacion;
+		this.email = email;
+		this.provincia = provincia;
+		this.pais = pais;
+	}
 
 
 	public int getIdAgencia() {
@@ -185,6 +205,25 @@ public class Agencia {
 
 	public void setIdAgenciaBO(int idAgenciaBO) {
 		this.idAgenciaBO = idAgenciaBO;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Provincia getProvincia() {
+		return provincia;
+	}
+
+
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
 	}
 
 

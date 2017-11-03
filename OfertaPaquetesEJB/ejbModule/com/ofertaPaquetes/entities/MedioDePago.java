@@ -10,32 +10,35 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TiposServicios")
-public class TipoServicio {
+@Table(name="MedioDePago")
+public class MedioDePago {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int idTipoServicio;
-
+	@GeneratedValue(strategy=GenerationType.AUTO) 
+	private int idMedioDePago;
+	
 	private String nombre;
-
-	private String descripcion;
 	
 	@ManyToMany(mappedBy="servicios")
 	private List<Paquete> paquetes;
 
-	public TipoServicio(String nombre, String descripcion) {
+	public MedioDePago() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public MedioDePago(int idMedioDePago, String nombre) {
+		super();
+		this.idMedioDePago = idMedioDePago;
 		this.nombre = nombre;
-		this.descripcion = descripcion;
 	}
 
-	public int getIdTipoServicio() {
-		return idTipoServicio;
+	public int getIdMedioDePago() {
+		return idMedioDePago;
 	}
 
-	public void setIdTipoServicio(int idTipoServicio) {
-		this.idTipoServicio = idTipoServicio;
+	public void setIdMedioDePago(int idMedioDePago) {
+		this.idMedioDePago = idMedioDePago;
 	}
 
 	public String getNombre() {
@@ -46,14 +49,6 @@ public class TipoServicio {
 		this.nombre = nombre;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
 	public List<Paquete> getPaquetes() {
 		return paquetes;
 	}
@@ -61,12 +56,6 @@ public class TipoServicio {
 	public void setPaquetes(List<Paquete> paquetes) {
 		this.paquetes = paquetes;
 	}
-
-	public TipoServicio() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
 	
 	
 	

@@ -8,6 +8,7 @@ import javax.naming.InitialContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
+import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBRemote;
 
 public class BusinessDelegate {
@@ -171,6 +172,17 @@ public class BusinessDelegate {
 			System.out.println("Error al obtener paquete");
 			e.printStackTrace();
 			
+		}
+		return null;
+	}
+	
+	public List<ProvinciaDTO> getListadoProvincias(){
+		try{
+			return stub.getListadoProvincias();
+		}
+		catch(Exception e){
+			System.out.println("Error al obtener listado de provincias");
+			e.printStackTrace();
 		}
 		return null;
 	}
