@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.DestinoDTO;
+import com.ofertaPaquetes.dtos.ImagenDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.TipoServicioDTO;
 
@@ -102,9 +103,12 @@ public class Paquetes extends HttpServlet {
 												false,true
 												);
 		
-			 //Seteo servicios y destino
+			 //Seteo servicios, destino, agencias e imagen
 			 nuevoPaquete.setServicios(lstServicios);
 			 nuevoPaquete.setDestino(dest);
+			 nuevoPaquete.setAgencia(agen);
+			 List<ImagenDTO> imagenes = new ArrayList<ImagenDTO>();
+			 nuevoPaquete.setImagenes(imagenes);
 			 
 			 //Persistencia
 			 bd.nuevoPaquete(nuevoPaquete);
