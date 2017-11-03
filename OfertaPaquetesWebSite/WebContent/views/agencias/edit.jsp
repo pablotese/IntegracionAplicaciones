@@ -78,11 +78,6 @@
 		</div>
 	  </div>
 	  
-	  <div class="form-group">
-	  	<label>Condiciones de rechazo</label>
-	  	<textarea class="form-control" id="condiciones" name="condiciones"></textarea>
-	  </div>
-	  
 	   <div class="checkbox">
     	<label><input type="checkbox" id="estado" name="estado" value=<%=request.getAttribute("estado") %>> Habilitado</label>
 	  </div>
