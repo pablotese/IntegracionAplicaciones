@@ -18,8 +18,6 @@ import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.sun.mail.iap.Response;
 
-import models.agencia;
-
 /**
  * Servlet implementation class agencias
  */
@@ -32,7 +30,6 @@ public class Agencias extends HttpServlet {
      */
     public Agencias() {
         super();
-        agencia a = new agencia();
     }
 
 	/**

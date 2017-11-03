@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="java.util.List"%>
-<%@page import="models.paquete"%>
+	<%@page import="com.ofertaPaquetes.dtos.PaqueteDTO"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,17 +9,10 @@
 <title>Paquetes - Listado</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
+<link type="text/css" href="css/Site.css" rel="stylesheet" />
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
 
-<style>
-  #menu{
-    background: black!important;
-  }
-  .menu-link{
-    color:white!important;
-  }
-  
-</style>
+
 </head>
 
 <nav id="menu" class="navbar navbar-default">
@@ -46,7 +39,7 @@
 
 <body>
 
-    <a class="btn btn-success btn-block" href="/OfertaPaquetesWebSite/paquetes?accion=crear"><span class="glyphicon glyphicon-plus"></span> Agregar paquete</a>
+    <a class="btn btn-success btn-block" href="/OfertaPaquetesWebSite/Paquetes?accion=crear"><span class="glyphicon glyphicon-plus"></span> Agregar paquete</a>
  
   <div class="container">
   <h2>Oferta de paquetes</h2>
@@ -65,18 +58,18 @@
       </tr>
     </thead>
     <tbody>
-       <% List<paquete> lst = (List<paquete>) request.getAttribute("listPaquetes");
-    		for(paquete a : lst)
+       <% List<PaqueteDTO> lst = (List<PaqueteDTO>) request.getAttribute("listPaquetes");
+    		for(PaqueteDTO a : lst)
     		{
 		%>
       <tr>
         <td>1</td>
-        <td><%=a.Nombre%></td>
-        <td><%=a.Destino%></td>
-        <td><%=a.FechaSalida%></td>
-        <td><%=a.FechaRegreso%></td>
-        <td><%=a.Estado%></td>
-        <td><%=a.Cupo%></td>
+        <td><%=a.getNombre()%></td>
+        <td><%=a.getDestino().getNombre()%></td>
+        <td><%=a.getFechaDesde()%></td>
+        <td><%=a.getFechaHasta()%></td>
+        <td><%=a.isEstado()%></td>
+        <td><%=a.getCupo()%></td>
       </tr>
 	<%}%>
     </tbody>
