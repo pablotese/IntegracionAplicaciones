@@ -18,7 +18,6 @@ import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Destino;
 import com.ofertaPaquetes.entities.Imagen;
 import com.ofertaPaquetes.entities.Paquete;
-import com.ofertaPaquetes.entities.TipoServicio;
 /**
  * Session Bean implementation class AdministradorTareas
  */
@@ -40,25 +39,8 @@ public class AdministradorPaquete{
 					paquete.getCupo(), paquete.getCantPersonas(), paquete.isEstado(), paquete.isNuevaOferta());
 			
 			
-			/*Imagenes se crean al persistir el paquete*/
-			if(!paquete.getImagenes().isEmpty()){
-				List<Imagen> imagenes = new ArrayList<Imagen>();
-				List<ImagenDTO> imagenesDto = paquete.getImagenes();
-				for(ImagenDTO im:imagenesDto){
-					imagenes.add(new Imagen(im.getImagen()));
-				}
-				paq.setImagenes(imagenes);
-			}
-			
-			/*TipoServicios, se vincula a existentes*/
-			if(!paquete.getServicios().isEmpty()){
-				List<TipoServicio> servicios = new ArrayList<TipoServicio>();
-				List<TipoServicioDTO> serviciosDto = paquete.getServicios();
-				for(TipoServicioDTO serv:serviciosDto){
-					servicios.add(manager.find(TipoServicio.class, serv.getIdTipoServicio()));
-				}
-				paq.setServicios(servicios);
-			}
+						
+			//Servicios
 			
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
@@ -90,21 +72,8 @@ public class AdministradorPaquete{
 			paq.setPoliticasCancelacion(paquete.getPoliticasCancelacion());
 			paq.setPrecio(paquete.getPrecio());
 			
-			/*Imagenes se crean al persistir el paquete*/
-			List<Imagen> imagenes = new ArrayList<Imagen>();
-			List<ImagenDTO> imagenesDto = paquete.getImagenes();
-			for(ImagenDTO im:imagenesDto){
-				imagenes.add(new Imagen(im.getImagen()));
-			}
-			paq.setImagenes(imagenes);
+			/*Servicios*/
 			
-			/*TipoServicios, se vincula a existentes*/
-			List<TipoServicio> servicios = new ArrayList<TipoServicio>();
-			List<TipoServicioDTO> serviciosDto = paquete.getServicios();
-			for(TipoServicioDTO serv:serviciosDto){
-				servicios.add(manager.find(TipoServicio.class, serv.getIdTipoServicio()));
-			}
-			paq.setServicios(servicios);
 			
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
@@ -176,21 +145,8 @@ public class AdministradorPaquete{
 				paq.setDestino(destino);
 			}
 			
-			/*Imagenes*/
-			List<Imagen> imagenes = paquete.getImagenes();
-			List<ImagenDTO> imagenesDto = new ArrayList<ImagenDTO>();
-			for(Imagen im:imagenes){
-				imagenesDto.add(new ImagenDTO(im.getIdImagen(),im.getImagen()));
-			}
-			paq.setImagenes(imagenesDto);
 			
-			/*TipoServicios*/
-			List<TipoServicio> servicios = paquete.getServicios();
-			List<TipoServicioDTO> serviciosDto = new ArrayList<TipoServicioDTO>();
-			for(TipoServicio serv:servicios){
-				serviciosDto.add(new TipoServicioDTO(serv.getNombre(), serv.getDescripcion()));
-			}	
-			paq.setServicios(serviciosDto);
+			/*Servicios*/
 			
 			return paq;
 		}
