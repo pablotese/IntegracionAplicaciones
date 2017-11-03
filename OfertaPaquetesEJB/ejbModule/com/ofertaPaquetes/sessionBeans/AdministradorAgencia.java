@@ -153,6 +153,7 @@ public class AdministradorAgencia {
 			Pais pais = manager.find(Pais.class,agencia.getPais().getIdPais());
 			PaisDTO paisDto = new PaisDTO(pais.getIdPais(),pais.getNombre());
 			AgenciaDTO ag = new AgenciaDTO(agencia.getNombre(),agencia.isEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(), agencia.getDepto(),agencia.getLocalidad(),paisDto,agencia.getFechaCreacion());
+			ag.setIdAgencia(idAgencia);
 			
 			List<Paquete> paquetes = agencia.getPaquetes();
 			List<PaqueteDTO> listPaquetesDto = new ArrayList<PaqueteDTO>();
