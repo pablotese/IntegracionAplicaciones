@@ -65,7 +65,8 @@
       <tr>
         <td>1</td>
         <td><%=a.getNombre()%></td>
-        <td><%=a.getDestino().getNombre()%></td>
+        <%-- <td><%=a.getDestino().getNombre()%></td> --%>
+        <td></td>
         <td><%=a.getFechaDesde()%></td>
         <td><%=a.getFechaHasta()%></td>
         <td><%=a.isEstado()%></td>
