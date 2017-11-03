@@ -19,13 +19,8 @@ public class Paquete {
 	    private String politicasCancelacion;
 	    private int cupo;
 	    
-	    @ManyToMany
-	    @JoinTable(
-	            name = "PaquetesServicios", 
-	            joinColumns = { @JoinColumn(name = "idPaquete") }, 
-	            inverseJoinColumns = { @JoinColumn(name = "idTipoServicio") }
-	        )
-	    private List<TipoServicio> servicios;
+	    @OneToMany(mappedBy="paquete")
+	    private List<PaqueteServicio> servicios;
 	    
 	    @ManyToOne(fetch=FetchType.EAGER)
 	    @JoinColumn(name="idDestino")
@@ -35,12 +30,28 @@ public class Paquete {
 	    private boolean estado;
 	    private boolean nuevaOferta;
 	    
+	    private float latitud;
+	    private float longitud;
+	    
+	    @ManyToMany
+	    @JoinTable(
+	            name = "PaquetesMediosDePago", 
+	            joinColumns = { @JoinColumn(name = "idPaquete") }, 
+	            inverseJoinColumns = { @JoinColumn(name = "idMedioDePago") }
+	        )
+	    private List<MedioDePago> mediosDePago;
+	    
+	    
 	    @ManyToOne(fetch=FetchType.EAGER)
 	    @JoinColumn(name="idAgencia")
 	    private Agencia agencia;
-	    
+	  
+	    /*  
 	    @OneToMany(mappedBy = "paquete", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	    private List<Imagen> imagenes;
+	    */
+	    
+	    private String foto;
 	    
 	    	    
 		public Paquete(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
@@ -58,6 +69,35 @@ public class Paquete {
 			this.estado = estado;
 			this.nuevaOferta = nuevaOferta;
 		}
+		
+		
+		public Paquete(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion,
+				Double precio, String politicasCancelacion, int cupo, List<PaqueteServicio> servicios, Destino destino,
+				int cantPersonas, boolean estado, boolean nuevaOferta, float latitud, float longitud,
+				List<MedioDePago> mediosDePago, Agencia agencia, String foto) {
+			super();
+			this.idPaquete = idPaquete;
+			this.nombre = nombre;
+			this.fechaDesde = fechaDesde;
+			this.fechaHasta = fechaHasta;
+			this.descripcion = descripcion;
+			this.precio = precio;
+			this.politicasCancelacion = politicasCancelacion;
+			this.cupo = cupo;
+			this.servicios = servicios;
+			this.destino = destino;
+			this.cantPersonas = cantPersonas;
+			this.estado = estado;
+			this.nuevaOferta = nuevaOferta;
+			this.latitud = latitud;
+			this.longitud = longitud;
+			this.mediosDePago = mediosDePago;
+			this.agencia = agencia;
+			this.foto = foto;
+		}
+
+
+
 		public int getIdPaquete() {
 			return idPaquete;
 		}
@@ -106,10 +146,11 @@ public class Paquete {
 		public void setCupo(int cupo) {
 			this.cupo = cupo;
 		}
-		public List<TipoServicio> getServicios() {
+				
+		public List<PaqueteServicio> getServicios() {
 			return servicios;
 		}
-		public void setServicios(List<TipoServicio> servicios) {
+		public void setServicios(List<PaqueteServicio> servicios) {
 			this.servicios = servicios;
 		}
 		public Destino getDestino() {
@@ -136,16 +177,42 @@ public class Paquete {
 		public void setNuevaOferta(boolean nuevaOferta) {
 			this.nuevaOferta = nuevaOferta;
 		}
-		public List<Imagen> getImagenes() {
+	
+		/*public List<Imagen> getImagenes() {
 			return imagenes;
 		}
 		public void setImagenes(List<Imagen> imagenes) {
 			this.imagenes = imagenes;
 		}
+		*/
 		
-			
+					
 		public Agencia getAgencia() {
 			return agencia;
+		}
+		public float getLatitud() {
+			return latitud;
+		}
+		public void setLatitud(float latitud) {
+			this.latitud = latitud;
+		}
+		public float getLongitud() {
+			return longitud;
+		}
+		public void setLongitud(float longitud) {
+			this.longitud = longitud;
+		}
+		public List<MedioDePago> getMediosDePago() {
+			return mediosDePago;
+		}
+		public void setMediosDePago(List<MedioDePago> mediosDePago) {
+			this.mediosDePago = mediosDePago;
+		}
+		public String getFoto() {
+			return foto;
+		}
+		public void setFoto(String foto) {
+			this.foto = foto;
 		}
 		public void setAgencia(Agencia agencia) {
 			this.agencia = agencia;
