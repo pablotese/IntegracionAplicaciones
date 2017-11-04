@@ -33,6 +33,7 @@ import com.ofertaPaquetes.entities.Destino;
 import com.ofertaPaquetes.entities.Imagen;
 import com.ofertaPaquetes.entities.Paquete;
 import com.ofertaPaquetes.entities.Provincia;
+
 /**
  * Session Bean implementation class AdministradorTareas
  */
@@ -59,9 +60,8 @@ public class AdministradorPaquete{
 			Paquete paq = new Paquete(paquete.getNombre(),paquete.getFechaDesde(), paquete.getFechaHasta(),
 					paquete.getDescripcion(), paquete.getPrecio(), paquete.getPoliticasCancelacion(), 
 					paquete.getCupo(), paquete.getCantPersonas(), paquete.isEstado(), paquete.isNuevaOferta());
-			
-	
-						
+		
+				
 			//Servicios
 
 			/*La agencia ya existe*/
@@ -170,13 +170,10 @@ public class AdministradorPaquete{
 				DestinoDTO destino = new DestinoDTO(paquete.getDestino().getIdDestino(),paquete.getDestino().getNombre());
 				paq.setDestino(destino);
 			}
-			
 
-			/*Imagenes*/
 			paq.setImagen(paquete.getImagen());
 
 			/*Servicios*/
-			
 			return paq;
 		}
 		catch(Exception e){

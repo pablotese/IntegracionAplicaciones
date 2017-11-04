@@ -1,23 +1,20 @@
 package com.ofertaPaquetes.entities;
 
 import javax.persistence.Entity;
-<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-=======
->>>>>>> Cambio a entities
+
 import javax.persistence.Table;
 
 @Entity
 @Table(name="Provincias")
 public class Provincia {
-<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO) 
-=======
->>>>>>> Cambio a entities
+
 	private int idProvincia;
 	private String nombre;
 	

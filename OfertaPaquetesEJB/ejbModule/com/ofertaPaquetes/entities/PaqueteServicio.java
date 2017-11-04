@@ -2,12 +2,11 @@ package com.ofertaPaquetes.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-=======
->>>>>>> Cambio a entities
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,13 +15,11 @@ import javax.persistence.Table;
 @Table(name="PaquetesServicios")
 public class PaqueteServicio {
 
-<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO) 
 	private int idPaqueteServicio;
-	
-=======
->>>>>>> Cambio a entities
+
 	@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="idPaquete")
 	private Paquete paquete;
@@ -62,7 +59,6 @@ public class PaqueteServicio {
 	public void setNombreServicio(String nombreServicio) {
 		this.nombreServicio = nombreServicio;
 	}
-<<<<<<< e53ae2d6982bd551d175458ab8393d7901746d5c
 
 	public int getIdPaqueteServicio() {
 		return idPaqueteServicio;
@@ -71,8 +67,6 @@ public class PaqueteServicio {
 	public void setIdPaqueteServicio(int idPaqueteServicio) {
 		this.idPaqueteServicio = idPaqueteServicio;
 	}
-=======
->>>>>>> Cambio a entities
 	
 	
 }
