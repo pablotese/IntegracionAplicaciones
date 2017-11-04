@@ -1,11 +1,13 @@
 package com.ofertaPaquetes.sessionBeans;
 
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.ConnectionFactory;
@@ -17,6 +19,7 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,7 +43,7 @@ import com.ofertaPaquetes.entities.Provincia;
 @Stateless
 @LocalBean
 public class AdministradorPaquete{
-
+	
 	@PersistenceContext(unitName="MyPU")
 	private EntityManager manager;
 
@@ -61,9 +64,6 @@ public class AdministradorPaquete{
 					paquete.getDescripcion(), paquete.getPrecio(), paquete.getPoliticasCancelacion(), 
 					paquete.getCupo(), paquete.getCantPersonas(), paquete.isEstado(), paquete.isNuevaOferta());
 		
-				
-			//Servicios
-
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
 			paq.setAgencia(agencia);
@@ -183,7 +183,7 @@ public class AdministradorPaquete{
 		return null;
 	}
 
-	
+
 	/** Enviar Paquete a BO - JMS **/
 	private void sendToPortalWeb(PaqueteDTO paquete) {
 
@@ -236,7 +236,7 @@ public class AdministradorPaquete{
          
 		System.out.println("jsonPaquete algo algo");
 		
-	   	JsonObject paqueteJson = Json.createObjectBuilder()
+	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
    			.add("codigo_prestador",paquete.getAgencia().getIdAgencia())/*TODO: poner el id de la agencia del BO*/
    					.add("destino",paquete.getDestino().getNombre())
    					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
@@ -244,18 +244,21 @@ public class AdministradorPaquete{
    					.add("cantidad_personas_paquete",paquete.getCantPersonas())
    					.add("foto_paquete",paquete.getImagen()) /*Poner una sola imagen, con la URL*/
    					.add("descripcion_paquete",paquete.getDescripcion())
-   					.add("precio", 8987)
-   					.add("latitud",12)
-   					.add("longitud",23)
+   					.add("precio", paquete.getPrecio())
+   					.add("latitud",paquete.getLatitud())
+   					.add("longitud",paquete.getLongitud())
    					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
-   					.add("mail_agencia","pepeq@pepep.com")
-   					.add("cupo_paquete", 44)
-   					.add("servicios_paquete", 
-   		                     Json.createArrayBuilder().add(paquete.getServicios().get(0).getNombreServicio())
-   		                                              .add(paquete.getServicios().get(1).getNombreServicio())
-   		                                              .build())
-   					.build();
+   					.add("mail_agencia",paquete.getAgencia().getEmail())
+   					.add("cupo_paquete", paquete.getCupo());//.build();
+	   	
+	   	for(int i=0; i < paquete.getServicios().size(); i++){
+			paqueteJsonBuilder.add("servicios_paquete", 
+	                     Json.createArrayBuilder()
+	                     .add(paquete.getServicios().get(i).getNombreServicio()));
+		
+	   	}
    					
+	   	JsonObject paqueteJson = paqueteJsonBuilder.build();
         StringWriter stringWriter = new StringWriter();
         
         JsonWriter writer = Json.createWriter(stringWriter);
@@ -268,7 +271,14 @@ public class AdministradorPaquete{
 	private String getFechaString(Date fecha) {
 		
 		String date = "";
-		date +=  fecha.getYear() + fecha.getMonth() + fecha.getDay();
+		String month = "";
+		String day = "";
+		if(fecha.getMonth() < 10)
+			month = "0"+fecha.getMonth();
+		if(fecha.getDay() < 10)
+			month = "0"+fecha.getDay();
+		
+		date +=  fecha.getYear() + month + day;
 		
 		return date;
     }
