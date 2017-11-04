@@ -50,7 +50,8 @@ public class PaqueteDTO implements Serializable {
 	
 	public PaqueteDTO(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
 			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta, String imagen,
-			float latitud, float longitud, List<MedioDePagoDTO> mediosDePago) {
+			AgenciaDTO agencia, DestinoDTO destino, float latitud, float longitud, List<MedioDePagoDTO> mediosDePago,
+			List<PaqueteServicioDTO> servicios) {
 		super();
 		this.idPaquete = idPaquete;
 		this.nombre = nombre;
@@ -64,9 +65,12 @@ public class PaqueteDTO implements Serializable {
 		this.estado = estado;
 		this.nuevaOferta = nuevaOferta;
 		this.imagen = imagen;
+		this.agencia = agencia;
+		this.destino = destino;
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.mediosDePago = mediosDePago;
+		this.servicios = servicios;
 	}
 
 	public PaqueteDTO(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
