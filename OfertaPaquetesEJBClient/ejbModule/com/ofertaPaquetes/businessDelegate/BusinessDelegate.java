@@ -7,6 +7,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBRemote;
@@ -185,6 +186,25 @@ public class BusinessDelegate {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public List<MedioDePagoDTO> getListadoMediosDePago(){
+		try{
+			return stub.getListadoMediosDePago();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public void cargarDatosIniciales(){
+		try{
+			stub.cargarDatosIniciales();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

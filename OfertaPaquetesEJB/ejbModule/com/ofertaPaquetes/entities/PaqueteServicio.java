@@ -20,9 +20,7 @@ public class PaqueteServicio {
 	@GeneratedValue(strategy=GenerationType.AUTO) 
 	private int idPaqueteServicio;
 
-	@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="idPaquete")
-	private Paquete paquete;
+	private int idPaquete;
 
 	private int idServicio;
 	private String nombreServicio;
@@ -34,13 +32,28 @@ public class PaqueteServicio {
 		this.nombreServicio = nombreServicio;
 	}
 
-	public Paquete getPaquete() {
-		return paquete;
+	
+
+	public PaqueteServicio(int idPaquete, int idServicio, String nombreServicio) {
+		super();
+		this.idPaquete = idPaquete;
+		this.idServicio = idServicio;
+		this.nombreServicio = nombreServicio;
 	}
 
-	public void setPaquete(Paquete paquete) {
-		this.paquete = paquete;
+
+
+	public int getIdPaquete() {
+		return idPaquete;
 	}
+
+
+
+	public void setIdPaquete(int idPaquete) {
+		this.idPaquete = idPaquete;
+	}
+
+
 
 	public PaqueteServicio() {
 		super();

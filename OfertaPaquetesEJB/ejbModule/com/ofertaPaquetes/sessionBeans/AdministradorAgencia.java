@@ -34,22 +34,7 @@ public class AdministradorAgencia {
 	
 	public void nuevaAgencia(AgenciaDTO agenciaDto){
 		
-		/****************************************************/
-		/*Este codigo debe removerse, por ahora sirve para crear pais al inicializar de cero y borrar la bd*/
-		Pais pais = new Pais(agenciaDto.getPais().getNombre());
-		try{
-			
-			manager.persist(pais);
-			manager.flush();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			System.out.println("Error al guardar pais");
-		} 
-		/*
-		 * Pais pais =manager.find(Pais.class, agenciaDto.getPais().getIdPais());
-		 * */
-		/****************************************************/
+		Pais pais =manager.find(Pais.class, agenciaDto.getPais().getIdPais());
 		
 		Agencia agencia = new Agencia(agenciaDto.getNombre(),false,agenciaDto.getCalle(), agenciaDto.getNro(),agenciaDto.getPiso(),
 				agenciaDto.getDepto(), agenciaDto.getLocalidad(),pais,agenciaDto.getFechaCreacion());
@@ -72,6 +57,7 @@ public class AdministradorAgencia {
 		try{
 			Agencia agencia = manager.find(Agencia.class,ag.getIdAgencia());
 			agencia.setCalle(ag.getCalle());
+			agencia.setEmail(ag.getEmail());
 			agencia.setDepto(ag.getDepto());
 			agencia.setEstado(ag.isEstado());
 			agencia.setLocalidad(ag.getLocalidad());
@@ -81,6 +67,9 @@ public class AdministradorAgencia {
 			
 			Pais pais = manager.find(Pais.class, ag.getPais().getIdPais());
 			agencia.setPais(pais);
+			
+			Provincia prov = manager.find(Provincia.class, ag.getProvincia().getIdProvincia());
+			agencia.setProvincia(prov);
 			
 			manager.merge(agencia);
 		}

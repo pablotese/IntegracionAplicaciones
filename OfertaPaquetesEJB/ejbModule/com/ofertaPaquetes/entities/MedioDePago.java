@@ -10,16 +10,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="MedioDePago")
+@Table(name="MediosDePagos")
 public class MedioDePago {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO) 
 	private int idMedioDePago;
 	
 	private String nombre;
 	
-	@ManyToMany(mappedBy="servicios")
+	@ManyToMany(mappedBy="mediosDePago")
 	private List<Paquete> paquetes;
 
 	public MedioDePago() {
@@ -56,6 +55,12 @@ public class MedioDePago {
 	public void setPaquetes(List<Paquete> paquetes) {
 		this.paquetes = paquetes;
 	}
+
+	@Override
+	public String toString() {
+		return "MedioDePago [idMedioDePago=" + idMedioDePago + ", nombre=" + nombre + "]";
+	}
+	
 	
 	
 	
