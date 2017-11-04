@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBLocal;
@@ -92,6 +93,15 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	
 	public List<ProvinciaDTO> getListadoProvincias(){
 		return ap.getListadoProvincias();
+	}
+	
+	public void cargarDatosIniciales(){
+		ap.cargarDatosIniciales();
+	}
+
+	@Override
+	public List<MedioDePagoDTO> getListadoMediosDePago() {
+		return ap.getListadoMediosDePago();
 	}
 	
 }

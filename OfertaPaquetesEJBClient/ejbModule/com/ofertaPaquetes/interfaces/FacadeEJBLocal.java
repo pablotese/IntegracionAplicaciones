@@ -3,6 +3,7 @@ package com.ofertaPaquetes.interfaces;
 import java.util.List;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
 
@@ -23,4 +24,6 @@ public interface FacadeEJBLocal {
 	public PaqueteDTO obtenerPaquete(int idPaquete);
 	
 	public List<ProvinciaDTO> getListadoProvincias();
+	public List<MedioDePagoDTO> getListadoMediosDePago();
+	public void cargarDatosIniciales();
 }

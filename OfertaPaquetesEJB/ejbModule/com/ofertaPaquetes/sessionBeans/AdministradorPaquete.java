@@ -27,6 +27,7 @@ import javax.persistence.PersistenceContext;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.ImagenDTO;
+import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
@@ -34,8 +35,12 @@ import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Destino;
 import com.ofertaPaquetes.entities.Imagen;
+import com.ofertaPaquetes.entities.MedioDePago;
+import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Paquete;
+import com.ofertaPaquetes.entities.PaqueteServicio;
 import com.ofertaPaquetes.entities.Provincia;
+import com.ofertaPaquetes.util.Properties;
 
 /**
  * Session Bean implementation class AdministradorTareas
@@ -50,8 +55,7 @@ public class AdministradorPaquete{
 	@Resource(lookup = "java:jboss/exported/jms/RemoteConnectionFactory")
     ConnectionFactory connectionFactory;
 
-    @Resource(lookup = "java:/myJmsTest/MyQueue")
-	// dana @Resource(lookup = "java:/jms/queue/testQueue")
+    @Resource(lookup = Properties.DESTINATION)
     Destination destination;
 
 	public AdministradorPaquete() {
@@ -63,7 +67,7 @@ public class AdministradorPaquete{
 			Paquete paq = new Paquete(paquete.getNombre(),paquete.getFechaDesde(), paquete.getFechaHasta(),
 					paquete.getDescripcion(), paquete.getPrecio(), paquete.getPoliticasCancelacion(), 
 					paquete.getCupo(), paquete.getCantPersonas(), paquete.isEstado(), paquete.isNuevaOferta());
-		
+			
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
 			paq.setAgencia(agencia);
@@ -71,9 +75,28 @@ public class AdministradorPaquete{
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
 			paq.setDestino(destino);
-			System.out.println("eeeeeeeeeee");
+			
+			/*Medios de Pago*/
+			List<MedioDePago> lmediosDePago = new ArrayList<MedioDePago>();
+			if(paquete.getMediosDePago()!=null){
+				for(MedioDePagoDTO mp: paquete.getMediosDePago()){
+					lmediosDePago.add(manager.find(MedioDePago.class,mp.getIdMedioDePago()));
+				}
+			paq.setMediosDePago(lmediosDePago);
+			}
+			
 			manager.persist(paq);
-			System.out.println("eeeeeeeeeee2");
+			manager.flush();
+			
+			/*Servicios*/
+			if(paquete.getServicios()!=null){
+				for(PaqueteServicioDTO ps:paquete.getServicios()){
+					PaqueteServicio paqserv = new PaqueteServicio(ps.getIdServicio(), ps.getNombreServicio());
+					paqserv.setIdPaquete(paq.getIdPaquete());
+					manager.persist(paqserv);
+				}
+			}
+			
 			sendToPortalWeb(paquete);
 		}
 		catch(Exception e){
@@ -98,8 +121,16 @@ public class AdministradorPaquete{
 			paq.setImagen(paquete.getImagen());
 
 			
-			/*Servicios*/
-
+			
+			/*Medios de Pago*/
+			List<MedioDePago> lmediosDePago = new ArrayList<MedioDePago>();
+			if(paquete.getMediosDePago()!=null){
+				for(MedioDePagoDTO mp: paquete.getMediosDePago()){
+					lmediosDePago.add(manager.find(MedioDePago.class,mp.getIdMedioDePago()));
+				}
+			paq.setMediosDePago(lmediosDePago);
+			}
+			
 			
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
@@ -107,6 +138,16 @@ public class AdministradorPaquete{
 		
 			
 			manager.merge(paq);
+			manager.flush();
+			
+			/*Servicios*/
+			if(paquete.getServicios()!=null){
+				for(PaqueteServicioDTO ps:paquete.getServicios()){
+					PaqueteServicio paqserv = new PaqueteServicio(ps.getIdServicio(), ps.getNombreServicio());
+					paqserv.setIdPaquete(paq.getIdPaquete());
+					manager.persist(paqserv);
+				}
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -190,7 +231,7 @@ public class AdministradorPaquete{
         try {
             //Authentication info can be omitted if we are using in-vm
             // dana QueueConnection connection = (QueueConnection) connectionFactory.createConnection("myUser","myPassword");
-        	QueueConnection connection = (QueueConnection) connectionFactory.createConnection("vanesa","Vanesa14");
+        	QueueConnection connection = (QueueConnection) connectionFactory.createConnection(Properties.CONNECTION_FACTORY_USER,Properties.CONNECTION_FACTORY_PASSWORD);
 
             try {
                 QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -301,6 +342,82 @@ public class AdministradorPaquete{
 			System.out.println("No se pudo traer listado de provincias");
 		}
 		return null;
+	}
+	
+	public List<MedioDePagoDTO> getListadoMediosDePago(){
+		
+		try{
+			List<MedioDePagoDTO> lista = new ArrayList<MedioDePagoDTO>();
+			
+			List<MedioDePago> medios = (List<MedioDePago>) manager.createQuery(" FROM MedioDePago").getResultList();
+		
+			for(MedioDePago md:medios){
+				MedioDePagoDTO dto = new MedioDePagoDTO(md.getIdMedioDePago(),md.getNombre());
+				lista.add(dto);
+			}
+			return lista;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("No se pudo traer listado medios de pago");
+		}
+		return null;
+	}
+	
+	
+	public void cargarDatosIniciales(){
+		try{
+
+			// Medios de Pago
+			List<MedioDePago> listaMP = new ArrayList<MedioDePago>();
+			listaMP.add(new MedioDePago(1,"Tarjeta"));
+			listaMP.add(new MedioDePago(2,"Cheque"));
+			listaMP.add(new MedioDePago(3,"Pago en Destino"));
+			listaMP.add(new MedioDePago(4,"Mercado Pago"));
+			listaMP.add(new MedioDePago(5,"Pay Pal"));
+			
+			for(MedioDePago mp:listaMP){
+				System.out.println(mp.toString());
+				manager.persist(mp);
+			}
+			
+			//Provincias
+			List<Provincia> listaProv = new ArrayList<Provincia>();
+			listaProv.add(new Provincia(1,"Buenos Aires"));
+			listaProv.add(new Provincia(2,"Ciudad Autonoma de Buenos Aires"));
+			listaProv.add(new Provincia(3,"Chaco"));
+			listaProv.add(new Provincia(4,"Catamarca"));
+			listaProv.add(new Provincia(5,"Chubut"));
+			listaProv.add(new Provincia(6,"Cordoba"));
+			listaProv.add(new Provincia(7,"Corrientes"));
+			listaProv.add(new Provincia(8,"Entre Rios"));
+			listaProv.add(new Provincia(9,"Formosa"));
+			listaProv.add(new Provincia(10,"Jujuy"));
+			listaProv.add(new Provincia(12,"La Pampa"));
+			listaProv.add(new Provincia(13,"La Rioja"));
+			listaProv.add(new Provincia(14,"Mendoza"));
+			listaProv.add(new Provincia(15,"Misiones"));
+			listaProv.add(new Provincia(16,"Neuquen"));
+			listaProv.add(new Provincia(17,"Rio Negro"));
+			listaProv.add(new Provincia(18,"Salta"));
+			listaProv.add(new Provincia(19,"San Juan"));
+			listaProv.add(new Provincia(20,"San Luis"));
+			listaProv.add(new Provincia(21,"Santa Cruz"));
+			listaProv.add(new Provincia(22,"Santa Fe"));
+			listaProv.add(new Provincia(23,"Santiago Del Estero"));
+			listaProv.add(new Provincia(24,"Tucuman"));
+			
+			for(Provincia prov:listaProv){
+				manager.persist(prov);
+			}
+			
+			//Pais
+			manager.persist(new Pais(1,"Argentina"));
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 }

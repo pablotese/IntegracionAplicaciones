@@ -17,10 +17,7 @@ public class Paquete {
 	    private String descripcion;
 	    private Double precio;
 	    private String politicasCancelacion;
-	    private int cupo;
-	    
-	    @OneToMany(mappedBy="paquete")
-	    private List<PaqueteServicio> servicios;
+	    private int cupo; 
 	    
 	    @ManyToOne(fetch=FetchType.EAGER)
 	    @JoinColumn(name="idDestino")
@@ -66,7 +63,7 @@ public class Paquete {
 		
 		
 		public Paquete(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion,
-				Double precio, String politicasCancelacion, int cupo, List<PaqueteServicio> servicios, Destino destino,
+				Double precio, String politicasCancelacion, int cupo, Destino destino,
 				int cantPersonas, boolean estado, boolean nuevaOferta, float latitud, float longitud,
 
 				List<MedioDePago> mediosDePago, Agencia agencia, String imagen) {
@@ -80,7 +77,6 @@ public class Paquete {
 			this.precio = precio;
 			this.politicasCancelacion = politicasCancelacion;
 			this.cupo = cupo;
-			this.servicios = servicios;
 			this.destino = destino;
 			this.cantPersonas = cantPersonas;
 			this.estado = estado;
@@ -145,12 +141,6 @@ public class Paquete {
 			this.cupo = cupo;
 		}
 				
-		public List<PaqueteServicio> getServicios() {
-			return servicios;
-		}
-		public void setServicios(List<PaqueteServicio> servicios) {
-			this.servicios = servicios;
-		}
 		public Destino getDestino() {
 			return destino;
 		}

@@ -13,8 +13,6 @@ import javax.persistence.Table;
 public class Provincia {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO) 
-
 	private int idProvincia;
 	private String nombre;
 	

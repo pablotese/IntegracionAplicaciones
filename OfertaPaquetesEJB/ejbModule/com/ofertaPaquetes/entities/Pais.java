@@ -11,7 +11,6 @@ import javax.persistence.Table;
 public class Pais {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idPais;
 	private String nombre;
 	
@@ -19,6 +18,17 @@ public class Pais {
 		super();
 		this.nombre = nombre;
 	}
+	
+	
+	
+	public Pais(int idPais, String nombre) {
+		super();
+		this.idPais = idPais;
+		this.nombre = nombre;
+	}
+
+
+
 	public int getIdPais() {
 		return idPais;
 	}
