@@ -20,12 +20,13 @@ public class PaqueteDTO implements Serializable {
 	private int cantPersonas;
 	private boolean estado;
 	private boolean nuevaOferta;
-	private List<ImagenDTO> imagenes;
+	private String imagen;
 	private AgenciaDTO agencia;
 	private DestinoDTO destino;
 	private List<TipoServicioDTO> servicios;
 	 
-	 
+	
+	
 	public PaqueteDTO(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
 			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta) {
 		super();
@@ -39,6 +40,25 @@ public class PaqueteDTO implements Serializable {
 		this.cantPersonas = cantPersonas;
 		this.estado = estado;
 		this.nuevaOferta = nuevaOferta;
+	}
+	public PaqueteDTO(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
+			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta, String imagen,
+			AgenciaDTO agencia, DestinoDTO destino, List<TipoServicioDTO> servicios) {
+		super();
+		this.nombre = nombre;
+		this.fechaDesde = fechaDesde;
+		this.fechaHasta = fechaHasta;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.politicasCancelacion = politicasCancelacion;
+		this.cupo = cupo;
+		this.cantPersonas = cantPersonas;
+		this.estado = estado;
+		this.nuevaOferta = nuevaOferta;
+		this.imagen = imagen;
+		this.agencia = agencia;
+		this.destino = destino;
+		this.servicios = servicios;
 	}
 	public int getIdPaquete() {
 		return idPaquete;
@@ -106,11 +126,11 @@ public class PaqueteDTO implements Serializable {
 	public void setNuevaOferta(boolean nuevaOferta) {
 		this.nuevaOferta = nuevaOferta;
 	}
-	public List<ImagenDTO> getImagenes() {
-		return imagenes;
+	public String getImagen() {
+		return imagen;
 	}
-	public void setImagenes(List<ImagenDTO> imagenes) {
-		this.imagenes = imagenes;
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 	public AgenciaDTO getAgencia() {
 		return agencia;

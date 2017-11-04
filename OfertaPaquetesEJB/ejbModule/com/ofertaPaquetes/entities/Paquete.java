@@ -39,8 +39,8 @@ public class Paquete {
 	    @JoinColumn(name="idAgencia")
 	    private Agencia agencia;
 	    
-	    @OneToMany(mappedBy = "paquete", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-	    private List<Imagen> imagenes;
+	    //@OneToMany(mappedBy = "paquete", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	    private String imagen;
 	    
 	    	    
 		public Paquete(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
@@ -136,11 +136,11 @@ public class Paquete {
 		public void setNuevaOferta(boolean nuevaOferta) {
 			this.nuevaOferta = nuevaOferta;
 		}
-		public List<Imagen> getImagenes() {
-			return imagenes;
+		public String getImagen() {
+			return imagen;
 		}
-		public void setImagenes(List<Imagen> imagenes) {
-			this.imagenes = imagenes;
+		public void setImagen(String imagen) {
+			this.imagen = imagen;
 		}
 		
 			

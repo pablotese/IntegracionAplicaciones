@@ -1,10 +1,23 @@
 package com.ofertaPaquetes.sessionBeans;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.MessageProducer;
+import javax.jms.QueueConnection;
+import javax.jms.QueueSession;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonWriter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -28,7 +41,13 @@ public class AdministradorPaquete{
 
 	@PersistenceContext(unitName="MyPU")
 	private EntityManager manager;
-    
+
+	@Resource(lookup = "java:jboss/exported/jms/RemoteConnectionFactory")
+    ConnectionFactory connectionFactory;
+
+    @Resource(lookup = "java:/myJmsTest/MyQueue")
+    Destination destination;
+
 	public AdministradorPaquete() {
         // TODO Auto-generated constructor stub
     }
@@ -41,14 +60,14 @@ public class AdministradorPaquete{
 			
 			
 			/*Imagenes se crean al persistir el paquete*/
-			if(!paquete.getImagenes().isEmpty()){
+			/*if(!paquete.getImagenes().isEmpty()){
 				List<Imagen> imagenes = new ArrayList<Imagen>();
 				List<ImagenDTO> imagenesDto = paquete.getImagenes();
 				for(ImagenDTO im:imagenesDto){
 					imagenes.add(new Imagen(im.getImagen()));
 				}
 				paq.setImagenes(imagenes);
-			}
+			}*/
 			
 			/*TipoServicios, se vincula a existentes*/
 			if(!paquete.getServicios().isEmpty()){
@@ -67,8 +86,10 @@ public class AdministradorPaquete{
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
 			paq.setDestino(destino);
-			
+			System.out.println("eeeeeeeeeee");
 			manager.persist(paq);
+			System.out.println("eeeeeeeeeee2");
+			sendToPortalWeb(paquete);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -89,15 +110,15 @@ public class AdministradorPaquete{
 			paq.setNombre(paquete.getNombre());
 			paq.setPoliticasCancelacion(paquete.getPoliticasCancelacion());
 			paq.setPrecio(paquete.getPrecio());
-			
+			paq.setImagen(paquete.getImagen());
 			/*Imagenes se crean al persistir el paquete*/
-			List<Imagen> imagenes = new ArrayList<Imagen>();
+			/*List<Imagen> imagenes = new ArrayList<Imagen>();
 			List<ImagenDTO> imagenesDto = paquete.getImagenes();
 			for(ImagenDTO im:imagenesDto){
 				imagenes.add(new Imagen(im.getImagen()));
 			}
-			paq.setImagenes(imagenes);
 			
+			*/
 			/*TipoServicios, se vincula a existentes*/
 			List<TipoServicio> servicios = new ArrayList<TipoServicio>();
 			List<TipoServicioDTO> serviciosDto = paquete.getServicios();
@@ -177,13 +198,13 @@ public class AdministradorPaquete{
 			}
 			
 			/*Imagenes*/
-			List<Imagen> imagenes = paquete.getImagenes();
-			List<ImagenDTO> imagenesDto = new ArrayList<ImagenDTO>();
+			paq.setImagen(paquete.getImagen());
+			/*List<ImagenDTO> imagenesDto = new ArrayList<ImagenDTO>();
 			for(Imagen im:imagenes){
 				imagenesDto.add(new ImagenDTO(im.getIdImagen(),im.getImagen()));
 			}
 			paq.setImagenes(imagenesDto);
-			
+			*/
 			/*TipoServicios*/
 			List<TipoServicio> servicios = paquete.getServicios();
 			List<TipoServicioDTO> serviciosDto = new ArrayList<TipoServicioDTO>();
@@ -201,4 +222,96 @@ public class AdministradorPaquete{
 		return null;
 	}
 
+	
+	/** Enviar Paquete a BO - JMS **/
+	private void sendToPortalWeb(PaqueteDTO paquete) {
+
+        try {
+            //Authentication info can be omitted if we are using in-vm
+            QueueConnection connection = (QueueConnection) connectionFactory.createConnection("vanesa","Vanesa14");
+        	//QueueConnection connection = (QueueConnection) connectionFactory.createConnection();
+
+            try {
+                QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+
+                try {
+                    MessageProducer producer = session.createProducer(destination);
+
+                    try {
+                   	
+                    	String jsonPaquete = getJsonPaquete(paquete);
+                    	System.out.println("jsonPaquete");
+                    	System.out.println(jsonPaquete);              		                    		
+                		                    	
+                    	TextMessage message = session.createTextMessage(jsonPaquete);
+                    	
+                        producer.send(message);
+
+                        System.out.println("Message sent! ^__^");
+                    }
+                    catch(Exception ex){
+                    	System.out.println(ex.getMessage());                    	
+                    	ex.printStackTrace(System.out);
+                    	throw ex;
+                    } finally {
+                        producer.close();
+                    }
+                } finally {
+                    session.close();
+                }
+
+            } finally {
+                connection.close();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+        }
+
+	}
+
+	//http://www.java2s.com/Tutorials/Java/JSON/0100__JSON_Java.htm
+	private String getJsonPaquete(PaqueteDTO paquete){
+         
+		System.out.println("jsonPaquete algo algo");
+		
+	   	JsonObject paqueteJson = Json.createObjectBuilder()
+   			.add("codigo_prestador",paquete.getAgencia().getIdAgencia())/*TODO: poner el id de la agencia del BO*/
+   					.add("destino",paquete.getDestino().getNombre())
+   					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
+   					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
+   					.add("cantidad_personas_paquete",paquete.getCantPersonas())
+   					.add("foto_paquete",paquete.getImagen()) /*Poner una sola imagen, con la URL*/
+   					.add("descripcion_paquete",paquete.getDescripcion())
+   					.add("precio", 8987)
+   					.add("latitud",12)
+   					.add("longitud",23)
+   					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
+   					.add("mail_agencia","pepeq@pepep.com")
+   					.add("cupo_paquete", 44)
+   					.add("servicios_paquete", 
+   		                     Json.createArrayBuilder().add(paquete.getServicios().get(0).getNombre())
+   		                                              .add(paquete.getServicios().get(1).getNombre())
+   		                                              .build())
+   					.build();
+   					
+        StringWriter stringWriter = new StringWriter();
+        
+        JsonWriter writer = Json.createWriter(stringWriter);
+        writer.writeObject(paqueteJson);
+        writer.close();
+        
+        return paqueteJson.toString();
+    }
+
+	private String getFechaString(Date fecha) {
+		
+		String date = "";
+		date +=  fecha.getYear() + fecha.getMonth() + fecha.getDay();
+		
+		return date;
+    }
+
+	
 }
+

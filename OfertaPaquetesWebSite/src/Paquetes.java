@@ -1,4 +1,4 @@
-
+package src;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -108,7 +108,10 @@ public class Paquetes extends HttpServlet {
 			 nuevoPaquete.setDestino(dest);
 			 nuevoPaquete.setAgencia(agen);
 			 List<ImagenDTO> imagenes = new ArrayList<ImagenDTO>();
-			 nuevoPaquete.setImagenes(imagenes);
+			 //nuevoPaquete.setImagen(imagenes.get(0).ge);
+			 //TODO: guardar una URL a la imagen, que guardamos en un server local primero.
+			 //Cuando se ejecuta el envío por JMS la ponemos en un server remoto
+			 nuevoPaquete.setImagen("Fotito.JPG");
 			 
 			 //Persistencia
 			 bd.nuevoPaquete(nuevoPaquete);
