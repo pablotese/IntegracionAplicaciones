@@ -26,12 +26,14 @@ import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.ImagenDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
-import com.ofertaPaquetes.dtos.TipoServicioDTO;
+import com.ofertaPaquetes.dtos.ProvinciaDTO;
+import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Destino;
 import com.ofertaPaquetes.entities.Imagen;
 import com.ofertaPaquetes.entities.Paquete;
-import com.ofertaPaquetes.entities.TipoServicio;
+import com.ofertaPaquetes.entities.Provincia;
+
 /**
  * Session Bean implementation class AdministradorTareas
  */
@@ -46,6 +48,7 @@ public class AdministradorPaquete{
     ConnectionFactory connectionFactory;
 
     @Resource(lookup = "java:/myJmsTest/MyQueue")
+	// dana @Resource(lookup = "java:/jms/queue/testQueue")
     Destination destination;
 
 	public AdministradorPaquete() {
@@ -57,28 +60,10 @@ public class AdministradorPaquete{
 			Paquete paq = new Paquete(paquete.getNombre(),paquete.getFechaDesde(), paquete.getFechaHasta(),
 					paquete.getDescripcion(), paquete.getPrecio(), paquete.getPoliticasCancelacion(), 
 					paquete.getCupo(), paquete.getCantPersonas(), paquete.isEstado(), paquete.isNuevaOferta());
-			
-			
-			/*Imagenes se crean al persistir el paquete*/
-			/*if(!paquete.getImagenes().isEmpty()){
-				List<Imagen> imagenes = new ArrayList<Imagen>();
-				List<ImagenDTO> imagenesDto = paquete.getImagenes();
-				for(ImagenDTO im:imagenesDto){
-					imagenes.add(new Imagen(im.getImagen()));
-				}
-				paq.setImagenes(imagenes);
-			}*/
-			
-			/*TipoServicios, se vincula a existentes*/
-			if(!paquete.getServicios().isEmpty()){
-				List<TipoServicio> servicios = new ArrayList<TipoServicio>();
-				List<TipoServicioDTO> serviciosDto = paquete.getServicios();
-				for(TipoServicioDTO serv:serviciosDto){
-					servicios.add(manager.find(TipoServicio.class, serv.getIdTipoServicio()));
-				}
-				paq.setServicios(servicios);
-			}
-			
+		
+				
+			//Servicios
+
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
 			paq.setAgencia(agencia);
@@ -111,21 +96,10 @@ public class AdministradorPaquete{
 			paq.setPoliticasCancelacion(paquete.getPoliticasCancelacion());
 			paq.setPrecio(paquete.getPrecio());
 			paq.setImagen(paquete.getImagen());
-			/*Imagenes se crean al persistir el paquete*/
-			/*List<Imagen> imagenes = new ArrayList<Imagen>();
-			List<ImagenDTO> imagenesDto = paquete.getImagenes();
-			for(ImagenDTO im:imagenesDto){
-				imagenes.add(new Imagen(im.getImagen()));
-			}
+
 			
-			*/
-			/*TipoServicios, se vincula a existentes*/
-			List<TipoServicio> servicios = new ArrayList<TipoServicio>();
-			List<TipoServicioDTO> serviciosDto = paquete.getServicios();
-			for(TipoServicioDTO serv:serviciosDto){
-				servicios.add(manager.find(TipoServicio.class, serv.getIdTipoServicio()));
-			}
-			paq.setServicios(servicios);
+			/*Servicios*/
+
 			
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
@@ -196,23 +170,10 @@ public class AdministradorPaquete{
 				DestinoDTO destino = new DestinoDTO(paquete.getDestino().getIdDestino(),paquete.getDestino().getNombre());
 				paq.setDestino(destino);
 			}
-			
-			/*Imagenes*/
+
 			paq.setImagen(paquete.getImagen());
-			/*List<ImagenDTO> imagenesDto = new ArrayList<ImagenDTO>();
-			for(Imagen im:imagenes){
-				imagenesDto.add(new ImagenDTO(im.getIdImagen(),im.getImagen()));
-			}
-			paq.setImagenes(imagenesDto);
-			*/
-			/*TipoServicios*/
-			List<TipoServicio> servicios = paquete.getServicios();
-			List<TipoServicioDTO> serviciosDto = new ArrayList<TipoServicioDTO>();
-			for(TipoServicio serv:servicios){
-				serviciosDto.add(new TipoServicioDTO(serv.getNombre(), serv.getDescripcion()));
-			}	
-			paq.setServicios(serviciosDto);
-			
+
+			/*Servicios*/
 			return paq;
 		}
 		catch(Exception e){
@@ -228,8 +189,8 @@ public class AdministradorPaquete{
 
         try {
             //Authentication info can be omitted if we are using in-vm
-            QueueConnection connection = (QueueConnection) connectionFactory.createConnection("vanesa","Vanesa14");
-        	//QueueConnection connection = (QueueConnection) connectionFactory.createConnection();
+            // dana QueueConnection connection = (QueueConnection) connectionFactory.createConnection("myUser","myPassword");
+        	QueueConnection connection = (QueueConnection) connectionFactory.createConnection("vanesa","Vanesa14");
 
             try {
                 QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -290,8 +251,8 @@ public class AdministradorPaquete{
    					.add("mail_agencia","pepeq@pepep.com")
    					.add("cupo_paquete", 44)
    					.add("servicios_paquete", 
-   		                     Json.createArrayBuilder().add(paquete.getServicios().get(0).getNombre())
-   		                                              .add(paquete.getServicios().get(1).getNombre())
+   		                     Json.createArrayBuilder().add(paquete.getServicios().get(0).getNombreServicio())
+   		                                              .add(paquete.getServicios().get(1).getNombreServicio())
    		                                              .build())
    					.build();
    					
@@ -312,6 +273,25 @@ public class AdministradorPaquete{
 		return date;
     }
 
+	public List<ProvinciaDTO> getListadoProvincias(){
+		
+		try{
+			List<ProvinciaDTO> lista = new ArrayList<ProvinciaDTO>();
+			
+			List<Provincia> provincias = (List<Provincia>) manager.createQuery(" FROM Provincia").getResultList();
+		
+			for(Provincia prov:provincias){
+				ProvinciaDTO dto = new ProvinciaDTO(prov.getIdProvincia(),prov.getNombre());
+				lista.add(dto);
+			}
+			return lista;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("No se pudo traer listado de provincias");
+		}
+		return null;
+	}
 	
 }
 

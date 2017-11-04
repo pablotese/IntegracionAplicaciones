@@ -13,7 +13,8 @@ import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.ImagenDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
-import com.ofertaPaquetes.dtos.TipoServicioDTO;
+import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
+import com.ofertaPaquetes.dtos.ProvinciaDTO;
 
 public class MiPrueba {
 	
@@ -22,9 +23,13 @@ public class MiPrueba {
 		
 		/*Test Agencia*/
 		PaisDTO pais= new PaisDTO(1,"Argentina");
+				
 		AgenciaDTO ag = new AgenciaDTO("Prueba Agencia",false, "calle",123,"1","C","capital Federal",pais, new Date());
+		ag.setEmail("test@test.com");
+		ag.setProvincia(new ProvinciaDTO(1,"Buenos Aires"));
+		
 		ag.setIdAgenciaBO(23);
-		try {
+		try {	
 			bd.nuevaAgencia(ag);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,9 +45,9 @@ public class MiPrueba {
 		DestinoDTO destino = new DestinoDTO(1, "Miami");
 		
 		//Los tipos de servicio vienen de un WS de BO
-		List<TipoServicioDTO> servicios = new ArrayList<TipoServicioDTO>(); 
-		servicios.add(new TipoServicioDTO("Wifi", "Internet"));
-		servicios.add(new TipoServicioDTO("Pileta", "Re pileta")); 
+		List<PaqueteServicioDTO> servicios = new ArrayList<PaqueteServicioDTO>(); 
+		servicios.add(new PaqueteServicioDTO(1, "Internet"));
+		servicios.add(new PaqueteServicioDTO(2, "Re pileta")); 
 		
 		PaqueteDTO paquete = new PaqueteDTO("Paquete 1 Miami", new Date(2017, 11,1), new Date(2017, 12,1), 
 				"Paquete 1 viaje a Miami", (double) 12000, "No cancelable", 40, 2, true, true, "Miami.jpg", agencia, destino, servicios);

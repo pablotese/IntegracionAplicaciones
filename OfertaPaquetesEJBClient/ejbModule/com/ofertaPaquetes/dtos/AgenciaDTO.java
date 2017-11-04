@@ -18,6 +18,8 @@ public class AgenciaDTO implements Serializable {
 	private String depto;
 	private String localidad;
 	private PaisDTO pais;
+	private ProvinciaDTO provincia;
+	private String email;
 	private List<PaqueteDTO> paquetes;
 
 	public AgenciaDTO(String nombre, boolean estado, String calle, int nro,
@@ -34,6 +36,19 @@ public class AgenciaDTO implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 	
+	public  AgenciaDTO(String nombre, boolean estado, String calle, int nro,
+			String piso, String depto, String localidad, PaisDTO pais, Date fechaCreacion, String email){
+		this.nombre = nombre;
+		this.estado = estado;
+		this.calle = calle;
+		this.nro = nro;
+		this.piso = piso;
+		this.depto = depto;
+		this.localidad = localidad;
+		this.pais = pais;
+		this.fechaCreacion = fechaCreacion;
+		this.email=email;
+	}
 	
 
 	public AgenciaDTO(int idAgencia) {
@@ -147,8 +162,26 @@ public class AgenciaDTO implements Serializable {
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
+	
+	
 
 
+
+	public ProvinciaDTO getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(ProvinciaDTO provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {

@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
+import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBLocal;
 import com.ofertaPaquetes.interfaces.FacadeEJBRemote;
 import com.ofertaPaquetes.sessionBeans.AdministradorAgencia;
@@ -87,6 +88,10 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	public List<AgenciaDTO> listarAgenciasPorEstado(boolean estado) {
 		// TODO Auto-generated method stub
 		return ag.listarAgenciasPorEstado(estado);
+	}
+	
+	public List<ProvinciaDTO> getListadoProvincias(){
+		return ap.getListadoProvincias();
 	}
 	
 }

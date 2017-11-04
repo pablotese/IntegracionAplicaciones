@@ -2,6 +2,7 @@ package com.ofertaPaquetes.sessionBeans;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -15,6 +16,7 @@ import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Paquete;
+import com.ofertaPaquetes.entities.Provincia;
 
 /**
  * Session Bean implementation class AdministradorTareas
@@ -52,7 +54,12 @@ public class AdministradorAgencia {
 		Agencia agencia = new Agencia(agenciaDto.getNombre(),false,agenciaDto.getCalle(), agenciaDto.getNro(),agenciaDto.getPiso(),
 				agenciaDto.getDepto(), agenciaDto.getLocalidad(),pais,agenciaDto.getFechaCreacion());
 		
+		agencia.setEmail(agenciaDto.getEmail());
+		
 		try{
+			Provincia provincia = manager.find(Provincia.class, agenciaDto.getProvincia().getIdProvincia());
+			agencia.setProvincia(provincia);
+
 			manager.persist(agencia);
 		}
 		catch(Exception e){
