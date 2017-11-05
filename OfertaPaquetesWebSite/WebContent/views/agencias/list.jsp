@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.List"%>
 <%@page import="com.ofertaPaquetes.dtos.AgenciaDTO"%>
+<%@page import="com.ofertaPaquetes.dtos.ProvinciaDTO"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -70,9 +71,9 @@
         <td></td>
         <td style="display:none"><%=a.getIdAgencia()%></td>
         <td><%=a.getNombre()%></td>
-        <td><%=a.getCalle() + " " + a.getNro() + " " + a.getPiso() + a.getDepto() + ", " + a.getLocalidad()%></td>
+        <td><%=a.getCalle() + " " + a.getNro() + " " + a.getPiso() + a.getDepto() + ", " + a.getLocalidad() + ", " + a.getProvincia().getNombre()%></td>
         <td><%=a.isEstado()%></td>
-        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Agencias?accion=editar&idAgencia=<%=a.getIdAgencia() %>" id="btnEdit"><span class="glyphicon glyphicon-edit"></span></a> | <a class="btn btn-danger" id="btnDelete" href="/OfertaPaquetesWebSite/Agencias?accion=eliminar&idAgencia=<%=a.getIdAgencia() %>" ><span class="glyphicon glyphicon-remove"></span></a></td>
+        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Agencias?accion=editar&idAgencia=<%=a.getIdAgencia() %>" id="btnEdit"><span class="glyphicon glyphicon-edit"></span></a></td>
       </tr>
 	<%}}%>
     </tbody>

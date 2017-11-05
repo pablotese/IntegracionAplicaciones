@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import="java.util.List"%>
     <%@page import="com.ofertaPaquetes.dtos.AgenciaDTO"  %>
-    <%@page import="com.ofertaPaquetes.dtos.TipoServicioDTO"  %>
+    <%@page import="com.ofertaPaquetes.dtos.PaqueteServicioDTO"  %>
     <%@page import="com.ofertaPaquetes.dtos.DestinoDTO"  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -108,10 +108,10 @@
 	  <div class="form-group" id="frmGrpServicios">
 		<label>Servicios:</label>
 		<select class="form-control" id="servicios" name="servicios" multiple="multiple" required>
-		<% List<TipoServicioDTO> lstServ = (List<TipoServicioDTO>) request.getAttribute("listServicios");
-    		for(TipoServicioDTO s : lstServ)
+		<% List<PaqueteServicioDTO> lstServ = (List<PaqueteServicioDTO>) request.getAttribute("listServicios");
+    		for(PaqueteServicioDTO s : lstServ)
     		{%>
-			<option value=<%=s.getIdTipoServicio() %>><%=s.getNombre() %></option>
+			<option value=<%=s.getIdPaquete() %>><%=s.getNombreServicio() %></option>
 			<%} %>
 		  </select>
 	  </div>
