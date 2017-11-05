@@ -1,5 +1,7 @@
 package com.ofertaPaquetes.businessDelegate;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -201,6 +203,16 @@ public class BusinessDelegate {
 	public void cargarDatosIniciales(){
 		try{
 			stub.cargarDatosIniciales();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
+			String observacion){
+		try{
+			stub.enviarLog(plataformaEnvia, plataformaRecibe, fecha, servicio, observacion);
 		}
 		catch(Exception e){
 			e.printStackTrace();

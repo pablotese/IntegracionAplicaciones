@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.ws.rs.*;
 
+import org.apache.commons.io.IOUtils;
+
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.jsons.AgenciaJSON;
 import com.ofertaPaquetes.jsons.EstadoSolicitudJSON;
+import com.ofertaPaquetes.jsons.LogJSON;
 
 @Path("/service")
 public class JAXRSExample {
@@ -51,5 +54,21 @@ public class JAXRSExample {
 		}
 		return "Error";*/
 		return "";
+	}
+	
+	@POST 
+	@Path("/RegistrarLog") 
+	@Consumes({"application/json"})
+	@Produces({"application/json"})
+	public String registrarLog(LogJSON jlog) {
+		try {
+			
+			return jlog.toString();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return "Error";
+		
 	}
 }

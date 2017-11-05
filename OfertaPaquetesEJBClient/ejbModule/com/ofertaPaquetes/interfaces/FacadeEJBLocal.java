@@ -1,5 +1,7 @@
 package com.ofertaPaquetes.interfaces;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
@@ -26,4 +28,7 @@ public interface FacadeEJBLocal {
 	public List<ProvinciaDTO> getListadoProvincias();
 	public List<MedioDePagoDTO> getListadoMediosDePago();
 	public void cargarDatosIniciales();
+	
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
+			String observacion);
 }
