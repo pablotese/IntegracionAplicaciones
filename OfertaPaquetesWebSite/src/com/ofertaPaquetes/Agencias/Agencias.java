@@ -1,3 +1,4 @@
+package com.ofertaPaquetes.Agencias;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
+import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.sun.mail.iap.Response;
 
 /**
@@ -21,12 +23,15 @@ import com.sun.mail.iap.Response;
 @WebServlet("/Agencias")
 public class Agencias extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private PaisDTO dtoPais = new PaisDTO(1,"Argentina");
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Agencias() {
         super();
+        BusinessDelegate bd = BusinessDelegate.getInstance();
+        bd.cargarDatosIniciales();
     }
 
 	/**
@@ -50,6 +55,11 @@ public class Agencias extends HttpServlet {
 		{
 			if(accion.equals("crear"))
 			{
+				List<ProvinciaDTO> provs = bd.getListadoProvincias();
+				if(provs == null)
+					provs = new ArrayList<ProvinciaDTO>();
+				
+				request.setAttribute("listProvincias",provs);
 				rd = request.getRequestDispatcher("/views/agencias/create.jsp");
 			}
 			if(accion.equals("editar"))
@@ -59,6 +69,13 @@ public class Agencias extends HttpServlet {
 					AgenciaDTO dto = bd.obtenerAgencia(Integer.parseInt(idAgencia));
 					request = setViewModel(request,dto);						
 				}
+				
+				List<ProvinciaDTO> provs = bd.getListadoProvincias();
+				if(provs == null)
+					provs = new ArrayList<ProvinciaDTO>();
+				
+				request.setAttribute("listProvincias",provs);
+				
 				rd = request.getRequestDispatcher("/views/agencias/edit.jsp");
 			}
 			if(accion.equals("eliminar"))
@@ -77,24 +94,24 @@ public class Agencias extends HttpServlet {
 	private HttpServletRequest setViewModel(HttpServletRequest request, AgenciaDTO viewModel) {
 		request.setAttribute("idAgencia", viewModel.getIdAgencia());
 		request.setAttribute("nombre", viewModel.getNombre());
+		request.setAttribute("email", viewModel.getEmail());
 		request.setAttribute("calle", viewModel.getCalle());
 		request.setAttribute("numero", viewModel.getNro());
 		request.setAttribute("piso", viewModel.getPiso());
 		request.setAttribute("dpto", viewModel.getDepto());
 		request.setAttribute("localidad", viewModel.getLocalidad());
 		request.setAttribute("estado", viewModel.isEstado());
+		request.setAttribute("idProvincia", viewModel.getProvincia().getIdProvincia());
 		
 		return request;
 	}
 	
-
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		BusinessDelegate bd = BusinessDelegate.getInstance();
 		AgenciaDTO viewModel = new AgenciaDTO(0);
+		BusinessDelegate bd = BusinessDelegate.getInstance();
 		
 		try {
 			String idAgencia = request.getParameter("idAgencia"); 
@@ -104,10 +121,10 @@ public class Agencias extends HttpServlet {
 				if(accion.equals("crear"))
 				{
 					//Nueva agencia
-					PaisDTO pais= new PaisDTO(1,"Argentina");
-					viewModel.setPais(pais);
+					viewModel.setPais(dtoPais);
 					
 					viewModel.setNombre(request.getParameter("nombre"));
+					viewModel.setEmail(request.getParameter("email"));
 					viewModel.setCalle(request.getParameter("calle"));
 					viewModel.setNro(Integer.parseInt(request.getParameter("numero")));
 					viewModel.setPiso(request.getParameter("piso"));
@@ -115,6 +132,19 @@ public class Agencias extends HttpServlet {
 					viewModel.setLocalidad(request.getParameter("localidad"));
 					viewModel.setEstado(Boolean.parseBoolean(request.getParameter("estado")));
 					
+					List<ProvinciaDTO> provs = bd.getListadoProvincias();
+					ProvinciaDTO dtoProv = new ProvinciaDTO();
+					for(ProvinciaDTO p: provs)
+					{
+						if(p.getIdProvincia() == Integer.parseInt(request.getParameter("provincia")))
+						{
+							dtoProv = p;
+						}
+					}
+					
+					viewModel.setProvincia(dtoProv);
+					
+					viewModel.setIdAgenciaBO(23);
 					bd.nuevaAgencia(viewModel);
 				}
 				if(accion.equals("eliminar") && idAgencia != null && !idAgencia.isEmpty())
@@ -125,12 +155,33 @@ public class Agencias extends HttpServlet {
 				{
 					viewModel.setIdAgencia(Integer.parseInt(idAgencia));
 					viewModel.setNombre(request.getParameter("nombre"));
+					viewModel.setEmail(request.getParameter("email"));
 					viewModel.setCalle(request.getParameter("calle"));
 					viewModel.setNro(Integer.parseInt(request.getParameter("numero")));
 					viewModel.setPiso(request.getParameter("piso"));
 					viewModel.setDepto(request.getParameter("dpto"));
 					viewModel.setLocalidad(request.getParameter("localidad"));
 					viewModel.setEstado(Boolean.parseBoolean(request.getParameter("estado")));
+					
+					
+					List<ProvinciaDTO> provs = bd.getListadoProvincias();
+					if(provs == null)
+					{
+						provs = new ArrayList<ProvinciaDTO>();
+					}
+					
+					ProvinciaDTO dtoProv = new ProvinciaDTO();
+					for(ProvinciaDTO p: provs)
+					{
+						if(p.getIdProvincia() == Integer.parseInt(request.getParameter("provincia")))
+						{
+							dtoProv = p;
+						}
+					}
+					
+					request.setAttribute("idProvincia", dtoProv.getIdProvincia());
+					viewModel.setProvincia(dtoProv);
+					viewModel.setPais(dtoPais);
 					
 		            bd.modificarAgencia(viewModel);	
 				}

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.List"%>
+<%@page import="com.ofertaPaquetes.dtos.ProvinciaDTO"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,6 +9,8 @@
 <title>Agencias - Alta</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery_validation/src/core.js"></script>
+<script type="text/javascript" src="js/jquery_validation/src/localization/messages_es_AR.js"></script>
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
 <link type="text/css" href="css/Site.css" rel="stylesheet" />
 
@@ -48,21 +52,31 @@
 	  <h2>Agregar agencias</h2>
 	  <p>Formulario para la carga de agencias al sistema.</p>                                                                                      
 	  <form id="frmAgencias" method="post">
-		  <div class="form-group">
-		    <label for="Nombre">Nombre:</label>
-		    <input type="text" class="form-control" id="nombre" name="nombre">
-		  </div>
+	  	<div class="row">
+	  		<div class="col-lg-6 col-md-6 col-sm-6">
+	  		<div class="form-group">
+			    <label for="Nombre">Nombre:</label>
+			    <input type="text" class="form-control" id="nombre" name="nombre" required>
+			  </div>
+	  		</div>
+	  		<div class="col-lg-6 col-md-6 col-sm-6">
+	  		<div class="form-group">
+			    <label for="email">Correo electrónico:</label>
+			    <input type="email" class="form-control" id="email" name="email" required>
+			  </div>
+	  		</div>
+	  	</div>
 		  <div class="form-group">
 		    <label for="Direccion"">Direccion</label>
 		    <hr />
 		    <div class="row">
 				<div class="col-lg-5 col-md-5 col-sm-5">
 					<label>Calle:</label>
-					<input class="form-control" id="calle" name="calle" type="text">
+					<input class="form-control" id="calle" name="calle" type="text" required>
 				</div>
 				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 					<label>Número:</label>
-					<input class="form-control" id="numero" name="numero" type="text">
+					<input class="form-control" id="numero" name="numero" type="text" required>
 				</div>
 				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 					<label>Piso:</label>
@@ -75,9 +89,20 @@
 					
 			</div>
 			<div class="row">
-				<div class="col-lg-5 col-md-5 col-sm-5">
-					<label>Localidad:</label>
-					<input class="form-control" id="localidad" name="localidad" type="text">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<label>Localidad / Barrio:</label>
+					<input class="form-control" id="localidad" name="localidad" type="text" required>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<label>Provincia:</label>
+					<select class="form-control" id="provincia" name="provincia" required>
+						<option value="default">Seleccione...</option>
+					<% List<ProvinciaDTO> provs = (List<ProvinciaDTO>) request.getAttribute("listProvincias");
+						for(ProvinciaDTO p : provs)
+						{%>
+						<option value=<%=p.getIdProvincia() %>><%=p.getNombre() %></option>
+					<%} %>
+					</select>
 				</div>
 			</div>
 		  </div>
@@ -99,6 +124,22 @@
 </body>
 
 <script>
+$(function(){
+	  $.validator.addMethod("valueNotEquals", function(value, element, arg){
+		  return arg !== value;
+		 }, "Value must not equal arg.");
+		  
+		  $("#frmAgencias").validate({
+		  rules: {
+		   provincia: { valueNotEquals: "default" },
+		   email: {required: true, email:true}
+		  },
+		  messages: {
+			  provincia: { valueNotEquals: "Este campo es requerido" }
+		  }  
+		 });
+})
+
 	$("#btnSubmit").click(function(){
 		$("#frmAgencias").submit();
 		})

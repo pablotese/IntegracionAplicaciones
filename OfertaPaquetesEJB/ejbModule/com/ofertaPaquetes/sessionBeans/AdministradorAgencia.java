@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
+import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Paquete;
@@ -129,9 +130,14 @@ public class AdministradorAgencia {
 				
 				PaisDTO pais = new PaisDTO(ag.getPais().getNombre());
 				pais.setIdPais(ag.getPais().getIdPais());
-							
+				
+				ProvinciaDTO prov = new ProvinciaDTO();
+				prov.setIdProvincia(ag.getProvincia().getIdProvincia());
+				prov.setNombre(ag.getProvincia().getNombre());
+				
 				AgenciaDTO dto= new AgenciaDTO(ag.getNombre(),ag.isEstado(),ag.getCalle(),ag.getNro(),ag.getPiso(),ag.getDepto(),ag.getLocalidad(),pais,ag.getFechaCreacion());
 				dto.setIdAgencia(ag.getIdAgencia());
+				dto.setProvincia(prov);
 				
 				lista.add(dto);
 			}
@@ -148,8 +154,13 @@ public class AdministradorAgencia {
 			Agencia agencia = manager.find(Agencia.class, idAgencia);
 			Pais pais = manager.find(Pais.class,agencia.getPais().getIdPais());
 			PaisDTO paisDto = new PaisDTO(pais.getIdPais(),pais.getNombre());
-			AgenciaDTO ag = new AgenciaDTO(agencia.getNombre(),agencia.isEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(), agencia.getDepto(),agencia.getLocalidad(),paisDto,agencia.getFechaCreacion());
+			AgenciaDTO ag = new AgenciaDTO(agencia.getNombre(),agencia.isEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(), agencia.getDepto(),agencia.getLocalidad(),paisDto,agencia.getFechaCreacion(),agencia.getEmail());
 			ag.setIdAgencia(idAgencia);
+			
+			ProvinciaDTO prov = new ProvinciaDTO();
+			prov.setIdProvincia(agencia.getProvincia().getIdProvincia());
+			prov.setNombre(agencia.getProvincia().getNombre());
+			ag.setProvincia(prov);
 			
 			List<Paquete> paquetes = agencia.getPaquetes();
 			List<PaqueteDTO> listPaquetesDto = new ArrayList<PaqueteDTO>();
