@@ -50,6 +50,12 @@ public class AgenciaDTO implements Serializable {
 		this.email=email;
 	}
 	
+	
+
+	public AgenciaDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public AgenciaDTO(int idAgencia) {
 		super();

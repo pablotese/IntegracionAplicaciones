@@ -31,6 +31,14 @@ public class PaqueteDTO implements Serializable {
 	 
 	
 	
+	
+	public PaqueteDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public PaqueteDTO(String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
 			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta) {
 		super();

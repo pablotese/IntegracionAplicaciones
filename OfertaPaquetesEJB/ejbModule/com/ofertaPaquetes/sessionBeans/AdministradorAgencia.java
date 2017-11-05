@@ -1,6 +1,7 @@
 package com.ofertaPaquetes.sessionBeans;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,12 @@ public class AdministradorAgencia {
 			agencia.setProvincia(provincia);
 
 			manager.persist(agencia);
+			
+			AdministradorLogs log = new AdministradorLogs();
+			Date d = new Date();
+			Timestamp t=new Timestamp(d.getTime());
+			long time = t.getTime();
+			log.enviarLog("Oferta Paquetes", "Back Office",time, "Crear Agencia", "");
 		}
 		catch(Exception e){
 			e.printStackTrace();

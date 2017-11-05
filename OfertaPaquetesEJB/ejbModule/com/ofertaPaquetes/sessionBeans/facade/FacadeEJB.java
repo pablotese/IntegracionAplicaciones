@@ -1,5 +1,7 @@
 package com.ofertaPaquetes.sessionBeans.facade;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,6 +15,7 @@ import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBLocal;
 import com.ofertaPaquetes.interfaces.FacadeEJBRemote;
 import com.ofertaPaquetes.sessionBeans.AdministradorAgencia;
+import com.ofertaPaquetes.sessionBeans.AdministradorLogs;
 import com.ofertaPaquetes.sessionBeans.AdministradorPaquete;
 
 /**
@@ -26,6 +29,8 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	AdministradorAgencia ag;
 	@EJB
 	AdministradorPaquete ap;
+	@EJB
+	AdministradorLogs log;
     /**
      * Default constructor. 
      */
@@ -102,6 +107,11 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	@Override
 	public List<MedioDePagoDTO> getListadoMediosDePago() {
 		return ap.getListadoMediosDePago();
+	}
+	
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
+			String observacion){
+		log.enviarLog(plataformaEnvia, plataformaRecibe, fecha, servicio, observacion);
 	}
 	
 }
