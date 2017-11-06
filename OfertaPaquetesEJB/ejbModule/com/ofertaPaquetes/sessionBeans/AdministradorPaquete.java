@@ -18,6 +18,7 @@ import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
@@ -71,6 +72,7 @@ public class AdministradorPaquete{
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
 			paq.setAgencia(agencia);
+			System.out.println("Agencia email: " + agencia.getEmail());
 			
 			/*El destino ya existe*/
 			Destino destino = manager.find(Destino.class,paquete.getDestino().getIdDestino());
@@ -87,7 +89,7 @@ public class AdministradorPaquete{
 			
 			manager.persist(paq);
 			manager.flush();
-			
+			System.out.println("Hola hol");
 			/*Servicios*/
 			if(paquete.getServicios()!=null){
 				for(PaqueteServicioDTO ps:paquete.getServicios()){
@@ -96,6 +98,8 @@ public class AdministradorPaquete{
 					manager.persist(paqserv);
 				}
 			}
+			paquete.getAgencia().setEmail(agencia.getEmail());
+			paquete.getAgencia().setIdAgenciaBO(agencia.getIdAgenciaBO());
 			
 			sendToPortalWeb(paquete);
 		}
@@ -228,6 +232,8 @@ public class AdministradorPaquete{
 	/** Enviar Paquete a BO - JMS **/
 	private void sendToPortalWeb(PaqueteDTO paquete) {
 
+		System.out.println("sendToPortalWeb");
+		
         try {
             //Authentication info can be omitted if we are using in-vm
             // dana QueueConnection connection = (QueueConnection) connectionFactory.createConnection("myUser","myPassword");
@@ -249,7 +255,7 @@ public class AdministradorPaquete{
                     	
                         producer.send(message);
 
-                        System.out.println("Message sent! ^__^");
+                        System.out.println("Message Nuevo Paquete sent! ^__^");
                     }
                     catch(Exception ex){
                     	System.out.println(ex.getMessage());                    	
@@ -278,7 +284,7 @@ public class AdministradorPaquete{
 		System.out.println("jsonPaquete algo algo");
 		
 	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
-   			.add("codigo_prestador",paquete.getAgencia().getIdAgencia())/*TODO: poner el id de la agencia del BO*/
+   			.add("codigo_prestador",paquete.getAgencia().getIdAgenciaBO())/*TODO: poner el id de la agencia del BO*/
    					.add("destino",paquete.getDestino().getNombre())
    					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
    					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
@@ -292,15 +298,26 @@ public class AdministradorPaquete{
    					.add("mail_agencia",paquete.getAgencia().getEmail())
    					.add("cupo_paquete", paquete.getCupo());//.build();
 	   	
+	    if (!paquete.getServicios().isEmpty()) {
+	        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+	        for (PaqueteServicioDTO serv : paquete.getServicios()) {
+	        	System.out.println(serv.getIdPaquete() + " - " + serv.getNombreServicio());
+	            arrayBuilder.add(serv.getNombreServicio());
+	        }
+	        paqueteJsonBuilder.add("servicios_paquete", arrayBuilder.build());
+	    }
+	   	
+	   	/*
+	   	JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
 	   	for(int i=0; i < paquete.getServicios().size(); i++){
-			paqueteJsonBuilder.add("servicios_paquete", 
-	                     Json.createArrayBuilder()
-	                     .add(paquete.getServicios().get(i).getNombreServicio()));
-		
-	   	}
-   					
+					arrBuilder.add(paquete.getServicios().get(i).getNombreServicio());
+	   	}*/
+	   				
 	   	JsonObject paqueteJson = paqueteJsonBuilder.build();
         StringWriter stringWriter = new StringWriter();
+        
+        
+        
         
         JsonWriter writer = Json.createWriter(stringWriter);
         writer.writeObject(paqueteJson);

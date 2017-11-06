@@ -46,7 +46,7 @@ public class AdministradorAgencia {
 		try{
 			Provincia provincia = manager.find(Provincia.class, agenciaDto.getProvincia().getIdProvincia());
 			agencia.setProvincia(provincia);
-
+			agencia.setIdAgenciaBO(agenciaDto.getIdAgenciaBO());
 			manager.persist(agencia);
 			
 			AdministradorLogs log = new AdministradorLogs();
@@ -56,8 +56,9 @@ public class AdministradorAgencia {
 			log.enviarLog("Oferta Paquetes", "Back Office",time, "Crear Agencia", "");
 		}
 		catch(Exception e){
+			System.out.println("--------------Error al guardar Agencia------------");
 			e.printStackTrace();
-			System.out.println("Error al guardar Agencia");
+			
 		}
 	}
 	

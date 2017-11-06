@@ -20,9 +20,9 @@ public class MiPrueba {
 	
 	public static void main(String[] args) throws NamingException {
 		BusinessDelegate bd = BusinessDelegate.getInstance();
-		bd.cargarDatosIniciales();
+	//	bd.cargarDatosIniciales();
 		prueba();
-		prueba();
+		//prueba();
 	}
 	
 	public static void prueba(){
@@ -56,6 +56,9 @@ public class MiPrueba {
 		PaqueteDTO paquete = new PaqueteDTO("Paquete 1 Miami", new Date(2017, 11,1), new Date(2017, 12,1), 
 				"Paquete 1 viaje a Miami", (double) 12000, "No cancelable", 40, 2, true, true, "Miami.jpg", agencia, destino, servicios);
 
+		paquete.setLatitud(109);
+		paquete.setLongitud(104);
+		
 		try{
 			bd.nuevoPaquete(paquete);
 		}
@@ -67,7 +70,7 @@ public class MiPrueba {
 		PaqueteDTO paqdto = bd.obtenerPaquete(paquetesDto.get(0).getIdPaquete());
 		
 		System.out.println(paqdto.toString());
-		
+		System.out.println("Test finished!!!!!!!1");
 	}
 	
 	
