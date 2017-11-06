@@ -1,9 +1,17 @@
 package com.ofertaPaquetes.Agencias;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,11 +19,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
-import com.sun.mail.iap.Response;
 
 /**
  * Servlet implementation class agencias
@@ -144,7 +153,15 @@ public class Agencias extends HttpServlet {
 					
 					viewModel.setProvincia(dtoProv);
 					
-					viewModel.setIdAgenciaBO(23);
+					//TEST: get servicios
+					//getServicios();
+					
+					//Llamada a servicio de BO para solicitud de ID de agencia global.
+					String serviceResponse = postAgencias(viewModel);
+				
+					int idBO = Integer.parseInt(serviceResponse);
+					viewModel.setIdAgenciaBO(idBO);
+					
 					bd.nuevaAgencia(viewModel);
 				}
 				if(accion.equals("eliminar") && idAgencia != null && !idAgencia.isEmpty())
@@ -193,5 +210,51 @@ public class Agencias extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
+	private String postAgencias(AgenciaDTO dto) throws Exception
+	{
+		URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/EnviarSolicitud");
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+		urlConnection.setDoOutput(true);
+		urlConnection.setRequestMethod("POST");
+		urlConnection.setRequestProperty("Content-Type", "application/json");
+		
+		//Armo el json String
+		JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
+	   			.add("detalle",dto.getNombre())
+	   					.add("tipo","Agencia");
+		   				
+		   	JsonObject paqueteJson = paqueteJsonBuilder.build();
+	        StringWriter stringWriter = new StringWriter();
+	        
+	        JsonWriter writer = Json.createWriter(stringWriter);
+	        writer.writeObject(paqueteJson);
+	        writer.close();
+	        
+	        String json = paqueteJson.toString();
+		
+		
+		
+		IOUtils.write(json, urlConnection.getOutputStream());
+		if(urlConnection.getResponseCode() != 200) {
+			throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
+		}
+		
+		String response = IOUtils.toString(urlConnection.getInputStream());
+		return response;
+	}
+	
+	private void getServicios() throws Exception
+	{
+		URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServicios");
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+		if(urlConnection.getResponseCode() != 200) {
+			throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
+		}
+		String response = IOUtils.toString(urlConnection.getInputStream());
+		System.out.println("Respuesta: " + response);
+	}
+	
+	
 
 }
