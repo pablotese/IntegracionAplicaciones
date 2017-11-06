@@ -11,23 +11,24 @@ import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.jsons.AgenciaJSON;
 import com.ofertaPaquetes.jsons.EstadoSolicitudJSON;
+import com.ofertaPaquetes.jsons.EstadoSolicitudJSONRequest;
 import com.ofertaPaquetes.jsons.LogJSON;
+import com.ofertaPaquetes.jsons.ServicioJSON;
+import com.ofertaPaquetes.jsons.TipoServicioJSON;
 
 @Path("/service")
 public class JAXRSExample {
 
 	@GET
-	@Path("/enviarSolicitud")
+	@Path("/GetServicios")
 	@Produces({"application/json"})
-	public List<AgenciaJSON> enviarSolicitud() {
+	public List<ServicioJSON> getServicios() {
 		try{
-			BusinessDelegate bd = BusinessDelegate.getInstance();
-			List<AgenciaDTO> agencias = bd.listarAgencias();
-			List<AgenciaJSON> test=new ArrayList<AgenciaJSON>();
-			for(AgenciaDTO agencia:agencias){
-				AgenciaJSON jag = new AgenciaJSON(agencia.getIdAgencia(),agencia.getNombre(),agencia.getIdAgenciaBO(),agencia.getFechaCreacion(),agencia.isEstado(),agencia.getCalle(),agencia.getNro(),agencia.getPiso(),agencia.getDepto(),agencia.getLocalidad(),agencia.getPais().getNombre());
-				test.add(jag);
-			}
+			
+			List<ServicioJSON> test=new ArrayList<ServicioJSON>();
+			test.add(new ServicioJSON(1,new TipoServicioJSON(1,"Habitacion"),"wifi"));
+			test.add(new ServicioJSON(2,new TipoServicioJSON(1,"Habitacion"),"despertador"));
+			test.add(new ServicioJSON(3,new TipoServicioJSON(2,"Transporte"),"wifi"));
 			return test;
 		}
 		catch(Exception e){
@@ -39,21 +40,18 @@ public class JAXRSExample {
 	}
 	
 	@POST 
-	@Path("/aprobarDesaprobarAgencia") 
+	@Path("/EnviarSolicitud") 
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
-	public String aprobarAgencia(EstadoSolicitudJSON jestado) {
-		/*try {
-			BusinessDelegate bd = BusinessDelegate.getInstance();
-
-			bd.modificarEstadoSolicitud(jestado.getId(), jestado.getEstado());
-			return "OK";
+	public EstadoSolicitudJSON enviarSolicitud(EstadoSolicitudJSONRequest request) {
+		try {
+			EstadoSolicitudJSON json = new EstadoSolicitudJSON(123,request.getTipo(),request.getDetalle(),"Pendiente");
+			return json;
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		return "Error";*/
-		return "";
+		return null;
 	}
 	
 	@POST 

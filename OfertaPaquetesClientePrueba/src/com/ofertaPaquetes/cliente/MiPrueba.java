@@ -20,7 +20,7 @@ public class MiPrueba {
 	
 	public static void main(String[] args) throws NamingException {
 		BusinessDelegate bd = BusinessDelegate.getInstance();
-	//	bd.cargarDatosIniciales();
+		bd.cargarDatosIniciales();
 		prueba();
 		//prueba();
 	}
