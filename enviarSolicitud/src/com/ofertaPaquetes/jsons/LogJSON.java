@@ -6,7 +6,6 @@ import java.util.Date;
 public class LogJSON {
 	private String plataformaEnvia;
 	private String plataformaRecibe;
-	private Long fecha;
 	private String servicio;
 	private String observacion;
 	public LogJSON() {
@@ -26,12 +25,7 @@ public class LogJSON {
 		this.plataformaRecibe = plataformaRecibe;
 	}
 	
-	public Long getFecha() {
-		return fecha;
-	}
-	public void setFecha(Long fecha) {
-		this.fecha = fecha;
-	}
+	
 	public String getServicio() {
 		return servicio;
 	}
@@ -44,18 +38,16 @@ public class LogJSON {
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
-	public LogJSON(String plataformaEnvia, String plataformaRecibe, Long fecha, String servicio, String observacion) {
+	public LogJSON(String plataformaEnvia, String plataformaRecibe, String servicio, String observacion) {
 		super();
 		this.plataformaEnvia = plataformaEnvia;
 		this.plataformaRecibe = plataformaRecibe;
-		this.fecha = fecha;
 		this.servicio = servicio;
 		this.observacion = observacion;
 	}
 	@Override
 	public String toString() {
-		return "LogJSON [plataformaEnvia=" + plataformaEnvia + ", plataformaRecibe=" + plataformaRecibe + ", fecha="
-				+ fecha + ", servicio=" + servicio + ", observacion=" + observacion + "]";
+		return "LogJSON [plataformaEnvia=" + plataformaEnvia + ", plataformaRecibe=" + plataformaRecibe +  ", servicio=" + servicio + ", observacion=" + observacion + "]";
 	}
 	
 	

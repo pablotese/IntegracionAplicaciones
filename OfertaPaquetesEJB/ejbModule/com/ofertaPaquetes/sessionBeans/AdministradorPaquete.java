@@ -57,7 +57,7 @@ public class AdministradorPaquete{
 	@PersistenceContext(unitName="MyPU")
 	private EntityManager manager;
 
-	@Resource(lookup = "java:jboss/exported/jms/RemoteConnectionFactory")
+	@Resource(lookup = Properties.CONNECTION_FACTORY)
     ConnectionFactory connectionFactory;
 
     @Resource(lookup = Properties.DESTINATION)
@@ -93,7 +93,9 @@ public class AdministradorPaquete{
 			
 			manager.persist(paq);
 			manager.flush();
-			System.out.println("Hola hol");
+			
+			
+			
 			/*Servicios*/
 			if(paquete.getServicios()!=null){
 				for(PaqueteServicioDTO ps:paquete.getServicios()){
@@ -105,11 +107,17 @@ public class AdministradorPaquete{
 			paquete.getAgencia().setEmail(agencia.getEmail());
 			paquete.getAgencia().setIdAgenciaBO(agencia.getIdAgenciaBO());
 			
+			AdministradorLogs log = new AdministradorLogs();
+			log.enviarLog("Oferta Paquete", "Oferta Paquete", "Alta Paquete", "Creacion Exitosa");
+			
 			sendToPortalWeb(paquete);
 		}
 		catch(Exception e){
-			e.printStackTrace();
 			System.out.println("Error al crear paquete");
+			AdministradorLogs log = new AdministradorLogs();
+			log.enviarLog("Oferta Paquete", "Oferta Paquete", "Alta Paquete", "Creacion No Exitosa");
+			
+			e.printStackTrace();
 		}
 	}
 	
@@ -233,32 +241,39 @@ public class AdministradorPaquete{
 	}
 
 	private void sendToPortalWeb(PaqueteDTO paquete) throws NamingException{
-		System.out.println("ACAAA");
+		System.out.println("Envio Mensaje");
 		Context namingContext = null;
         JMSContext jmsContext = null;
         try {
             final java.util.Properties env = new java.util.Properties();
             env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-            env.put(Context.PROVIDER_URL, "http-remoting://192.168.0.100:8080"); // Cambiar por IP remota aca
-            env.put(Context.SECURITY_PRINCIPAL, "hornetq");
-            env.put(Context.SECURITY_CREDENTIALS, "hornetq");
+            env.put(Context.PROVIDER_URL, Properties.PROVIDER_URL); // Cambiar por IP remota aca
+            env.put(Context.SECURITY_PRINCIPAL, Properties.SECURITY_PRINCIPAL);
+            env.put(Context.SECURITY_CREDENTIALS, Properties.SECURITY_CREDENTIALS);
             namingContext = new InitialContext(env);
 
             ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup("jms/RemoteConnectionFactory");
             System.out.println("Got ConnectionFactory");
 
-            Destination destination = (Destination) namingContext.lookup("jms/queue/ofertasPaquete");
+            Destination destination = (Destination) namingContext.lookup("jms/queue/testQueue2");
             System.out.println("Got JMS Endpoint");
             System.out.println(destination.toString());
 
-            jmsContext = connectionFactory.createContext("hornetq", "hornetq");
+            jmsContext = connectionFactory.createContext(Properties.SECURITY_PRINCIPAL, Properties.SECURITY_CREDENTIALS);
             String jsonPaquete = getJsonPaquete(paquete);
             
             TextMessage message = jmsContext.createTextMessage(jsonPaquete);
 
             jmsContext.createProducer().send(destination, message);
-            System.out.println("Sent message");
+            System.out.println("Mensaje Enviado");
+            
+            AdministradorLogs log = new AdministradorLogs();
+            log.enviarLog("Oferta Paquetes", "Portal Web", "Enviar Paquetes", "Envio paquetes exitoso");
+            
         } catch (Exception e) {
+        	AdministradorLogs log = new AdministradorLogs();
+            log.enviarLog("Oferta Paquetes", "Portal Web", "Enviar Paquetes", "Envio paquetes No exitoso");
+        	
             e.printStackTrace();
         } finally {
             if (namingContext != null) {
@@ -298,7 +313,7 @@ public class AdministradorPaquete{
                     	
                         producer.send(message);
 
-                        System.out.println("Message Nuevo Paquete sent! ^__^");
+                        System.out.println("Message Nuevo Paquete enviado! ^__^");
                     }
                     catch(Exception ex){
                     	System.out.println(ex.getMessage());                    	
@@ -323,9 +338,7 @@ public class AdministradorPaquete{
 
 	//http://www.java2s.com/Tutorials/Java/JSON/0100__JSON_Java.htm
 	private String getJsonPaquete(PaqueteDTO paquete){
-         
-		System.out.println("jsonPaquete algo algo");
-		
+
 	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
    			.add("codigo_prestador",paquete.getAgencia().getIdAgenciaBO())/*TODO: poner el id de la agencia del BO*/
    					.add("destino",paquete.getDestino().getNombre())

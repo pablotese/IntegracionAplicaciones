@@ -27,6 +27,6 @@ public interface FacadeEJBRemote {
 	public List<MedioDePagoDTO> getListadoMediosDePago();
 	public void cargarDatosIniciales();
 	
-	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe, String servicio,
 			String observacion);
 }

@@ -221,24 +221,22 @@ public class Agencias extends HttpServlet {
 		urlConnection.setRequestProperty("Content-Type", "application/json");
 		
 		//Armo el json String
-		JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
+		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
 	   			.add("detalle",dto.getNombre())
-	   					.add("tipo","Agencia");
+	   			.add("tipo","Agencia");
 		   				
-		   	JsonObject paqueteJson = paqueteJsonBuilder.build();
+		   	JsonObject agenciaJson = jsonBuilder.build();
 	        StringWriter stringWriter = new StringWriter();
 	        
 	        JsonWriter writer = Json.createWriter(stringWriter);
-	        writer.writeObject(paqueteJson);
+	        writer.writeObject(agenciaJson);
 	        writer.close();
 	        
-	        String json = paqueteJson.toString();
-		
-		
+	        String json = agenciaJson.toString();
 		
 		IOUtils.write(json, urlConnection.getOutputStream());
 		if(urlConnection.getResponseCode() != 200) {
-			throw new RuntimeException("Error de conexi�n: " + urlConnection.getResponseCode());
+			throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
 		}
 		
 		String response = IOUtils.toString(urlConnection.getInputStream());
