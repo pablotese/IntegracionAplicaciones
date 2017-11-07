@@ -25,7 +25,7 @@ public class AdministradorLogs {
 		super();
 	}
 	
-	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long time, String servicio,
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe, String servicio,
 			String observacion){
 		try{
 			
@@ -40,7 +40,6 @@ public class AdministradorLogs {
 		   	JsonObjectBuilder logJsonBuilder = Json.createObjectBuilder()
 		   			.add("plataformaEnvia",plataformaEnvia)
 		   			.add("plataformaRecibe",plataformaRecibe)
-		   			.add("fecha", time)
 		   			.add("servicio",servicio)
 		   			.add("observacion", observacion);
 			   	

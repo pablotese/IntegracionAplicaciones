@@ -114,9 +114,9 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 		return ap.getListadoMediosDePago();
 	}
 	
-	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe,  String servicio,
 			String observacion){
-		log.enviarLog(plataformaEnvia, plataformaRecibe, fecha, servicio, observacion);
+		log.enviarLog(plataformaEnvia, plataformaRecibe, servicio, observacion);
 	}
 
 	@Override
