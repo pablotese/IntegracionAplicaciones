@@ -1,11 +1,15 @@
 package com.ofertaPaquetes.cliente;
 
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.naming.NamingException;
+
+import org.apache.commons.io.IOUtils;
 
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
@@ -71,8 +75,24 @@ public class MiPrueba {
 		
 		System.out.println(paqdto.toString());
 		System.out.println("Test finished!!!!!!!1");
+		
+		try{
+			getServicios();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
-	
+	private static void getServicios() throws Exception
+	{
+		URL url = new URL("http://192.168.0.108:8080/TPO_BO_WEB/rest/ServiciosBO/GetTiposServicios");
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+		if(urlConnection.getResponseCode() != 200) {
+			throw new RuntimeException("Error de conexi�n: " + urlConnection.getResponseCode());
+		}
+		String response = IOUtils.toString(urlConnection.getInputStream());
+		System.out.println("Respuesta: " + response);
+	}
 
 }

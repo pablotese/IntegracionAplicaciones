@@ -1,4 +1,5 @@
 package com.ofertaPaquetes.Agencias;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
@@ -237,7 +238,7 @@ public class Agencias extends HttpServlet {
 		
 		IOUtils.write(json, urlConnection.getOutputStream());
 		if(urlConnection.getResponseCode() != 200) {
-			throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
+			throw new RuntimeException("Error de conexiï¿½n: " + urlConnection.getResponseCode());
 		}
 		
 		String response = IOUtils.toString(urlConnection.getInputStream());
@@ -246,10 +247,10 @@ public class Agencias extends HttpServlet {
 	
 	private void getServicios() throws Exception
 	{
-		URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServicios");
+		URL url = new URL("http://192.168.0.108:8080/TPO_BO_WEB/rest/ServiciosBO/GetTiposServicios");
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		if(urlConnection.getResponseCode() != 200) {
-			throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
+			throw new RuntimeException("Error de conexiï¿½n: " + urlConnection.getResponseCode());
 		}
 		String response = IOUtils.toString(urlConnection.getInputStream());
 		System.out.println("Respuesta: " + response);

@@ -10,6 +10,12 @@ public class PaisDTO implements Serializable {
 	private String nombre;
 	
 	
+	
+	public PaisDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public PaisDTO(String nombre) {
 		super();
 		this.nombre = nombre;

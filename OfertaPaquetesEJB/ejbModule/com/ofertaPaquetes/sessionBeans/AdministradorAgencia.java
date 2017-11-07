@@ -53,6 +53,7 @@ public class AdministradorAgencia {
 			Date d = new Date();
 			Timestamp t=new Timestamp(d.getTime());
 			long time = t.getTime();
+			
 			log.enviarLog("Oferta Paquetes", "Back Office",time, "Crear Agencia", "");
 		}
 		catch(Exception e){
