@@ -252,10 +252,10 @@ public class AdministradorPaquete{
             env.put(Context.SECURITY_CREDENTIALS, Properties.SECURITY_CREDENTIALS);
             namingContext = new InitialContext(env);
 
-            ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup("jms/RemoteConnectionFactory");
+            ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(Properties.CONNECTION_FACTORY_2);
             System.out.println("Got ConnectionFactory");
 
-            Destination destination = (Destination) namingContext.lookup("jms/queue/testQueue2");
+            Destination destination = (Destination) namingContext.lookup(Properties.DESTINATION_2);
             System.out.println("Got JMS Endpoint");
             System.out.println(destination.toString());
 
