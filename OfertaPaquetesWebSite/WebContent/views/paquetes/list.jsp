@@ -55,6 +55,7 @@
         <th>Fecha Regreso</th>
         <th>Estado</th>
         <th>Cupo</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -71,6 +72,7 @@
         <td><%=a.getFechaHasta()%></td>
         <td><%=a.isEstado()%></td>
         <td><%=a.getCupo()%></td>
+        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Paquetes?accion=editar&idPaquete=<%=a.getIdPaquete() %>" id="btnEdit"><span class="glyphicon glyphicon-edit"></span></a></td>
       </tr>
 	<%}%>
     </tbody>

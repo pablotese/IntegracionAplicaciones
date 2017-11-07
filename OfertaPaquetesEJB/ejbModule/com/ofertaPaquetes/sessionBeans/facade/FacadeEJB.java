@@ -9,12 +9,14 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.interfaces.FacadeEJBLocal;
 import com.ofertaPaquetes.interfaces.FacadeEJBRemote;
 import com.ofertaPaquetes.sessionBeans.AdministradorAgencia;
+import com.ofertaPaquetes.sessionBeans.AdministradorDestino;
 import com.ofertaPaquetes.sessionBeans.AdministradorLogs;
 import com.ofertaPaquetes.sessionBeans.AdministradorPaquete;
 
@@ -31,6 +33,9 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	AdministradorPaquete ap;
 	@EJB
 	AdministradorLogs log;
+	
+	@EJB
+	AdministradorDestino ad;
     /**
      * Default constructor. 
      */
@@ -112,6 +117,21 @@ public class FacadeEJB implements FacadeEJBLocal, FacadeEJBRemote {
 	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
 			String observacion){
 		log.enviarLog(plataformaEnvia, plataformaRecibe, fecha, servicio, observacion);
+	}
+
+	@Override
+	public MedioDePagoDTO obtenerMedioPago(int idMedioPago) {
+		return ap.obtenerMedioPago(idMedioPago);
+	}
+
+	@Override
+	public List<DestinoDTO> listarDestinos() {
+		return ad.listarDestinos();
+	}
+
+	@Override
+	public DestinoDTO obtenerDestino(int idDestino) {
+		return ad.obtenerDestino(idDestino);
 	}
 	
 }

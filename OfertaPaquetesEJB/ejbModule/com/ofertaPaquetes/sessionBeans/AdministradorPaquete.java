@@ -219,7 +219,37 @@ public class AdministradorPaquete{
 				DestinoDTO destino = new DestinoDTO(paquete.getDestino().getIdDestino(),paquete.getDestino().getNombre());
 				paq.setDestino(destino);
 			}
-
+			
+			List<MedioDePagoDTO> mediosPagoDTOs = new ArrayList<MedioDePagoDTO>();
+			if(paquete.getMediosDePago() != null && paquete.getMediosDePago().size() > 0)
+			{
+				for(MedioDePago mp : paquete.getMediosDePago())
+				{
+					MedioDePagoDTO dto = new MedioDePagoDTO();
+					dto.setIdMedioDePago(mp.getIdMedioDePago());
+					dto.setNombre(mp.getNombre());
+					mediosPagoDTOs.add(dto);
+				}
+			}
+			
+			List<PaqueteServicioDTO> serviciosDTOs = new ArrayList<PaqueteServicioDTO>();
+			List<PaqueteServicio> servicios = manager.createQuery(" FROM PaqueteServicio PS WHERE PS.idPaquete =:id ").setParameter("id", paquete.getIdPaquete()).getResultList();
+			
+			if(servicios != null && servicios.size() > 0)
+			{
+				PaqueteServicioDTO dto;
+				for(PaqueteServicio ps : servicios)
+				{
+					dto = new PaqueteServicioDTO();
+					dto.setIdPaquete(ps.getIdPaquete());
+					dto.setIdServicio(ps.getIdServicio());
+					dto.setNombreServicio(ps.getNombreServicio());
+					serviciosDTOs.add(dto);	
+				}
+			}
+			
+			paq.setServicios(serviciosDTOs);
+			paq.setMediosDePago(mediosPagoDTOs);
 			paq.setImagen(paquete.getImagen());
 
 			/*Servicios*/
@@ -424,6 +454,23 @@ public class AdministradorPaquete{
 		return null;
 	}
 	
+	public MedioDePagoDTO obtenerMedioPago(int idMedioPago)
+	{
+		try{
+			MedioDePago medioPago = manager.find(MedioDePago.class, idMedioPago);
+			MedioDePagoDTO dto = new MedioDePagoDTO();
+			dto.setIdMedioDePago(medioPago.getIdMedioDePago());
+			dto.setNombre(medioPago.getNombre());
+
+			return dto;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al obtener paquete");
+		}
+		return null;
+	}
+	
 	
 	public void cargarDatosIniciales(){
 		try{
@@ -466,6 +513,37 @@ public class AdministradorPaquete{
 			listaProv.add(new Provincia(22,"Santa Fe"));
 			listaProv.add(new Provincia(23,"Santiago Del Estero"));
 			listaProv.add(new Provincia(24,"Tucuman"));
+			
+			//Destinos
+			List<Destino> listaDest = new ArrayList<Destino>();
+			listaDest.add(new Destino("Buenos Aires"));
+			listaDest.add(new Destino("Ciudad Autonoma de Buenos Aires"));
+			listaDest.add(new Destino("Chaco"));
+			listaDest.add(new Destino("Catamarca"));
+			listaDest.add(new Destino("Chubut"));
+			listaDest.add(new Destino("Cordoba"));
+			listaDest.add(new Destino("Corrientes"));
+			listaDest.add(new Destino("Entre Rios"));
+			listaDest.add(new Destino("Formosa"));
+			listaDest.add(new Destino("Jujuy"));
+			listaDest.add(new Destino("La Pampa"));
+			listaDest.add(new Destino("La Rioja"));
+			listaDest.add(new Destino("Mendoza"));
+			listaDest.add(new Destino("Misiones"));
+			listaDest.add(new Destino("Neuquen"));
+			listaDest.add(new Destino("Rio Negro"));
+			listaDest.add(new Destino("Salta"));
+			listaDest.add(new Destino("San Juan"));
+			listaDest.add(new Destino("San Luis"));
+			listaDest.add(new Destino("Santa Cruz"));
+			listaDest.add(new Destino("Santa Fe"));
+			listaDest.add(new Destino("Santiago Del Estero"));
+			listaDest.add(new Destino("Tucuman"));
+			
+			for(Destino d : listaDest)
+			{
+				manager.persist(d);
+			}
 			
 			for(Provincia prov:listaProv){
 				manager.persist(prov);

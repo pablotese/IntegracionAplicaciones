@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
@@ -25,7 +26,11 @@ public interface FacadeEJBRemote {
 	
 	public List<ProvinciaDTO> getListadoProvincias();
 	public List<MedioDePagoDTO> getListadoMediosDePago();
+	public MedioDePagoDTO obtenerMedioPago(int idMedioPago);
 	public void cargarDatosIniciales();
+	
+	public List<DestinoDTO> listarDestinos();
+	public DestinoDTO obtenerDestino(int idDestino);
 	
 	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
 			String observacion);
