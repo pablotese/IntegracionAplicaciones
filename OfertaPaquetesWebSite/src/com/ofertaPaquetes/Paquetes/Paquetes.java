@@ -2,17 +2,27 @@ package com.ofertaPaquetes.Paquetes;
 
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
@@ -51,10 +61,14 @@ public class Paquetes extends HttpServlet {
 		
 		if(accion != null && accion.equals("crear"))
 		{
-			List<AgenciaDTO> agencias = bd.listarAgencias();
-			request.setAttribute("listAgencias", agencias);
-			request.setAttribute("listServicios", getServiciosList());
-			request.setAttribute("listDestinos", getDestinosList());
+			try {
+				List<AgenciaDTO> agencias = bd.listarAgencias();
+				request.setAttribute("listAgencias", agencias);
+				request.setAttribute("listServicios", getServiciosList());
+				request.setAttribute("listDestinos", getDestinosList());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			rd = request.getRequestDispatcher("/views/paquetes/create.jsp");
 		}
@@ -125,17 +139,32 @@ public class Paquetes extends HttpServlet {
 		response.sendRedirect("/OfertaPaquetesWebSite/Paquetes");
 	}
 	
-	private List<PaqueteServicioDTO> getServiciosList()
+	private List<PaqueteServicioDTO> getServiciosList() throws Exception
 	{
 		List<PaqueteServicioDTO> ret = new ArrayList<PaqueteServicioDTO>();
 		
-		PaqueteServicioDTO serv = new PaqueteServicioDTO(1,"wifi");
-		//serv.setIdTipoServicio(1);
-		ret.add(serv);
+		//Llamada a BO
+		URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServicios");
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+		if(urlConnection.getResponseCode() != 200) {
+			throw new RuntimeException("Error de conexi�n: " + urlConnection.getResponseCode());
+		}
+		String response = IOUtils.toString(urlConnection.getInputStream());
+		System.out.println("Respuesta: " + response);
 		
-		serv = new PaqueteServicioDTO(2,"servicio 2");
-		//serv.setIdTipoServicio(3);
-		ret.add(serv);
+		JsonReader jsonReader = Json.createReader(new StringReader(response));
+		JsonArray jsonArray = jsonReader.readArray();
+		jsonReader.close();
+		
+		for(JsonValue json : jsonArray)
+		{
+			JsonObject obj = (JsonObject)json;
+			PaqueteServicioDTO dto = new PaqueteServicioDTO();
+			dto.setNombreServicio(obj.getString("nombre"));
+			dto.setIdServicio(obj.getInt("id"));
+			ret.add(dto);
+		}
+		
 		return ret;
 	}
 	
