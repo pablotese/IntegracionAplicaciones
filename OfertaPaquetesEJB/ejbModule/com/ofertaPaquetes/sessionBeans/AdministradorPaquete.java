@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.jms.JMSContext;
 import javax.jms.MessageProducer;
 import javax.jms.QueueConnection;
 import javax.jms.QueueSession;
@@ -22,6 +23,9 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -228,13 +232,71 @@ public class AdministradorPaquete{
 		return null;
 	}
 
+	private void sendToPortalWeb(PaqueteDTO paquete) throws NamingException{
+		System.out.println("ACAAA");
+		Context namingContext = null;
+        JMSContext jmsContext = null;
+        try {
+            final java.util.Properties env = new java.util.Properties();
+            env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
+            env.put(Context.PROVIDER_URL, "http-remoting://192.168.0.100:8080"); // Cambiar por IP remota aca
+            env.put(Context.SECURITY_PRINCIPAL, "hornetq");
+            env.put(Context.SECURITY_CREDENTIALS, "hornetq");
+            namingContext = new InitialContext(env);
+
+            ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup("jms/RemoteConnectionFactory");
+            System.out.println("Got ConnectionFactory");
+
+            Destination destination = (Destination) namingContext.lookup("jms/queue/ofertasHotel");
+            System.out.println("Got JMS Endpoint");
+            System.out.println(destination.toString());
+
+            jmsContext = connectionFactory.createContext("hornetq", "hornetq");
+
+            TextMessage message = jmsContext.createTextMessage("{" +
+                    "\"codigo_prestador\": \"OH_1_1\", " +
+                    "\"nombre\": \"Dazzler\", " +
+                    "\"destino\": \"Miami\", " +
+                    "\"fecha_desde\": \"20170920\", " +
+                    "\"fecha_hasta\": \"20170920\", " +
+                    "\"cantidad_personas\": 1, " +
+                    "\"foto_hotel\": \"http://www3.hilton.com/resources/media/hi/MLAHITW/en_US/img/shared/full_page_image_gallery/main/HL_exterior01_1270x560_FitToBoxSmallDimension_Center.jpg\", " +
+                    "\"descripcion_hotel\": \"Descripcion Hotel\", " +
+                    "\"lista_servicios\": [\"Wifi\", \"Frigo Bar\"], " +
+                    "\"precio_habitacion\": 10.5, " +
+                    "\"foto_habitacion\": \"http://www3.hilton.com/resources/media/hi/MLAHITW/en_US/img/shared/full_page_image_gallery/main/HL_exterior01_1270x560_FitToBoxSmallDimension_Center.jpg\", " +
+                    "\"descripcion_habitacion\": \"Descripcion\", " +
+                    "\"lista_servicios_habitacion\": [\"Wifi\", \"Frigo Bar\"], " +
+                    "\"latitud\": -34.606299, " +
+                    "\"longitud\": -58.364667, " +
+                    "\"politica_cancelacion\": \"Politica de cancelacion\", " +
+                    "\"medio_pago_hotel\": [1,2,3], " +
+                    "\"email_hotel\": \"email@hotel.com\", " +
+                    "\"cupo\": 10 " +
+                    "}");
+
+            jmsContext.createProducer().send(destination, message);
+            System.out.println("Sent message");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (namingContext != null) {
+                namingContext.close();
+            }
+            if (jmsContext != null) {
+                jmsContext.close();
+            }
+        }
+    }
+	
 
 	/** Enviar Paquete a BO - JMS **/
-	private void sendToPortalWeb(PaqueteDTO paquete) {
+	private void sendToPortalWeb2(PaqueteDTO paquete) {
 
 		System.out.println("sendToPortalWeb");
 		
         try {
+        	
             //Authentication info can be omitted if we are using in-vm
             // dana QueueConnection connection = (QueueConnection) connectionFactory.createConnection("myUser","myPassword");
         	QueueConnection connection = (QueueConnection) connectionFactory.createConnection(Properties.CONNECTION_FACTORY_USER,Properties.CONNECTION_FACTORY_PASSWORD);
