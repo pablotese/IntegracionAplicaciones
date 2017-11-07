@@ -209,10 +209,10 @@ public class BusinessDelegate {
 		}
 	}
 	
-	public void enviarLog(String plataformaEnvia, String plataformaRecibe, long fecha, String servicio,
+	public void enviarLog(String plataformaEnvia, String plataformaRecibe, String servicio,
 			String observacion){
 		try{
-			stub.enviarLog(plataformaEnvia, plataformaRecibe, fecha, servicio, observacion);
+			stub.enviarLog(plataformaEnvia, plataformaRecibe, servicio, observacion);
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -47,7 +47,7 @@ public class MiPrueba {
 		
 		/*Test Paquetes*/
 		//PaqueteDTO paquete = new PaqueteDTO("Paquete 1",new Date(),new Date(),"Descripcion paquete 1",220D,"",10,12,false,true);
-		
+	
 		List<AgenciaDTO> agenciasDto =  bd.listarAgencias();
 		AgenciaDTO agencia = new AgenciaDTO(agenciasDto.get(0).getIdAgencia());
 		DestinoDTO destino = new DestinoDTO(1, "Miami");
@@ -74,25 +74,10 @@ public class MiPrueba {
 		PaqueteDTO paqdto = bd.obtenerPaquete(paquetesDto.get(0).getIdPaquete());
 		
 		System.out.println(paqdto.toString());
-		System.out.println("Test finished!!!!!!!1");
-		
-		try{
-			getServicios();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		System.out.println("Test finished!!!!!!!");
+
+
 	}
 	
-	private static void getServicios() throws Exception
-	{
-		URL url = new URL("http://192.168.0.108:8080/TPO_BO_WEB/rest/ServiciosBO/GetTiposServicios");
-		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		if(urlConnection.getResponseCode() != 200) {
-			throw new RuntimeException("Error de conexi�n: " + urlConnection.getResponseCode());
-		}
-		String response = IOUtils.toString(urlConnection.getInputStream());
-		System.out.println("Respuesta: " + response);
-	}
 
 }

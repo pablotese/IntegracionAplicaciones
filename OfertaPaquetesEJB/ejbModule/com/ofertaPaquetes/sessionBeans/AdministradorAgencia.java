@@ -1,6 +1,9 @@
 package com.ofertaPaquetes.sessionBeans;
 
 
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,8 +11,14 @@ import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonWriter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.apache.commons.io.IOUtils;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
@@ -19,6 +28,7 @@ import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Paquete;
 import com.ofertaPaquetes.entities.Provincia;
+import com.ofertaPaquetes.util.Properties;
 
 /**
  * Session Bean implementation class AdministradorTareas
@@ -49,17 +59,17 @@ public class AdministradorAgencia {
 			agencia.setIdAgenciaBO(agenciaDto.getIdAgenciaBO());
 			manager.persist(agencia);
 			
-			AdministradorLogs log = new AdministradorLogs();
-			Date d = new Date();
-			Timestamp t=new Timestamp(d.getTime());
-			long time = t.getTime();
+			AdministradorLogs log = new AdministradorLogs();					
+			log.enviarLog("Oferta Paquetes", "Oferta Paquetes","Crear Agencia", "Creacion Exitosa");
 			
-			log.enviarLog("Oferta Paquetes", "Back Office",time, "Crear Agencia", "");
+			postAgencias(agenciaDto);
 		}
 		catch(Exception e){
 			System.out.println("--------------Error al guardar Agencia------------");
 			e.printStackTrace();
 			
+			AdministradorLogs log = new AdministradorLogs();					
+			log.enviarLog("Oferta Paquetes", "Oferta Paquetes","Crear Agencia", "Creacion No Exitosa");
 		}
 	}
 	
@@ -186,5 +196,53 @@ public class AdministradorAgencia {
 			System.out.println("Error al obtener agencia "+ idAgencia);
 		}
 		return null;
+	}
+	
+	private String postAgencias(AgenciaDTO dto)
+	{
+		try{
+			System.out.println("Enviar Agencia");
+			URL url = new URL(Properties.URL_POST_AGENCIA);
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setDoOutput(true);
+			urlConnection.setRequestMethod("POST");
+			urlConnection.setRequestProperty("Content-Type", "application/json");
+			
+			//Armo el json String
+			JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
+		   			.add("detalle",dto.getNombre())
+		   			.add("tipo","Agencia");
+			   				
+			   	JsonObject agenciaJson = jsonBuilder.build();
+		        StringWriter stringWriter = new StringWriter();
+		        
+		        JsonWriter writer = Json.createWriter(stringWriter);
+		        writer.writeObject(agenciaJson);
+		        writer.close();
+		        
+		        String json = agenciaJson.toString();
+			
+			IOUtils.write(json, urlConnection.getOutputStream());
+			if(urlConnection.getResponseCode() != 200) {
+				
+				AdministradorLogs log = new AdministradorLogs();
+				String observacion = "Response code: "+urlConnection.getResponseCode();
+				log.enviarLog("Oferta Paquetes", "Back Office", "EnviarSolicitud",observacion);
+				
+				throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
+			}
+			
+			String response = IOUtils.toString(urlConnection.getInputStream());
+			System.out.println(response);
+			return response;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Error al querer enviar solicitud de agencia");
+			
+			AdministradorLogs log = new AdministradorLogs();
+			log.enviarLog("Oferta Paquetes", "Back Office", "EnviarSolicitud", e.getMessage());
+		}
+		return "error";
 	}
 }
