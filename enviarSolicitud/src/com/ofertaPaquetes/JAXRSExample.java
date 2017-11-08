@@ -2,6 +2,7 @@ package com.ofertaPaquetes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.ws.rs.*;
 
@@ -15,6 +16,7 @@ import com.ofertaPaquetes.jsons.EstadoSolicitudJSONRequest;
 import com.ofertaPaquetes.jsons.LogJSON;
 import com.ofertaPaquetes.jsons.ServicioJSON;
 import com.ofertaPaquetes.jsons.TipoServicioJSON;
+import com.ofertaPaquetes.jsons.TipoServicioJSONRequest;
 
 @Path("/service")
 public class JAXRSExample {
@@ -39,13 +41,37 @@ public class JAXRSExample {
 		return null;
 	}
 	
+	
+	@POST
+	@Path("/GetServiciosPorTipo")
+	@Produces({"application/json"})
+	public List<ServicioJSON> getServiciosPorTipo(TipoServicioJSONRequest request) {
+		try{
+			System.out.println("Solicitud servicios por tipo : " + request.getNombre());
+			List<ServicioJSON> test=new ArrayList<ServicioJSON>();
+			test.add(new ServicioJSON(1,new TipoServicioJSON(1,"Habitacion"),"wifi"));
+			test.add(new ServicioJSON(2,new TipoServicioJSON(1,"Habitacion"),"despertador"));
+			test.add(new ServicioJSON(3,new TipoServicioJSON(2,"Transporte"),"wifi"));
+			return test;
+		}
+		catch(Exception e){
+			System.out.println("Fallo");
+			e.printStackTrace();
+			
+		}
+		return null;
+	}
+	
+	
 	@POST 
 	@Path("/EnviarSolicitud") 
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	public EstadoSolicitudJSON enviarSolicitud(EstadoSolicitudJSONRequest request) {
 		try {
-			EstadoSolicitudJSON json = new EstadoSolicitudJSON(123,request.getTipo(),request.getDetalle(),"Pendiente");
+			Random rand = new Random();
+			int  n = rand.nextInt(50) + 1;
+			EstadoSolicitudJSON json = new EstadoSolicitudJSON(n,request.getTipo(),request.getDetalle(),"Pendiente");
 			return json;
 		}
 		catch(Exception e){

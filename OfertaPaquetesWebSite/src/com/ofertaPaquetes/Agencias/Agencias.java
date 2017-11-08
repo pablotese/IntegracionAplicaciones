@@ -153,13 +153,7 @@ public class Agencias extends HttpServlet {
 					}
 					
 					viewModel.setProvincia(dtoProv);
-					
-					
-					//Llamada a servicio de BO para solicitud de ID de agencia global.
-					String serviceResponse = postAgencias(viewModel);
-				
-					int idBO = Integer.parseInt(serviceResponse);
-					viewModel.setIdAgenciaBO(idBO);
+
 					
 					bd.nuevaAgencia(viewModel);
 				}
@@ -208,37 +202,6 @@ public class Agencias extends HttpServlet {
 			//TODO: SHOW MODAL ERROR OR ERROR PAGE
 			e.printStackTrace();
 		}
-	}
-	
-	private String postAgencias(AgenciaDTO dto) throws Exception
-	{
-		URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/EnviarSolicitud");
-		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		urlConnection.setDoOutput(true);
-		urlConnection.setRequestMethod("POST");
-		urlConnection.setRequestProperty("Content-Type", "application/json");
-		
-		//Armo el json String
-		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
-	   			.add("detalle",dto.getNombre())
-	   			.add("tipo","Agencia");
-		   				
-		   	JsonObject agenciaJson = jsonBuilder.build();
-	        StringWriter stringWriter = new StringWriter();
-	        
-	        JsonWriter writer = Json.createWriter(stringWriter);
-	        writer.writeObject(agenciaJson);
-	        writer.close();
-	        
-	        String json = agenciaJson.toString();
-		
-		IOUtils.write(json, urlConnection.getOutputStream());
-		if(urlConnection.getResponseCode() != 200) {
-			throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
-		}
-		
-		String response = IOUtils.toString(urlConnection.getInputStream());
-		return response;
 	}
 	
 }
