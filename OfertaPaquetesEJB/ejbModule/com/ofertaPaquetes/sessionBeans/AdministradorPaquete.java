@@ -94,6 +94,13 @@ public class AdministradorPaquete{
 			manager.persist(paq);
 			manager.flush();
 			
+			/*Imagenes*/
+			Imagen img = new Imagen();
+			img.setPaquete(paq);
+			img.setImagen(paquete.getImagen());
+			
+			manager.persist(img);
+			manager.flush();
 			
 			
 			/*Servicios*/

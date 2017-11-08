@@ -16,7 +16,7 @@ public class Imagen {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idImagen;
 	
-	private byte[] imagen;
+	private String imagen;
 	
 	@ManyToOne
 	@JoinColumn(name="idPaquete")
@@ -24,12 +24,12 @@ public class Imagen {
 
 	
 	
-	public Imagen(byte[] imagen) {
+	public Imagen(String imagen) {
 		super();
 		this.imagen = imagen;
 	}
 
-	public Imagen(byte[] imagen, Paquete paquete) {
+	public Imagen(String imagen, Paquete paquete) {
 		super();
 		this.imagen = imagen;
 		this.paquete = paquete;
@@ -43,11 +43,11 @@ public class Imagen {
 		this.idImagen = idImagen;
 	}
 
-	public byte[] getImagen() {
+	public String getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(byte[] imagen) {
+	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 

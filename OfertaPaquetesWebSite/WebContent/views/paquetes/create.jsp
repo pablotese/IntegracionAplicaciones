@@ -81,7 +81,7 @@
   <h2>Agregar paquetes</h2>
   <p>Formulario para la carga de paquetes al sistema.</p>                                                                                      
   
-  <form id="frmPaquetes" method="post">
+  <form id="frmPaquetes" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label>Nombre:</label>
     <input class="form-control" id="nombre" name="nombre" required>
@@ -146,7 +146,7 @@
   
   <div class="form-group">
 	<label>Foto:</label>
-	<!-- <input class="form-control" id="foto" name="foto" type="file" accept="image/*" required> -->
+	 <input class="form-control" id="foto" name="foto" type="file" accept="image/*" required>
   </div>
   <div class="row">
   

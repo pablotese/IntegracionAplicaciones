@@ -2,8 +2,8 @@ package com.ofertaPaquetes.util;
 
 public class Properties {
 	// Properties Mensajeria local
-	public static final String DESTINATION = "java:jboss/exported/jms/queue/testQueue2";
-	public static final String DESTINATION_2 = "jms/queue/testQueue2";
+	public static final String DESTINATION = "java:jboss/exported/jms/queue/testQueue";
+	public static final String DESTINATION_2 = "jms/queue/testQueue";
 	public static final String CONNECTION_FACTORY="java:jboss/exported/jms/RemoteConnectionFactory";
 	public static final String CONNECTION_FACTORY_2="jms/RemoteConnectionFactory";
 	public static final String CONNECTION_FACTORY_USER = "myUser";

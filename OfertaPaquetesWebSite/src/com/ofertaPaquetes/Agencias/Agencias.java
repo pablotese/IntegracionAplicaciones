@@ -158,8 +158,8 @@ public class Agencias extends HttpServlet {
 					//Llamada a servicio de BO para solicitud de ID de agencia global.
 					String serviceResponse = postAgencias(viewModel);
 				
-					int idBO = Integer.parseInt(serviceResponse);
-					viewModel.setIdAgenciaBO(idBO);
+					//int idBO = Integer.parseInt(serviceResponse);
+					//viewModel.setIdAgenciaBO(idBO);
 					
 					bd.nuevaAgencia(viewModel);
 				}
