@@ -111,6 +111,7 @@ public class Paquetes extends HttpServlet {
 						request.setAttribute("precio", dto.getPrecio());
 						request.setAttribute("idAgencia", dto.getAgencia().getIdAgencia());
 						request.setAttribute("idDestino", dto.getDestino().getIdDestino());
+						request.setAttribute("img", dto.getImagen());
 						
 						//Seteo medios de pago
 						List<Integer> lstMediosPagos = new ArrayList<Integer>(); 
@@ -238,6 +239,7 @@ public class Paquetes extends HttpServlet {
 		        
 		        	Part foto = request.getPart("foto");
 		            String fileName = extractFileName(foto);
+		            fileName = fileName.replace(" ", "_");
 
 		            fileName = new File(fileName).getName();
 		            String basePath = "http://localhost:8080/OfertaPaquetesWebSite/fotos";

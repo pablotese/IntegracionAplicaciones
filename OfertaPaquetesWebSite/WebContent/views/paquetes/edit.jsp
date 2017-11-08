@@ -182,6 +182,7 @@
   <div class="form-group">
 	<label>Foto:</label>
 	<!-- <input class="form-control" id="foto" name="foto" type="file" accept="image/*" required> -->
+	<img src=<%= request.getAttribute("img") %> />
   </div>
   <div class="row">
   

@@ -39,7 +39,6 @@ import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Destino;
-import com.ofertaPaquetes.entities.Imagen;
 import com.ofertaPaquetes.entities.MedioDePago;
 import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Paquete;
@@ -90,16 +89,10 @@ public class AdministradorPaquete{
 				}
 			paq.setMediosDePago(lmediosDePago);
 			}
+			/*Imagenes*/
+			paq.setImagen(paquete.getImagen());
 			
 			manager.persist(paq);
-			manager.flush();
-			
-			/*Imagenes*/
-			Imagen img = new Imagen();
-			img.setPaquete(paq);
-			img.setImagen(paquete.getImagen());
-			
-			manager.persist(img);
 			manager.flush();
 			
 			
