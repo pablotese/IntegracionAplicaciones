@@ -15,6 +15,7 @@ import com.ofertaPaquetes.jsons.EstadoSolicitudJSONRequest;
 import com.ofertaPaquetes.jsons.LogJSON;
 import com.ofertaPaquetes.jsons.ServicioJSON;
 import com.ofertaPaquetes.jsons.TipoServicioJSON;
+import com.ofertaPaquetes.jsons.TipoServicioJSONRequest;
 
 @Path("/service")
 public class JAXRSExample {
@@ -38,6 +39,28 @@ public class JAXRSExample {
 		}
 		return null;
 	}
+	
+	
+	@POST
+	@Path("/GetServiciosPorTipo")
+	@Produces({"application/json"})
+	public List<ServicioJSON> getServiciosPorTipo(TipoServicioJSONRequest request) {
+		try{
+			System.out.println("Solicitud servicios por tipo : " + request.getNombre());
+			List<ServicioJSON> test=new ArrayList<ServicioJSON>();
+			test.add(new ServicioJSON(1,new TipoServicioJSON(1,"Habitacion"),"wifi"));
+			test.add(new ServicioJSON(2,new TipoServicioJSON(1,"Habitacion"),"despertador"));
+			test.add(new ServicioJSON(3,new TipoServicioJSON(2,"Transporte"),"wifi"));
+			return test;
+		}
+		catch(Exception e){
+			System.out.println("Fallo");
+			e.printStackTrace();
+			
+		}
+		return null;
+	}
+	
 	
 	@POST 
 	@Path("/EnviarSolicitud") 

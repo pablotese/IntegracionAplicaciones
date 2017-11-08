@@ -44,9 +44,8 @@ public class Agencia {
 	@JoinColumn(name="idPais")
 	private Pais pais;
 
-	@OneToMany(mappedBy="agencia")
+	@OneToMany(mappedBy="agencia"/*, cascade = CascadeType.REMOVE, orphanRemoval = true*/)
 	private List<Paquete> paquetes;
-
 	
 	
 	public Agencia() {
