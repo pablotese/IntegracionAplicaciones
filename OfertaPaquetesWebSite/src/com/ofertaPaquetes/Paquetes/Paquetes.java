@@ -1,6 +1,7 @@
 package com.ofertaPaquetes.Paquetes;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -17,10 +18,12 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 
@@ -38,6 +41,9 @@ import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
  * Servlet implementation class paquetes
  */
 @WebServlet("/Paquetes")
+@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
+					maxFileSize=1024*1024*10,      // 10MB
+					maxRequestSize=1024*1024*50)   // 50MB
 public class Paquetes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private List<PaqueteDTO> _paquetes = new ArrayList<PaqueteDTO>();
@@ -105,6 +111,7 @@ public class Paquetes extends HttpServlet {
 						request.setAttribute("precio", dto.getPrecio());
 						request.setAttribute("idAgencia", dto.getAgencia().getIdAgencia());
 						request.setAttribute("idDestino", dto.getDestino().getIdDestino());
+						request.setAttribute("img", dto.getImagen());
 						
 						//Seteo medios de pago
 						List<Integer> lstMediosPagos = new ArrayList<Integer>(); 
@@ -216,7 +223,30 @@ public class Paquetes extends HttpServlet {
 			 //nuevoPaquete.setImagen(imagenes.get(0).ge);
 			 //TODO: guardar una URL a la imagen, que guardamos en un server local primero.
 			 //Cuando se ejecuta el env�o por JMS la ponemos en un server remoto
-			 nuevoPaquete.setImagen("Fotito.JPG");
+			 
+			 
+			 	// gets absolute path of the web application
+		        String appPath = request.getServletContext().getRealPath("");
+		        // constructs path of the directory to save uploaded file
+		        String savePath = appPath + File.separator + "fotos";
+		         
+		        // creates the save directory if it does not exists
+		        File fileSaveDir = new File(savePath);
+		        if (!fileSaveDir.exists()) {
+		            fileSaveDir.mkdir();
+		        }
+		         
+		        
+		        	Part foto = request.getPart("foto");
+		            String fileName = extractFileName(foto);
+		            fileName = fileName.replace(" ", "_");
+
+		            fileName = new File(fileName).getName();
+		            String basePath = "http://localhost:8080/OfertaPaquetesWebSite/fotos";
+		            foto.write(savePath + "/" + fileName);
+		        
+			 
+		            nuevoPaquete.setImagen(basePath + File.separator + fileName);
 			 
 			 //Persistencia
 			 bd.nuevoPaquete(nuevoPaquete);
@@ -273,5 +303,16 @@ public class Paquetes extends HttpServlet {
 		
 		return null;
 	}
+	
+	private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length()-1);
+            }
+        }
+        return "";
+    }
 
 }
