@@ -530,37 +530,6 @@ public class AdministradorPaquete{
 			listaProv.add(new Provincia(23,"Santiago Del Estero"));
 			listaProv.add(new Provincia(24,"Tucuman"));
 			
-			//Destinos
-			List<Destino> listaDest = new ArrayList<Destino>();
-			listaDest.add(new Destino("Buenos Aires"));
-			listaDest.add(new Destino("Ciudad Autonoma de Buenos Aires"));
-			listaDest.add(new Destino("Chaco"));
-			listaDest.add(new Destino("Catamarca"));
-			listaDest.add(new Destino("Chubut"));
-			listaDest.add(new Destino("Cordoba"));
-			listaDest.add(new Destino("Corrientes"));
-			listaDest.add(new Destino("Entre Rios"));
-			listaDest.add(new Destino("Formosa"));
-			listaDest.add(new Destino("Jujuy"));
-			listaDest.add(new Destino("La Pampa"));
-			listaDest.add(new Destino("La Rioja"));
-			listaDest.add(new Destino("Mendoza"));
-			listaDest.add(new Destino("Misiones"));
-			listaDest.add(new Destino("Neuquen"));
-			listaDest.add(new Destino("Rio Negro"));
-			listaDest.add(new Destino("Salta"));
-			listaDest.add(new Destino("San Juan"));
-			listaDest.add(new Destino("San Luis"));
-			listaDest.add(new Destino("Santa Cruz"));
-			listaDest.add(new Destino("Santa Fe"));
-			listaDest.add(new Destino("Santiago Del Estero"));
-			listaDest.add(new Destino("Tucuman"));
-			
-			for(Destino d : listaDest)
-			{
-				manager.persist(d);
-			}
-			
 			for(Provincia prov:listaProv){
 				manager.persist(prov);
 			}
