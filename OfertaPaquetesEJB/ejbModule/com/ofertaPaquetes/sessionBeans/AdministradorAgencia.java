@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.io.IOUtils;
+import org.hornetq.utils.json.JSONObject;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.PaisDTO;
@@ -56,13 +57,15 @@ public class AdministradorAgencia {
 		try{
 			Provincia provincia = manager.find(Provincia.class, agenciaDto.getProvincia().getIdProvincia());
 			agencia.setProvincia(provincia);
-			agencia.setIdAgenciaBO(agenciaDto.getIdAgenciaBO());
+						
+			int idAgenciaBO = postAgencias(agenciaDto);
+			agencia.setIdAgenciaBO(idAgenciaBO);
+
 			manager.persist(agencia);
 			
 			AdministradorLogs log = new AdministradorLogs();					
 			log.enviarLog("Oferta Paquetes", "Oferta Paquetes","Crear Agencia", "Creacion Exitosa");
 			
-			postAgencias(agenciaDto);
 		}
 		catch(Exception e){
 			System.out.println("--------------Error al guardar Agencia------------");
@@ -198,7 +201,7 @@ public class AdministradorAgencia {
 		return null;
 	}
 	
-	private String postAgencias(AgenciaDTO dto)
+	private int postAgencias(AgenciaDTO dto)
 	{
 		try{
 			System.out.println("Enviar Agencia");
@@ -233,8 +236,10 @@ public class AdministradorAgencia {
 			}
 			
 			String response = IOUtils.toString(urlConnection.getInputStream());
-			System.out.println(response);
-			return response;
+
+			JSONObject jsonObj = new JSONObject(response);
+			int id = jsonObj.getInt("id");
+			return id;
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -243,6 +248,6 @@ public class AdministradorAgencia {
 			AdministradorLogs log = new AdministradorLogs();
 			log.enviarLog("Oferta Paquetes", "Back Office", "EnviarSolicitud", e.getMessage());
 		}
-		return "error";
+		return 0;
 	}
 }
