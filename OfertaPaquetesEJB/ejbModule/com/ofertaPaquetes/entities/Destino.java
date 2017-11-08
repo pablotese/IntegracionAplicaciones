@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="Destinos")
 public class Destino {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idDestino;
 
 	private String nombre;
@@ -22,9 +22,10 @@ public class Destino {
 	private List<Paquete> paquetes;
 	
 	
-	public Destino(String nombre) {
+	public Destino(int idDestino, String nombre) {
 		super();
 		this.nombre = nombre;
+		this.idDestino=idDestino;
 	}
 
 	public int getIdDestino() {
