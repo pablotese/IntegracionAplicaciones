@@ -140,7 +140,7 @@ public class Paquetes extends HttpServlet {
 				catch(Exception ex)
 				{
 					ex.printStackTrace();
-					request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su petición.");
+					request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticiï¿½n.");
 					rd = request.getRequestDispatcher("/error.jsp");
 				}
 			}
@@ -153,7 +153,7 @@ public class Paquetes extends HttpServlet {
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su petición.");
+			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticiï¿½n.");
 			rd = request.getRequestDispatcher("/error.jsp");
 		}
 		
@@ -209,8 +209,8 @@ public class Paquetes extends HttpServlet {
 			 }
 			 
 			 //"Obtengo" el destino
-			 DestinoDTO dest = new DestinoDTO(Integer.parseInt(request.getParameter("destino")));
-			 
+			 DestinoDTO dest =bd.obtenerDestino(Integer.parseInt(request.getParameter("destino")));
+
 			 //Obtengo la agencia
 			 AgenciaDTO agen = bd.obtenerAgencia(Integer.parseInt(request.getParameter("agencia")));
 		
@@ -254,7 +254,7 @@ public class Paquetes extends HttpServlet {
 		 catch(Exception ex)
 		 {
 			ex.printStackTrace();
-			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su petición.");
+			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticiï¿½n.");
 			rd = request.getRequestDispatcher("/views/error.jsp");
 			rd.forward(request, response);
 		 }

@@ -107,6 +107,7 @@ public class AdministradorPaquete{
 			paquete.getAgencia().setEmail(agencia.getEmail());
 			paquete.getAgencia().setIdAgenciaBO(agencia.getIdAgenciaBO());
 			
+			
 			AdministradorLogs log = new AdministradorLogs();
 			log.enviarLog("Oferta Paquete", "Oferta Paquete", "Alta Paquete", "Creacion Exitosa");
 			
@@ -370,19 +371,19 @@ public class AdministradorPaquete{
 	private String getJsonPaquete(PaqueteDTO paquete){
 
 	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
-   			.add("codigo_prestador",paquete.getAgencia().getIdAgenciaBO())/*TODO: poner el id de la agencia del BO*/
-   					.add("destino",paquete.getDestino().getNombre())
-   					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
-   					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
-   					.add("cantidad_personas_paquete",paquete.getCantPersonas())
-   					.add("foto_paquete",paquete.getImagen()) /*Poner una sola imagen, con la URL*/
-   					.add("descripcion_paquete",paquete.getDescripcion())
-   					.add("precio", paquete.getPrecio())
-   					.add("latitud",paquete.getLatitud())
-   					.add("longitud",paquete.getLongitud())
-   					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
-   					.add("mail_agencia",paquete.getAgencia().getEmail())
-   					.add("cupo_paquete", paquete.getCupo());//.build();
+	   			.add("codigo_prestador",String.valueOf(paquete.getAgencia().getIdAgenciaBO()))/*TODO: poner el id de la agencia del BO*/
+					.add("destino",String.valueOf(paquete.getDestino().getNombre()))
+					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
+					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
+					.add("cantidad_personas_paquete",paquete.getCantPersonas())
+					.add("foto_paquete",String.valueOf(paquete.getImagen())) /*Poner una sola imagen, con la URL*/
+					.add("descripcion_paquete",paquete.getDescripcion())
+					.add("precio", paquete.getPrecio())
+					.add("latitud",String.valueOf(paquete.getLatitud()))
+					.add("longitud",String.valueOf(paquete.getLongitud()))
+					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
+					.add("mail_agencia",paquete.getAgencia().getEmail())
+					.add("cupo_paquete", paquete.getCupo());//.build();
 	   	
 	    if (!paquete.getServicios().isEmpty()) {
 	        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -401,14 +402,12 @@ public class AdministradorPaquete{
 	   				
 	   	JsonObject paqueteJson = paqueteJsonBuilder.build();
         StringWriter stringWriter = new StringWriter();
-        
-        
-        
-        
+   
         JsonWriter writer = Json.createWriter(stringWriter);
         writer.writeObject(paqueteJson);
         writer.close();
         
+        System.out.println(paqueteJson.toString());
         return paqueteJson.toString();
     }
 
