@@ -2,6 +2,7 @@ package com.ofertaPaquetes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.ws.rs.*;
 
@@ -68,7 +69,9 @@ public class JAXRSExample {
 	@Produces({"application/json"})
 	public EstadoSolicitudJSON enviarSolicitud(EstadoSolicitudJSONRequest request) {
 		try {
-			EstadoSolicitudJSON json = new EstadoSolicitudJSON(123,request.getTipo(),request.getDetalle(),"Pendiente");
+			Random rand = new Random();
+			int  n = rand.nextInt(50) + 1;
+			EstadoSolicitudJSON json = new EstadoSolicitudJSON(n,request.getTipo(),request.getDetalle(),"Pendiente");
 			return json;
 		}
 		catch(Exception e){
