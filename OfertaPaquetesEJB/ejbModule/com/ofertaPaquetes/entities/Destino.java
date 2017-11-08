@@ -20,7 +20,8 @@ public class Destino {
 	
 	@OneToMany(mappedBy="destino")
 	private List<Paquete> paquetes;
-
+	
+	
 	public Destino(String nombre) {
 		super();
 		this.nombre = nombre;

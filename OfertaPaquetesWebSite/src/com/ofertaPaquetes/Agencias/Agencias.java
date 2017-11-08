@@ -154,8 +154,6 @@ public class Agencias extends HttpServlet {
 					
 					viewModel.setProvincia(dtoProv);
 					
-					//TEST: get servicios
-					//getServicios();
 					
 					//Llamada a servicio de BO para solicitud de ID de agencia global.
 					String serviceResponse = postAgencias(viewModel);
@@ -243,17 +241,4 @@ public class Agencias extends HttpServlet {
 		return response;
 	}
 	
-	private void getServicios() throws Exception
-	{
-		URL url = new URL("http://192.168.0.108:8080/TPO_BO_WEB/rest/ServiciosBO/GetTiposServicios");
-		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		if(urlConnection.getResponseCode() != 200) {
-			throw new RuntimeException("Error de conexi�n: " + urlConnection.getResponseCode());
-		}
-		String response = IOUtils.toString(urlConnection.getInputStream());
-		System.out.println("Respuesta: " + response);
-	}
-	
-	
-
 }

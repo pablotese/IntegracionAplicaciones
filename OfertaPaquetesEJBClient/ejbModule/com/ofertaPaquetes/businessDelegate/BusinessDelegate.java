@@ -9,6 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import com.ofertaPaquetes.dtos.AgenciaDTO;
+import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.MedioDePagoDTO;
 import com.ofertaPaquetes.dtos.PaqueteDTO;
 import com.ofertaPaquetes.dtos.ProvinciaDTO;
@@ -209,6 +210,17 @@ public class BusinessDelegate {
 		}
 	}
 	
+	public MedioDePagoDTO obtenerMedioPago(int idMedioPago)
+	{
+		try{
+			return stub.obtenerMedioPago(idMedioPago);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void enviarLog(String plataformaEnvia, String plataformaRecibe, String servicio,
 			String observacion){
 		try{
@@ -217,6 +229,28 @@ public class BusinessDelegate {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public List<DestinoDTO> listarDestinos()
+	{
+		try{
+			return stub.listarDestinos();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public DestinoDTO obtenerDestino(int idDestino)
+	{
+		try{
+			return stub.obtenerDestino(idDestino);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
