@@ -264,6 +264,7 @@ public class Paquetes extends HttpServlet {
 	
 	private List<PaqueteServicioDTO> getServiciosList() throws Exception
 	{
+		BusinessDelegate bd = BusinessDelegate.getInstance();
 		List<PaqueteServicioDTO> ret = new ArrayList<PaqueteServicioDTO>();
 		
 		//Llamada a BO
@@ -278,6 +279,13 @@ public class Paquetes extends HttpServlet {
 		JsonReader jsonReader = Json.createReader(new StringReader(response));
 		JsonArray jsonArray = jsonReader.readArray();
 		jsonReader.close();
+		
+		if(urlConnection.getResponseCode() != 200) {
+			String observacion = "Response code: "+urlConnection.getResponseCode();
+			bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", observacion);
+			
+			throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
+		}
 		
 		for(JsonValue json : jsonArray)
 		{

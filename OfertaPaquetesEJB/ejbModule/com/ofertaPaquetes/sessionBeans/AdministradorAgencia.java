@@ -226,14 +226,16 @@ public class AdministradorAgencia {
 		        String json = agenciaJson.toString();
 			
 			IOUtils.write(json, urlConnection.getOutputStream());
+			
+			AdministradorLogs log = new AdministradorLogs();
 			if(urlConnection.getResponseCode() != 200) {
-				
-				AdministradorLogs log = new AdministradorLogs();
 				String observacion = "Response code: "+urlConnection.getResponseCode();
 				log.enviarLog("Oferta Paquetes", "Back Office", "EnviarSolicitud",observacion);
 				
 				throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
 			}
+			else
+				log.enviarLog("Oferta Paquetes", "Back Office", "EnviarSolicitud","Envio Solicitud Agencia Exitoso");
 			
 			String response = IOUtils.toString(urlConnection.getInputStream());
 
