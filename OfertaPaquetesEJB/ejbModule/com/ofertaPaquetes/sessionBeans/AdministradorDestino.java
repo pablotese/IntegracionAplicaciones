@@ -31,7 +31,7 @@ public class AdministradorDestino {
     public List<DestinoDTO> listarDestinos()
     {
 		List<DestinoDTO> lst = new ArrayList<DestinoDTO>();
-		List<Destino> destinos = (List<Destino>) manager.createQuery(" FROM Destino").getResultList();
+		List<Destino> destinos = (List<Destino>) manager.createQuery(" FROM Destino D ORDER BY d.nombre").getResultList();
     	
 		for(Destino d : destinos)
 		{
