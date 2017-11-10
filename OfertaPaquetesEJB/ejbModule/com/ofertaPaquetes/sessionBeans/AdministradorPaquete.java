@@ -39,6 +39,7 @@ import com.ofertaPaquetes.dtos.ProvinciaDTO;
 import com.ofertaPaquetes.dtos.PaqueteServicioDTO;
 import com.ofertaPaquetes.entities.Agencia;
 import com.ofertaPaquetes.entities.Destino;
+import com.ofertaPaquetes.entities.Imagen;
 import com.ofertaPaquetes.entities.MedioDePago;
 import com.ofertaPaquetes.entities.Pais;
 import com.ofertaPaquetes.entities.Paquete;
@@ -89,11 +90,10 @@ public class AdministradorPaquete{
 				}
 			paq.setMediosDePago(lmediosDePago);
 			}
-			/*Imagenes*/
-			paq.setImagen(paquete.getImagen());
 			
 			manager.persist(paq);
 			manager.flush();
+			
 			
 			
 			/*Servicios*/
@@ -107,11 +107,11 @@ public class AdministradorPaquete{
 			paquete.getAgencia().setEmail(agencia.getEmail());
 			paquete.getAgencia().setIdAgenciaBO(agencia.getIdAgenciaBO());
 			
-			
 			AdministradorLogs log = new AdministradorLogs();
 			log.enviarLog("Oferta Paquete", "Oferta Paquete", "Alta Paquete", "Creacion Exitosa");
 			
-			sendToPortalWeb(paquete);
+			//sendToPortalWeb(paquete);
+			sendToPortalWeb2(paquete);
 		}
 		catch(Exception e){
 			System.out.println("Error al crear paquete");
@@ -371,19 +371,19 @@ public class AdministradorPaquete{
 	private String getJsonPaquete(PaqueteDTO paquete){
 
 	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
-	   			.add("codigo_prestador",String.valueOf(paquete.getAgencia().getIdAgenciaBO()))/*TODO: poner el id de la agencia del BO*/
-					.add("destino",String.valueOf(paquete.getDestino().getNombre()))
-					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
-					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
-					.add("cantidad_personas_paquete",paquete.getCantPersonas())
-					.add("foto_paquete",String.valueOf(paquete.getImagen())) /*Poner una sola imagen, con la URL*/
-					.add("descripcion_paquete",paquete.getDescripcion())
-					.add("precio", paquete.getPrecio())
-					.add("latitud",String.valueOf(paquete.getLatitud()))
-					.add("longitud",String.valueOf(paquete.getLongitud()))
-					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
-					.add("mail_agencia",paquete.getAgencia().getEmail())
-					.add("cupo_paquete", paquete.getCupo());//.build();
+   			.add("codigo_prestador",paquete.getAgencia().getIdAgenciaBO())/*TODO: poner el id de la agencia del BO*/
+   					.add("destino",paquete.getDestino().getNombre())
+   					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
+   					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
+   					.add("cantidad_personas_paquete",paquete.getCantPersonas())
+   					.add("foto_paquete",paquete.getImagen()) /*Poner una sola imagen, con la URL*/
+   					.add("descripcion_paquete",paquete.getDescripcion())
+   					.add("precio", paquete.getPrecio())
+   					.add("latitud",paquete.getLatitud())
+   					.add("longitud",paquete.getLongitud())
+   					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
+   					.add("mail_agencia",paquete.getAgencia().getEmail())
+   					.add("cupo_paquete", paquete.getCupo());//.build();
 	   	
 	    if (!paquete.getServicios().isEmpty()) {
 	        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -402,12 +402,14 @@ public class AdministradorPaquete{
 	   				
 	   	JsonObject paqueteJson = paqueteJsonBuilder.build();
         StringWriter stringWriter = new StringWriter();
-   
+        
+        
+        
+        
         JsonWriter writer = Json.createWriter(stringWriter);
         writer.writeObject(paqueteJson);
         writer.close();
         
-        System.out.println(paqueteJson.toString());
         return paqueteJson.toString();
     }
 
@@ -487,6 +489,8 @@ public class AdministradorPaquete{
 	public void cargarDatosIniciales(){
 		try{
 
+			cargarDestinosIniciales();
+			
 			// Medios de Pago
 			List<MedioDePago> listaMP = new ArrayList<MedioDePago>();
 			listaMP.add(new MedioDePago(1,"Tarjeta"));
@@ -526,7 +530,6 @@ public class AdministradorPaquete{
 			listaProv.add(new Provincia(23,"Santiago Del Estero"));
 			listaProv.add(new Provincia(24,"Tucuman"));
 			
-			
 			for(Provincia prov:listaProv){
 				manager.persist(prov);
 			}
@@ -534,15 +537,12 @@ public class AdministradorPaquete{
 			//Pais
 			manager.persist(new Pais(1,"Argentina"));
 			
-			//Destinos
-			cargarDestinosIniciales();
-			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void cargarDestinosIniciales(){
 		try{
 
@@ -3762,6 +3762,7 @@ public class AdministradorPaquete{
 			throw ex;
 		}
 	}
+	
 	
 }
 
