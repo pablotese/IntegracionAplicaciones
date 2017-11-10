@@ -73,7 +73,7 @@
         <td><%=a.getNombre()%></td>
         <td><%=a.getCalle() + " " + a.getNro() + " " + a.getPiso() + a.getDepto() + ", " + a.getLocalidad() + ", " + a.getProvincia().getNombre()%></td>
         <td><%=a.isEstado()%></td>
-        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Agencias?accion=editar&idAgencia=<%=a.getIdAgencia() %>" id="btnEdit"><span class="glyphicon glyphicon-edit"></span></a></td>
+        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Agencias?accion=editar&idAgencia=<%=a.getIdAgencia() %>" id="btnEdit"><span class="glyphicon glyphicon-eye-open"></span></a></td>
       </tr>
 	<%}}%>
     </tbody>

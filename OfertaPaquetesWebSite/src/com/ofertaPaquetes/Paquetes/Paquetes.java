@@ -83,7 +83,7 @@ public class Paquetes extends HttpServlet {
 				rd = request.getRequestDispatcher("/views/paquetes/create.jsp");
 			}
 			
-			if(accion.equals("editar") && request.getParameter("idPaquete") != null)
+			if(accion.equals("detalle") && request.getParameter("idPaquete") != null)
 			{
 				try {
 				
@@ -164,7 +164,7 @@ public class Paquetes extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		 RequestDispatcher rd = null;
 		 
 		 try
