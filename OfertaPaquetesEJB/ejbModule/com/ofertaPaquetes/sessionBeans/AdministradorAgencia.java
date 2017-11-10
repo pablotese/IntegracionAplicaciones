@@ -239,9 +239,9 @@ public class AdministradorAgencia {
 			
 			String response = IOUtils.toString(urlConnection.getInputStream());
 
-			//JSONObject jsonObj = new JSONObject(response);
-			//int id = jsonObj.getInt("id");
-			return 23;//id;
+			JSONObject jsonObj = new JSONObject(response);
+			int id = jsonObj.getInt("id");
+			return id;
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -11,7 +11,8 @@ public class Properties {
 	public static final String PROVIDER_URL="http-remoting://localhost:8080";
 	public static final String SECURITY_PRINCIPAL="myUser";
 	public static final String SECURITY_CREDENTIALS="myPassword";
-	
+	public static final String PUBLIC_IMG_REPO = "C:\\Users\\minnie\\Documents\\Facu\\IA\\IA\\wildfly-9.0.1.Final\\standalone\\deployments\\imgs\\";
+	public static final String LOCAL_IMG_REPO = "C:\\Users\\minnie\\Documents\\Facu\\IA\\IA\\wildfly-9.0.1.Final\\standalone\\deployments\\VaneEar.ear\\OfertaPaquetesWebSite.war\\fotos\\";
 	//Properties Mensajeria TP
 	/*
 	public static final String DESTINATION = "jms/queue/ofertasPaquete";
