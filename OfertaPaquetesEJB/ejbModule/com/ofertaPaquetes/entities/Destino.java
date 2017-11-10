@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="Destinos")
 public class Destino {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idDestino;
 
 	private String nombre;
@@ -21,15 +21,12 @@ public class Destino {
 	@OneToMany(mappedBy="destino")
 	private List<Paquete> paquetes;
 	
-	public Destino(String nombre) {
+	public Destino(int idDestino, String nombre) {
 		super();
+		this.idDestino = idDestino;
 		this.nombre = nombre;
 	}
 	
-	public Destino(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
 
 	public int getIdDestino() {
 		return idDestino;
