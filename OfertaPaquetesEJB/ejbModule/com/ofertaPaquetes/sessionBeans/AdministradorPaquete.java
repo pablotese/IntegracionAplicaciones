@@ -29,6 +29,8 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.io.FileUtils;
+
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.DestinoDTO;
 import com.ofertaPaquetes.dtos.ImagenDTO;
@@ -71,6 +73,8 @@ public class AdministradorPaquete{
 			Paquete paq = new Paquete(paquete.getNombre(),paquete.getFechaDesde(), paquete.getFechaHasta(),
 					paquete.getDescripcion(), paquete.getPrecio(), paquete.getPoliticasCancelacion(), 
 					paquete.getCupo(), paquete.getCantPersonas(), paquete.isEstado(), paquete.isNuevaOferta());
+			
+			System.out.println(paquete.getFechaDesde());
 			
 			/*La agencia ya existe*/
 			Agencia agencia = manager.find(Agencia.class, paquete.getAgencia().getIdAgencia());
@@ -274,6 +278,10 @@ public class AdministradorPaquete{
 
 	private void sendToPortalWeb(PaqueteDTO paquete) throws NamingException{
     
+		//Copio la img al repo publico
+		//FileUtils.copyFile(Properties.PUBLIC_IMG_REPO + paquete.getNombre(), Properties.PUBLIC_IMG_REPO + paquete.getNombre());
+		
+		
 		String jsonPaquete = getJsonPaquete(paquete);
 		
 		System.out.println("Envio Mensaje");
@@ -376,7 +384,7 @@ public class AdministradorPaquete{
 		System.out.println("getJsonPaquete");
 		
 	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
-	   			.add("codigo_prestador",String.valueOf(paquete.getAgencia().getIdAgenciaBO()))/*TODO: poner el id de la agencia del BO*/
+	   			.add("codigo_prestador",paquete.getAgencia().getIdAgenciaBO())/*TODO: poner el id de la agencia del BO*/
 					.add("destino",String.valueOf(paquete.getDestino().getNombre()))
 					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
 					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
@@ -384,8 +392,8 @@ public class AdministradorPaquete{
 					.add("foto_paquete",String.valueOf(paquete.getImagen())) /*Poner una sola imagen, con la URL*/
 					.add("descripcion_paquete",paquete.getDescripcion())
 					.add("precio", paquete.getPrecio())
-					.add("latitud",String.valueOf(paquete.getDestino().getLatitud()))
-					.add("longitud",String.valueOf(paquete.getDestino().getLongitud()))
+					.add("latitud",paquete.getDestino().getLatitud())
+					.add("longitud",paquete.getDestino().getLongitud())
 					.add("politica_cancelacion",paquete.getPoliticasCancelacion())
 					.add("mail_agencia",paquete.getAgencia().getEmail())
 					.add("cupo_paquete", paquete.getCupo());//.build();
@@ -393,10 +401,20 @@ public class AdministradorPaquete{
 	    if (!paquete.getServicios().isEmpty()) {
 	        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 	        for (PaqueteServicioDTO serv : paquete.getServicios()) {
-	        	System.out.println(serv.getIdPaquete() + " - " + serv.getNombreServicio());
+	        	System.out.println(serv.getIdServicio() + " - " + serv.getNombreServicio());
 	            arrayBuilder.add(serv.getNombreServicio());
 	        }
 	        paqueteJsonBuilder.add("servicios_paquete", arrayBuilder.build());
+	    }
+	    
+
+	    if (!paquete.getServicios().isEmpty()) {
+	        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+	        for (MedioDePagoDTO mp : paquete.getMediosDePago()) {
+	        	System.out.println(mp.getIdMedioDePago() + " - " + mp.getNombre());
+	            arrayBuilder.add(mp.getIdMedioDePago());
+	        }
+	        paqueteJsonBuilder.add("medio_pago_paquete", arrayBuilder.build());
 	    }
 	   	
 	   	/*
@@ -422,15 +440,22 @@ public class AdministradorPaquete{
 		String month = "";
 		String day = "";
 		if(fecha.getMonth() < 10)
-			month = "0"+fecha.getMonth();
+			month = "0" + (fecha.getMonth()+1);
 		if(fecha.getDay() < 10)
-			month = "0"+fecha.getDay();
+			day = "0" + (fecha.getDay()+1);
+	
+		int anio = fecha.getYear() + 1900;
+		String sanio = String.valueOf(anio);
+		System.out.println(fecha);
+		date +=  sanio + month + day;
 		
-		date +=  fecha.getYear() + month + day;
+		System.out.println(date);
 		
 		return date;
     }
 
+	
+	
 	public List<ProvinciaDTO> getListadoProvincias(){
 		
 		try{
