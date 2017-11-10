@@ -189,6 +189,9 @@ public class Paquetes extends HttpServlet {
 												false,true
 												);
 			 
+			 System.out.println(nuevoPaquete.getFechaDesde());
+			 System.out.println(nuevoPaquete.getFechaHasta());
+			 
 			//Armo lista de servicio asociados al paquete.
 			 //Obtengo la lista de servicios
 			 List<PaqueteServicioDTO> lstServicios = getServiciosList();

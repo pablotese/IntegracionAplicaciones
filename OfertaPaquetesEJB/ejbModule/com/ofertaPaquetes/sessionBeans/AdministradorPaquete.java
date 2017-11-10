@@ -437,16 +437,20 @@ public class AdministradorPaquete{
 	private String getFechaString(Date fecha) {
 		
 		String date = "";
-		String month = "";
-		String day = "";
-		if(fecha.getMonth() < 10)
+		String month = String.valueOf(fecha.getMonth()+1);
+		String day = String.valueOf(fecha.getDate());
+		if((fecha.getMonth()+1) < 10)
 			month = "0" + (fecha.getMonth()+1);
-		if(fecha.getDay() < 10)
-			day = "0" + (fecha.getDay()+1);
-	
-		int anio = fecha.getYear() + 1900;
-		String sanio = String.valueOf(anio);
+		if(fecha.getDate() < 10)
+			day = "0" + (fecha.getDate());
+		
+		String sanio = String.valueOf(fecha.getYear() + 1900);
+				
 		System.out.println(fecha);
+		System.out.println(fecha.getDate());
+		System.out.println(fecha.getMonth());
+		System.out.println(fecha.getYear());
+				
 		date +=  sanio + month + day;
 		
 		System.out.println(date);
