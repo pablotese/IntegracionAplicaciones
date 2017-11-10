@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Table(name="Destinos")
 public class Destino {
 	@Id
+	//@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idDestino;
 
 	private String nombre;
@@ -22,14 +23,10 @@ public class Destino {
 	
 	public Destino(int idDestino, String nombre) {
 		super();
+		this.idDestino = idDestino;
 		this.nombre = nombre;
-		this.idDestino=idDestino;
 	}
 	
-	public Destino(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
 
 	public int getIdDestino() {
 		return idDestino;
