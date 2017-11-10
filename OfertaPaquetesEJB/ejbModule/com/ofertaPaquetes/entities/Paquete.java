@@ -27,9 +27,6 @@ public class Paquete {
 	    private boolean estado;
 	    private boolean nuevaOferta;
 	    
-	    private float latitud;
-	    private float longitud;
-	    
 	    @ManyToMany
 	    @JoinTable(
 	            name = "PaquetesMediosDePago", 
@@ -64,8 +61,7 @@ public class Paquete {
 		
 		public Paquete(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion,
 				Double precio, String politicasCancelacion, int cupo, Destino destino,
-				int cantPersonas, boolean estado, boolean nuevaOferta, float latitud, float longitud,
-
+				int cantPersonas, boolean estado, boolean nuevaOferta,
 				List<MedioDePago> mediosDePago, Agencia agencia, String imagen) {
 
 			super();
@@ -81,8 +77,6 @@ public class Paquete {
 			this.cantPersonas = cantPersonas;
 			this.estado = estado;
 			this.nuevaOferta = nuevaOferta;
-			this.latitud = latitud;
-			this.longitud = longitud;
 			this.mediosDePago = mediosDePago;
 			this.agencia = agencia;
 
@@ -181,18 +175,7 @@ public class Paquete {
 		public Agencia getAgencia() {
 			return agencia;
 		}
-		public float getLatitud() {
-			return latitud;
-		}
-		public void setLatitud(float latitud) {
-			this.latitud = latitud;
-		}
-		public float getLongitud() {
-			return longitud;
-		}
-		public void setLongitud(float longitud) {
-			this.longitud = longitud;
-		}
+		
 		public List<MedioDePago> getMediosDePago() {
 			return mediosDePago;
 		}
