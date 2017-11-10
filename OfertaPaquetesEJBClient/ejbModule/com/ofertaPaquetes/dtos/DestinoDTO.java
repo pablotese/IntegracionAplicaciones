@@ -6,6 +6,8 @@ public class DestinoDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private int idDestino;
+	private float latitud;
+	private float longitud;
 	private String nombre;
 	public DestinoDTO(int idDestino, String nombre) {
 		super();
@@ -36,6 +38,27 @@ public class DestinoDTO implements Serializable{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+
+	public float getLatitud() {
+		return latitud;
+	}
+
+
+	public void setLatitud(float latitud) {
+		this.latitud = latitud;
+	}
+
+
+	public float getLongitud() {
+		return longitud;
+	}
+
+
+	public void setLongitud(float longitud) {
+		this.longitud = longitud;
+	}
+
 
 	
 }

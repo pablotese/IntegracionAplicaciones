@@ -60,9 +60,6 @@ public class MiPrueba {
 		PaqueteDTO paquete = new PaqueteDTO("Paquete 1 Miami", new Date(2017, 11,1), new Date(2017, 12,1), 
 				"Paquete 1 viaje a Miami", (double) 12000, "No cancelable", 40, 2, true, true, "Miami.jpg", agencia, destino, servicios);
 
-		paquete.setLatitud(109);
-		paquete.setLongitud(104);
-		
 		try{
 			bd.nuevoPaquete(paquete);
 		}

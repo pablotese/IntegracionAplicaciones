@@ -18,13 +18,18 @@ public class Destino {
 
 	private String nombre;
 	
+	private float latitud;
+	private float longitud;
+	
 	@OneToMany(mappedBy="destino")
 	private List<Paquete> paquetes;
 	
-	public Destino(int idDestino, String nombre) {
+	public Destino(int idDestino, String nombre, float latitud, float longitud) {
 		super();
 		this.idDestino = idDestino;
 		this.nombre = nombre;
+		this.latitud = latitud;
+		this.longitud=longitud;
 	}
 	
 
@@ -55,6 +60,26 @@ public class Destino {
 	public Destino() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+
+	public float getLatitud() {
+		return latitud;
+	}
+
+
+	public void setLatitud(float latitud) {
+		this.latitud = latitud;
+	}
+
+
+	public float getLongitud() {
+		return longitud;
+	}
+
+
+	public void setLongitud(float longitud) {
+		this.longitud = longitud;
 	}
 	
 }

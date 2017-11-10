@@ -24,14 +24,10 @@ public class PaqueteDTO implements Serializable {
 	private String imagen;
 	private AgenciaDTO agencia;
 	private DestinoDTO destino;
-	private float latitud;
-    private float longitud;
     private List<MedioDePagoDTO> mediosDePago;
 	private List<PaqueteServicioDTO> servicios;
 	 
-	
-	
-	
+
 	public PaqueteDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -58,7 +54,7 @@ public class PaqueteDTO implements Serializable {
 	
 	public PaqueteDTO(int idPaquete, String nombre, Date fechaDesde, Date fechaHasta, String descripcion, Double precio,
 			String politicasCancelacion, int cupo, int cantPersonas, boolean estado, boolean nuevaOferta, String imagen,
-			AgenciaDTO agencia, DestinoDTO destino, float latitud, float longitud, List<MedioDePagoDTO> mediosDePago,
+			AgenciaDTO agencia, DestinoDTO destino, List<MedioDePagoDTO> mediosDePago,
 			List<PaqueteServicioDTO> servicios) {
 		super();
 		this.idPaquete = idPaquete;
@@ -75,8 +71,6 @@ public class PaqueteDTO implements Serializable {
 		this.imagen = imagen;
 		this.agencia = agencia;
 		this.destino = destino;
-		this.latitud = latitud;
-		this.longitud = longitud;
 		this.mediosDePago = mediosDePago;
 		this.servicios = servicios;
 	}
@@ -191,18 +185,6 @@ public class PaqueteDTO implements Serializable {
 		this.servicios = servicios;
 	}
 	
-	public float getLatitud() {
-		return latitud;
-	}
-	public void setLatitud(float latitud) {
-		this.latitud = latitud;
-	}
-	public float getLongitud() {
-		return longitud;
-	}
-	public void setLongitud(float longitud) {
-		this.longitud = longitud;
-	}
 	public List<MedioDePagoDTO> getMediosDePago() {
 		return mediosDePago;
 	}
