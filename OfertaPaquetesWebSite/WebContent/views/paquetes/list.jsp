@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paquetes - Listado</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
@@ -72,7 +73,7 @@
         <td><%=a.getFechaHasta()%></td>
         <td><%=a.isEstado()%></td>
         <td><%=a.getCupo()%></td>
-        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Paquetes?accion=editar&idPaquete=<%=a.getIdPaquete() %>" id="btnEdit"><span class="glyphicon glyphicon-edit"></span></a></td>
+        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Paquetes?accion=detalle&idPaquete=<%=a.getIdPaquete() %>" id="btnEdit"><span class="glyphicon glyphicon-eye-open"></span></a></td>
       </tr>
 	<%}%>
     </tbody>

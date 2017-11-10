@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agencias - Alta</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
@@ -108,7 +109,7 @@
 		  </div>
 		  
 		   <div class="checkbox">
-		    <label><input type="checkbox" id="estado" name="estado"> Estado</label>
+		    <label><input type="checkbox" id="estado" name="estado" checked="checked" disabled> Estado</label>
 		  </div>
 		  
 		  <div class="row">

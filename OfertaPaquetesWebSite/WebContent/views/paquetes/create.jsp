@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paquetes - Alta</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
@@ -192,7 +193,7 @@
   </div>
   
 	<div class="checkbox">
-		<label><input id="estado" name="estado" type="checkbox" value="">Habilitado</label>
+		<label><input id="estado" name="estado" type="checkbox" checked="checked">Habilitado</label>
 	</div>
   
   <button type="submit" class="btn btn-primary center-block">Guardar</button>

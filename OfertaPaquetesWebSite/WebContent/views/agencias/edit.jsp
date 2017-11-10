@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Agencias - Editar</title>
+<title>Agencias - Detalle</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
@@ -38,8 +38,8 @@
 <br>
 <br>
 <div class="container">
-<h2>Editar agencias</h2>
-  <p>Formulario para la edición de agencias del sistema.</p>                                                                                      
+<h2>Detalle agencia</h2>
+                                                                                        
   <form id="frmAgencias" method="post" action="/OfertaPaquetesWebSite/Agencias?accion=editar&idAgencia=<%=request.getAttribute("idAgencia") %>">
   		<input type="hidden" id="idAgencia" name="idAgencia" value=<%=request.getAttribute("idAgencia")%>>
   		
@@ -47,13 +47,13 @@
 	  		<div class="col-lg-6 col-md-6 col-sm-6">
 	  		<div class="form-group">
 			    <label for="Nombre">Nombre:</label>
-			    <input type="text" class="form-control" id="nombre" name="nombre" value=<%=request.getAttribute("nombre") %>>
+			    <input type="text" class="form-control" id="nombre" name="nombre" value=<%=request.getAttribute("nombre") %> disabled>
 			  </div>
 	  		</div>
 	  		<div class="col-lg-6 col-md-6 col-sm-6">
 	  		<div class="form-group">
 			    <label for="email">Correo electrónico:</label>
-			    <input type="email" class="form-control" id="email" name="email" value=<%=request.getAttribute("email") %> >
+			    <input type="email" class="form-control" id="email" name="email" value=<%=request.getAttribute("email") %> disabled>
 			  </div>
 	  		</div>
 	  	</div>
@@ -64,30 +64,30 @@
 	    <div class="row">
 			<div class="col-lg-5 col-md-5 col-sm-5">
 				<label>Calle:</label>
-				<input class="form-control" id="calle" name="calle" type="text" value=<%=request.getAttribute("calle") %>>
+				<input class="form-control" id="calle" name="calle" type="text" value=<%=request.getAttribute("calle") %> disabled>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 				<label>Número:</label>
-				<input class="form-control" id="numero" name="numero" type="text" value=<%=request.getAttribute("numero") %>>
+				<input class="form-control" id="numero" name="numero" type="text" disabled value=<%=request.getAttribute("numero") %> >
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 				<label>Piso:</label>
-				<input class="form-control" id="piso" name="piso" type="number" maxlength=3 value=<%=request.getAttribute("piso") %>>
+				<input class="form-control" id="piso" name="piso" type="number" maxlength=3 disabled value=<%=request.getAttribute("piso") %> >
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
 				<label>Departamento:</label>
-				<input class="form-control" id="dpto" name="dpto" type="text" maxlength=1 value=<%=request.getAttribute("dpto") %>>
+				<input class="form-control" id="dpto" name="dpto" type="text" maxlength=1 disabled value=<%=request.getAttribute("dpto") %> >
 			</div>
 				
 		</div>
 		<div class="row">
 			<div class="col-lg-6 col-md-6 col-sm-6">
 				<label>Localidad / Barrio:</label>
-				<input class="form-control" id="localidad" name="localidad" type="text" value=<%=request.getAttribute("localidad") %>>
+				<input class="form-control" id="localidad" name="localidad" type="text" value=<%=request.getAttribute("localidad") %> disabled>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6">
 					<label>Provincia:</label>
-					<select class="form-control" id="provincia" name="provincia" required>
+					<select class="form-control" id="provincia" name="provincia" required disabled>
 					<% List<ProvinciaDTO> provs = (List<ProvinciaDTO>) request.getAttribute("listProvincias");
 						for(ProvinciaDTO p : provs)
 						{
@@ -106,16 +106,16 @@
 	  </div>
 	  
 	   <div class="checkbox">
-    	<label><input type="checkbox" id="estado" name="estado" value=<%=request.getAttribute("estado") %>> Habilitado</label>
+    	<label><input type="checkbox" id="estado" name="estado" checked="checked" readonly disabled> Habilitado</label>
 	  </div>
 	  
 	  <div class="row">
-	  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-lg-offset-3">
+	  	<!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-lg-offset-3">
 		  <a class="btn btn-primary" id="btnSubmit"><span class="glyphicon glyphicon-ok"></span> Guardar</a>
-	  	</div>
-	  	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-2">
-		  <a class="btn btn-danger" href="/OfertaPaquetesWebSite/Agencias"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
-	  	</div>
+	  	</div> -->
+	  	<!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		  <a class="btn btn-primary" href="/OfertaPaquetesWebSite/Agencias"><span class="glyphicon glyphicon-chevron-left"></span> Volver</a>
+	  	</div> -->
 	  </div>
 	  </form>
 </div>

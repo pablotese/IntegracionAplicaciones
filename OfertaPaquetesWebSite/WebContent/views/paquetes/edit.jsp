@@ -9,11 +9,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Paquetes - Editar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paquetes - Detalle</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
@@ -88,18 +85,18 @@
   <form id="frmPaquetes" method="post">
   <div class="form-group">
     <label>Nombre:</label>
-    <input class="form-control" id="nombre" name="nombre" value=<%= request.getAttribute("nombre") %> required>
+    <input class="form-control" id="nombre" name="nombre" value=<%= request.getAttribute("nombre") %> required disabled>
   </div>
   <div class="form-group">
     <label for="descripcion">Descripción:</label>
-    <textarea class="form-control" style="min-height:150px" name="descripcion" id="descripcion" required><%= request.getAttribute("descripcion") %></textarea>
+    <textarea class="form-control" style="min-height:150px" name="descripcion" id="descripcion" required disabled><%= request.getAttribute("descripcion") %></textarea>
   </div>
   
   <div class="row">
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	  <div class="form-group">
 		<label>Destino:</label>
-		<select class="form-control" id="destino" name="destino" required>
+		<select class="form-control" id="destino" name="destino" required disabled>
 			<option value="default">Seleccione...</option>
 			<% List<DestinoDTO> lstDest = (List<DestinoDTO>) request.getAttribute("listDestinos");
 			for(DestinoDTO p : lstDest)
@@ -119,7 +116,7 @@
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	  <div class="form-group">
 		<label>Agencia:</label>
-		<select class="form-control" id="agencia" name="agencia" required>
+		<select class="form-control" id="agencia" name="agencia" required disabled>
 			<option value="default">Seleccione...</option>
 			<% List<AgenciaDTO> lst = (List<AgenciaDTO>) request.getAttribute("listAgencias");
 			for(AgenciaDTO p : lst)
@@ -139,7 +136,7 @@
   	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	  <div class="form-group" id="frmGrpServicios">
 		<label>Servicios:</label>
-		<select class="form-control" id="servicios" name="servicios" multiple="multiple" required>
+		<select class="form-control" id="servicios" name="servicios" multiple="multiple" required disabled>
 		<% List<PaqueteServicioDTO> lstServ = (List<PaqueteServicioDTO>) request.getAttribute("listServicios");
 			List<String> lstServElegidos = (List<String>) request.getAttribute("listServiciosElegidos");
 			
@@ -160,7 +157,7 @@
   	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	  <div class="form-group" id="frmGrpMediosPagos">
 		<label>Medios de pago:</label>
-		<select class="form-control" id="mediosPagos" name="mediosPagos" multiple="multiple" required>
+		<select class="form-control" id="mediosPagos" name="mediosPagos" multiple="multiple" required disabled>
 		<% List<MedioDePagoDTO> lstMediosPagos = (List<MedioDePagoDTO>) request.getAttribute("listMediosPago");
 		List<String> lstMediosPagoElegidos = (List<String>) request.getAttribute("listMediosPagosElegidos");
 			for(MedioDePagoDTO p : lstMediosPagos)
@@ -190,13 +187,13 @@
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 			<div class="form-group">
 				<label>Fecha de Salida:</label>
-				<input class="form-control" id="fechaSalida" name="fechaSalida" value=<%= request.getAttribute("fechaDesde") %> required>
+				<input class="form-control" id="fechaSalida" name="fechaSalida" value=<%= request.getAttribute("fechaDesde") %> required disabled>
 			</div>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 		<div class="form-group">
 			<label>Fecha de Llegada:</label>
-			<input class="form-control" id="fechaLlegada" name="fechaLlegada" value=<%= request.getAttribute("fechaHasta") %> required>
+			<input class="form-control" id="fechaLlegada" name="fechaLlegada" value=<%= request.getAttribute("fechaHasta") %> required disabled>
 		</div>
 	</div>
   
@@ -205,33 +202,33 @@
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 		<div class="form-group">
 			<label>Cupo:</label>
-			<input class="form-control" id="cupo" name="cupo" type="number" value=<%= request.getAttribute("cupo") %> required>
+			<input class="form-control" id="cupo" name="cupo" type="number" value=<%= request.getAttribute("cupo") %> required disabled>
 		</div>
 	</div>
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 		<div class="form-group">
 			<label>Cant. de personas:</label>
-			<input class="form-control" id="cantPersonas" name="cantPersonas" type="number" value=<%= request.getAttribute("cantPersonas") %> required />
+			<input class="form-control" id="cantPersonas" name="cantPersonas" type="number" value=<%= request.getAttribute("cantPersonas") %> required disabled />
 		</div>
 	</div>
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 	  <div class="form-group">
 		<label>Precio del paquete:</label>
-		<input class="form-control" id="precio" name="precio" type="number" step="0.01" value=<%= request.getAttribute("precio") %> required />
+		<input class="form-control" id="precio" name="precio" type="number" step="0.01" value=<%= request.getAttribute("precio") %> required disabled />
 	  </div>
 	</div>
   </div>
   
   <div class="form-group">
 	<label>Políticas de cancelación:</label>
-	<textarea class="form-control" id="politicasCancelacion" name="politicasCancelacion" style="minheight:150px"  required> <%= request.getAttribute("politicasCancelacion") %>  </textarea>
+	<textarea class="form-control" id="politicasCancelacion" name="politicasCancelacion" style="minheight:150px"  required disabled> <%= request.getAttribute("politicasCancelacion") %>  </textarea>
   </div>
   
 	<div class="checkbox">
-		<label><input id="estado" name="estado" type="checkbox" value=<%= request.getAttribute("estado") %>>Habilitado</label>
+		<label><input id="estado" name="estado" type="checkbox" checked="checked" readonly disabled>Habilitado</label>
 	</div>
   
-  <button type="submit" class="btn btn-primary center-block">Guardar</button>
+ <!--  <button type="submit" class="btn btn-primary center-block">Guardar</button> -->
 </form>
 </div>
 
