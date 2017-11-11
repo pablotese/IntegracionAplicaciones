@@ -58,9 +58,23 @@ public class AdministradorAgencia {
 			Provincia provincia = manager.find(Provincia.class, agenciaDto.getProvincia().getIdProvincia());
 			agencia.setProvincia(provincia);
 						
-			int idAgenciaBO = postAgencias(agenciaDto);
-			agencia.setIdAgenciaBO(idAgenciaBO);
+			int idAgenciaBO = -1;
+			
+			try{
+				idAgenciaBO = postAgencias(agenciaDto);
+			}	
+			catch(Exception ex){
+				ex.getStackTrace();
+				System.out.println("Error al obtener el idAgenciaBO." + ex.getMessage());
+				throw new Exception("Error al obtener el idAgenciaBO." + ex.getMessage());
+			}
 
+			if(idAgenciaBO == -1){
+				System.out.println("No se pudo obenter el idAgenciaBO.");
+				throw new Exception("No se pudo obenter el idAgenciaBO.");
+			}
+			
+			agencia.setIdAgenciaBO(idAgenciaBO);
 			manager.persist(agencia);
 			
 			AdministradorLogs log = new AdministradorLogs();					
@@ -201,7 +215,7 @@ public class AdministradorAgencia {
 		return null;
 	}
 	
-	private int postAgencias(AgenciaDTO dto)
+	private int postAgencias(AgenciaDTO dto) throws Exception
 	{
 		try{
 			System.out.println("Enviar Agencia");
@@ -239,6 +253,8 @@ public class AdministradorAgencia {
 			
 			String response = IOUtils.toString(urlConnection.getInputStream());
 
+			System.out.println(response);
+			
 			JSONObject jsonObj = new JSONObject(response);
 			int id = jsonObj.getInt("id");
 			return id;
@@ -249,7 +265,8 @@ public class AdministradorAgencia {
 			
 			AdministradorLogs log = new AdministradorLogs();
 			log.enviarLog("Oferta Paquetes", "Back Office", "EnviarSolicitud", e.getMessage());
+			throw e;
 		}
-		return 0;
+		//return 0;
 	}
 }
