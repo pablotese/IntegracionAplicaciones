@@ -64,12 +64,8 @@ public class Paquetes extends HttpServlet {
 		RequestDispatcher rd = null;
 		BusinessDelegate bd = BusinessDelegate.getInstance();
 		_paquetes = bd.listarPaquetes(); 
-		if(_paquetes!=null){
-			_paquetes = new ArrayList<PaqueteDTO>();
-		}
-			request.setAttribute("listPaquetes", _paquetes);
+		request.setAttribute("listPaquetes", _paquetes);
 		
-			
 		try
 		{
 		if(accion != null)
