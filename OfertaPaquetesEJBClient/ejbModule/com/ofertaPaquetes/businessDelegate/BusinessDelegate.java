@@ -42,7 +42,7 @@ public class BusinessDelegate {
 
 		final Context context = new InitialContext(jndiProperties);
 
-		final String earName = "VaneEar"; // Nombre del módulo EAR
+		final String earName = "OfertaPaquetesEAR"; // Nombre del módulo EAR
 		final String ejbModuleName = "OfertaPaquetesEJB"; // Nombre del módulo EJB
 		final String distinctName = ""; // Opcional para resolver repeticiones en nombres
 		final String ejbClassName = "FacadeEJB"; // Nombre corto del EJB. Es quien implementa la interface 'FacadeEJBRemote'
