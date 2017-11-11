@@ -117,14 +117,14 @@ public class AdministradorPaquete{
 			paquete.getDestino().setLongitud(destino.getLongitud());
 			
 			AdministradorLogs log = new AdministradorLogs();
-			log.enviarLog("Oferta Paquete", "Oferta Paquete", "Alta Paquete", "Creacion Exitosa");
+			log.enviarLog("Oferta Paquete", "BO", "Alta Paquete", "Creacion Exitosa");
 			
 			sendToPortalWeb(paquete);
 		}
 		catch(Exception e){
 			System.out.println("Error al crear paquete");
 			AdministradorLogs log = new AdministradorLogs();
-			log.enviarLog("Oferta Paquete", "Oferta Paquete", "Alta Paquete", "Creacion No Exitosa");
+			log.enviarLog("Oferta Paquete", "BO", "Alta Paquete", "Creacion No Exitosa");
 			
 			e.printStackTrace();
 		}

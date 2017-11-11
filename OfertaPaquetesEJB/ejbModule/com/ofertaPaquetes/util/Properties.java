@@ -43,7 +43,7 @@ public class Properties {
 	*/
 	
 	//Properties rest web services
-	public static final String URL_LOG="http://localhost:8080/enviarSolicitud/rest/service/RegistrarLog";
-	public static final String URL_POST_AGENCIA = "http://localhost:8080/enviarSolicitud/rest/service/EnviarSolicitud";
+	public static final String URL_LOG="http://192.168.0.107:8080/TPO_BO_WEB/rest/ServiciosBO/RegistrarLog";
+	public static final String URL_POST_AGENCIA = "http://192.168.0.107:8080/TPO_BO_WEB/rest/ServiciosBO/EnviarSolicitud";
 	
 }

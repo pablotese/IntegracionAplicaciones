@@ -4,6 +4,7 @@ package com.ofertaPaquetes.Paquetes;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
@@ -14,8 +15,10 @@ import java.util.List;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
+import javax.json.JsonWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -64,7 +67,7 @@ public class Paquetes extends HttpServlet {
 		RequestDispatcher rd = null;
 		BusinessDelegate bd = BusinessDelegate.getInstance();
 		_paquetes = bd.listarPaquetes(); 
-		if(_paquetes!=null){
+		if(_paquetes==null){
 			_paquetes = new ArrayList<PaqueteDTO>();
 		}
 			request.setAttribute("listPaquetes", _paquetes);
@@ -108,6 +111,7 @@ public class Paquetes extends HttpServlet {
 						request.setAttribute("cupo", dto.getCupo());
 						request.setAttribute("descripcion", dto.getDescripcion());
 						request.setAttribute("nombre", dto.getNombre());
+						System.out.println(dto.getNombre());
 						request.setAttribute("fechaDesde", dto.getFechaDesde());
 						request.setAttribute("fechaHasta", dto.getFechaHasta());
 						request.setAttribute("politicasCancelacion", dto.getPoliticasCancelacion());
@@ -274,9 +278,30 @@ public class Paquetes extends HttpServlet {
 		List<PaqueteServicioDTO> ret = new ArrayList<PaqueteServicioDTO>();
 		
 		//Llamada a BO
-		URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServicios");
+		URL url = new URL("http://192.168.0.107:8080/TPO_BO_WEB/rest/ServiciosBO/GetServiciosPorTipo");
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		if(urlConnection.getResponseCode() != 200) {
+		
+		urlConnection.setDoOutput(true);
+		urlConnection.setRequestMethod("POST");
+		urlConnection.setRequestProperty("Content-Type", "application/json");
+		
+		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
+	   			.add("nombre","Paquete");
+   				
+		   	JsonObject agenciaJson = jsonBuilder.build();
+	        StringWriter stringWriter = new StringWriter();
+	        
+	        JsonWriter writer = Json.createWriter(stringWriter);
+	        writer.writeObject(agenciaJson);
+	        writer.close();
+	        
+	        String json2 = agenciaJson.toString();
+		
+		IOUtils.write(json2, urlConnection.getOutputStream());
+		
+				
+		
+		if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
 			throw new RuntimeException("Error de conexi�n: " + urlConnection.getResponseCode());
 		}
 		String response = IOUtils.toString(urlConnection.getInputStream());
@@ -286,13 +311,14 @@ public class Paquetes extends HttpServlet {
 		JsonArray jsonArray = jsonReader.readArray();
 		jsonReader.close();
 		
-		if(urlConnection.getResponseCode() != 200) {
+		if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
 			String observacion = "Response code: "+urlConnection.getResponseCode();
 			bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", observacion);
 			
 			throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
 		}
 		
+		bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", "Obtencion de servicios exitosa");
 		for(JsonValue json : jsonArray)
 		{
 			JsonObject obj = (JsonObject)json;

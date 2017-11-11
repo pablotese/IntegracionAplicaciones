@@ -67,10 +67,10 @@
       <tr>
         <td>1</td>
         <td><%=a.getNombre()%></td>
-        <%-- <td><%=a.getDestino().getNombre()%></td> --%>
-        <td></td>
-        <td><%=a.getFechaDesde()%></td>
-        <td><%=a.getFechaHasta()%></td>
+        <td><%=a.getDestino().getNombre()%></td> 
+        
+        <td><%=a.getFechaDesde().toString().substring(0, 10)%></td>
+        <td><%=a.getFechaHasta().toString().substring(0, 10)%></td>
         <td><%=a.isEstado()%></td>
         <td><%=a.getCupo()%></td>
         <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Paquetes?accion=detalle&idPaquete=<%=a.getIdPaquete() %>" id="btnEdit"><span class="glyphicon glyphicon-eye-open"></span></a></td>

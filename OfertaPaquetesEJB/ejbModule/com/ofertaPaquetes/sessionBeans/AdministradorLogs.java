@@ -50,9 +50,13 @@ public class AdministradorLogs {
 	        writer.writeObject(logJson);
 	        writer.close();
 	       
+	        
+	        System.out.println("log a enviar: " + stringWriter.getBuffer().toString());
 	        IOUtils.write(stringWriter.getBuffer().toString(),urlConnection.getOutputStream());
 
-			if(urlConnection.getResponseCode() != 200) {
+	        
+	        
+			if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
 				throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
 			}
 			
