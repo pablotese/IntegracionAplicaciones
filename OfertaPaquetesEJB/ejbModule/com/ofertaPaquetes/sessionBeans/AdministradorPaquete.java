@@ -1,5 +1,7 @@
 package com.ofertaPaquetes.sessionBeans;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -276,11 +278,8 @@ public class AdministradorPaquete{
 		return null;
 	}
 
-	private void sendToPortalWeb(PaqueteDTO paquete) throws NamingException{
+	private void sendToPortalWeb(PaqueteDTO paquete) throws NamingException, IOException{
     
-		//Copio la img al repo publico
-		//FileUtils.copyFile(Properties.PUBLIC_IMG_REPO + paquete.getNombre(), Properties.PUBLIC_IMG_REPO + paquete.getNombre());
-		
 		
 		String jsonPaquete = getJsonPaquete(paquete);
 		
@@ -327,6 +326,29 @@ public class AdministradorPaquete{
         }
     }
 	
+	private String getFileName(String filePath){
+		try{
+		//String pepe = "http://localhost:8080/OfertaPaquetesWebSite/fotos\20171105_190608.jpg";
+		String[] splitted = filePath.split("/");
+
+		String file = splitted[splitted.length-1];
+		System.out.println(file);
+		
+		String[] splitted2 = filePath.split("\\\\");
+		if(splitted2.length > 0)
+			file = splitted2[splitted2.length-1];
+		
+		return file;
+		/*String[] sp2 = file.split("\\.");
+		System.out.println("File name: " + sp2[sp2.length - 2]);
+		return sp2[sp2.length - 2];*/
+		}
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+			throw ex;
+		}
+	}
+
 
 	/** Enviar Paquete a BO - JMS **/
 	private void sendToPortalWeb2(PaqueteDTO paquete) {
@@ -379,8 +401,16 @@ public class AdministradorPaquete{
 	}
 
 	//http://www.java2s.com/Tutorials/Java/JSON/0100__JSON_Java.htm
-	private String getJsonPaquete(PaqueteDTO paquete){
+	private String getJsonPaquete(PaqueteDTO paquete) throws IOException{
 
+		//Copio la img al repo publico
+		String fileName = getFileName(paquete.getImagen());
+		System.out.println("File origen:" + Properties.LOCAL_IMG_REPO + fileName);
+		System.out.println("File destino:" + Properties.PUBLIC_IMG_REPO + paquete.getNombre() + fileName);
+		File fOrigen = new File(Properties.LOCAL_IMG_REPO + fileName);
+		File fDest = new File(Properties.PUBLIC_IMG_REPO + paquete.getNombre() + fileName);
+		FileUtils.copyFile(fOrigen, fDest);
+				
 		System.out.println("getJsonPaquete");
 		
 	   	JsonObjectBuilder paqueteJsonBuilder = Json.createObjectBuilder()
@@ -389,7 +419,7 @@ public class AdministradorPaquete{
 					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
 					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
 					.add("cantidad_personas_paquete",paquete.getCantPersonas())
-					.add("foto_paquete",String.valueOf(paquete.getImagen())) /*Poner una sola imagen, con la URL*/
+					.add("foto_paquete",String.valueOf(fDest))
 					.add("descripcion_paquete",paquete.getDescripcion())
 					.add("precio", paquete.getPrecio())
 					.add("latitud",paquete.getDestino().getLatitud())
