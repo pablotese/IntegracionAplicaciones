@@ -50,6 +50,7 @@ import com.ofertaPaquetes.entities.PaqueteServicio;
 import com.ofertaPaquetes.entities.Provincia;
 import com.ofertaPaquetes.util.Properties;
 
+
 /**
  * Session Bean implementation class AdministradorTareas
  */
@@ -59,12 +60,12 @@ public class AdministradorPaquete{
 	
 	@PersistenceContext(unitName="MyPU")
 	private EntityManager manager;
-
+/*
 	@Resource(lookup = Properties.CONNECTION_FACTORY)
     ConnectionFactory connectionFactory;
 
     @Resource(lookup = Properties.DESTINATION)
-    Destination destination;
+    Destination destination;*/
 
 	public AdministradorPaquete() {
         // TODO Auto-generated constructor stub
@@ -290,18 +291,18 @@ public class AdministradorPaquete{
             final java.util.Properties env = new java.util.Properties();
             env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
             env.put(Context.PROVIDER_URL, Properties.PROVIDER_URL); // Cambiar por IP remota aca
-            env.put(Context.SECURITY_PRINCIPAL, Properties.SECURITY_PRINCIPAL);
-            env.put(Context.SECURITY_CREDENTIALS, Properties.SECURITY_CREDENTIALS);
+            env.put(Context.SECURITY_PRINCIPAL, Properties.CONNECTION_FACTORY_USER);
+            env.put(Context.SECURITY_CREDENTIALS, Properties.CONNECTION_FACTORY_PASSWORD);
             namingContext = new InitialContext(env);
 
             ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(Properties.CONNECTION_FACTORY_2);
             System.out.println("Got ConnectionFactory");
 
-            Destination destination = (Destination) namingContext.lookup(Properties.DESTINATION_2);
+            Destination destination = (Destination) namingContext.lookup(Properties.DESTINATION);
             System.out.println("Got JMS Endpoint");
             System.out.println(destination.toString());
 
-            jmsContext = connectionFactory.createContext(Properties.SECURITY_PRINCIPAL, Properties.SECURITY_CREDENTIALS);
+            jmsContext = connectionFactory.createContext(Properties.CONNECTION_FACTORY_USER, Properties.CONNECTION_FACTORY_PASSWORD);
            
             TextMessage message = jmsContext.createTextMessage(jsonPaquete);
 
@@ -352,7 +353,7 @@ public class AdministradorPaquete{
 
 	/** Enviar Paquete a BO - JMS **/
 	private void sendToPortalWeb2(PaqueteDTO paquete) {
-
+/*
 		System.out.println("sendToPortalWeb");
 		
         try {
@@ -397,19 +398,22 @@ public class AdministradorPaquete{
         } catch (Exception ex) {
             ex.printStackTrace(System.out);
         }
-
+*/
 	}
 
 	//http://www.java2s.com/Tutorials/Java/JSON/0100__JSON_Java.htm
 	private String getJsonPaquete(PaqueteDTO paquete) throws IOException{
 
+		String img = paquete.getImagen();
+		String img2 = img.replace("localhost", Properties.IP_LOCAL);
+		System.out.println(img2);
 		//Copio la img al repo publico
-		String fileName = getFileName(paquete.getImagen());
+		/*String fileName = getFileName(paquete.getImagen());
 		System.out.println("File origen:" + Properties.LOCAL_IMG_REPO + fileName);
 		System.out.println("File destino:" + Properties.PUBLIC_IMG_REPO + paquete.getNombre() + fileName);
 		File fOrigen = new File(Properties.LOCAL_IMG_REPO + fileName);
 		File fDest = new File(Properties.PUBLIC_IMG_REPO + paquete.getNombre() + fileName);
-		FileUtils.copyFile(fOrigen, fDest);
+		FileUtils.copyFile(fOrigen, fDest);*/
 				
 		System.out.println("getJsonPaquete");
 		
@@ -419,7 +423,7 @@ public class AdministradorPaquete{
 					.add("fecha_desde",getFechaString(paquete.getFechaDesde()))
 					.add("fecha_hasta",getFechaString(paquete.getFechaHasta()))
 					.add("cantidad_personas_paquete",paquete.getCantPersonas())
-					.add("foto_paquete",String.valueOf(fDest))
+					.add("foto_paquete",String.valueOf(img2))
 					.add("descripcion_paquete",paquete.getDescripcion())
 					.add("precio", paquete.getPrecio())
 					.add("latitud",paquete.getDestino().getLatitud())
