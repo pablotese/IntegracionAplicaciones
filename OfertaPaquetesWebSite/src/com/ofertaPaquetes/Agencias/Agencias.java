@@ -40,65 +40,75 @@ public class Agencias extends HttpServlet {
      */
     public Agencias() {
         super();
-        BusinessDelegate bd = BusinessDelegate.getInstance();
-        bd.cargarDatosIniciales();
+        //BusinessDelegate bd = BusinessDelegate.getInstance();
+        //bd.cargarDatosIniciales();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String accion = request.getParameter("accion");
 		RequestDispatcher rd = null;
-		BusinessDelegate bd = BusinessDelegate.getInstance();
-		
-		if(accion == null)
+		try
 		{
+			String accion = request.getParameter("accion");
+			BusinessDelegate bd = BusinessDelegate.getInstance();
 			
-			List<AgenciaDTO> lst = bd.listarAgencias();
-			request.setAttribute("listAgencias", lst);
+			if(accion == null)
+			{
+				
+				List<AgenciaDTO> lst = bd.listarAgencias();
+				request.setAttribute("listAgencias", lst);
+				
+				rd = request.getRequestDispatcher("/views/agencias/list.jsp");
+			}
 			
-			rd = request.getRequestDispatcher("/views/agencias/list.jsp");
+			if(accion != null)
+			{
+				if(accion.equals("crear"))
+				{
+					List<ProvinciaDTO> provs = bd.getListadoProvincias();
+					if(provs == null)
+						provs = new ArrayList<ProvinciaDTO>();
+					
+					request.setAttribute("listProvincias",provs);
+					rd = request.getRequestDispatcher("/views/agencias/create.jsp");
+				}
+				if(accion.equals("editar"))
+				{
+					String idAgencia = request.getParameter("idAgencia");
+					if(idAgencia != null && !idAgencia.isEmpty()) {
+						AgenciaDTO dto = bd.obtenerAgencia(Integer.parseInt(idAgencia));
+						request = setViewModel(request,dto);						
+					}
+					
+					List<ProvinciaDTO> provs = bd.getListadoProvincias();
+					if(provs == null)
+						provs = new ArrayList<ProvinciaDTO>();
+					
+					request.setAttribute("listProvincias",provs);
+					
+					rd = request.getRequestDispatcher("/views/agencias/edit.jsp");
+				}
+				if(accion.equals("eliminar"))
+				{
+					String idAgencia = request.getParameter("idAgencia");
+					if(idAgencia != null && !idAgencia.isEmpty()) {
+						AgenciaDTO dto = bd.obtenerAgencia(Integer.parseInt(idAgencia));
+						request = setViewModel(request,dto);						
+					}
+					rd = request.getRequestDispatcher("/views/agencias/delete.jsp");
+				}
+			}
+			rd.forward(request, response);
 		}
-		
-		if(accion != null)
+		catch(Exception ex)
 		{
-			if(accion.equals("crear"))
-			{
-				List<ProvinciaDTO> provs = bd.getListadoProvincias();
-				if(provs == null)
-					provs = new ArrayList<ProvinciaDTO>();
-				
-				request.setAttribute("listProvincias",provs);
-				rd = request.getRequestDispatcher("/views/agencias/create.jsp");
-			}
-			if(accion.equals("editar"))
-			{
-				String idAgencia = request.getParameter("idAgencia");
-				if(idAgencia != null && !idAgencia.isEmpty()) {
-					AgenciaDTO dto = bd.obtenerAgencia(Integer.parseInt(idAgencia));
-					request = setViewModel(request,dto);						
-				}
-				
-				List<ProvinciaDTO> provs = bd.getListadoProvincias();
-				if(provs == null)
-					provs = new ArrayList<ProvinciaDTO>();
-				
-				request.setAttribute("listProvincias",provs);
-				
-				rd = request.getRequestDispatcher("/views/agencias/edit.jsp");
-			}
-			if(accion.equals("eliminar"))
-			{
-				String idAgencia = request.getParameter("idAgencia");
-				if(idAgencia != null && !idAgencia.isEmpty()) {
-					AgenciaDTO dto = bd.obtenerAgencia(Integer.parseInt(idAgencia));
-					request = setViewModel(request,dto);						
-				}
-				rd = request.getRequestDispatcher("/views/agencias/delete.jsp");
-			}
+			ex.printStackTrace();
+			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticion.");
+			rd = request.getRequestDispatcher("/error.jsp");
+			rd.forward(request, response);
 		}
-		rd.forward(request, response);
 	}
 	
 	private HttpServletRequest setViewModel(HttpServletRequest request, AgenciaDTO viewModel) {
@@ -140,7 +150,7 @@ public class Agencias extends HttpServlet {
 					viewModel.setPiso(request.getParameter("piso"));
 					viewModel.setDepto(request.getParameter("dpto"));
 					viewModel.setLocalidad(request.getParameter("localidad"));
-					viewModel.setEstado(Boolean.parseBoolean(request.getParameter("estado")));
+					viewModel.setEstado(true);
 					
 					List<ProvinciaDTO> provs = bd.getListadoProvincias();
 					ProvinciaDTO dtoProv = new ProvinciaDTO();
@@ -198,9 +208,11 @@ public class Agencias extends HttpServlet {
 			}
 			
 			response.sendRedirect("/OfertaPaquetesWebSite/Agencias");
-		} catch (Exception e) {
-			//TODO: SHOW MODAL ERROR OR ERROR PAGE
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticion.");
+			RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
+			rd.forward(request, response);
 		}
 	}
 	

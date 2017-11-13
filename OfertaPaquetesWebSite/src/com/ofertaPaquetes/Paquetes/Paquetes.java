@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
@@ -77,14 +78,33 @@ public class Paquetes extends HttpServlet {
 		if(accion != null)
 		{
 			if(accion.equals("crear")) {
-				try {
+				
 					request.setAttribute("listAgencias", bd.listarAgencias());
 					request.setAttribute("listServicios", getServiciosList());
+					
+				
+					JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+				   	List<DestinoDTO> dests = bd.listarDestinos();
+				    if (!getServiciosList().isEmpty()) {
+				        for (DestinoDTO destDTO : dests) {
+				            arrayBuilder.add(Json.createObjectBuilder()
+				                    .add("idDestino", destDTO.getIdDestino() )
+				                    .add("nombreDestino", destDTO.getNombre()));
+				        }
+				    }
+				    
+				   				
+				   	JsonArray destJson = arrayBuilder.build();
+			        StringWriter stringWriter = new StringWriter();
+			   
+			        JsonWriter writer = Json.createWriter(stringWriter);
+			        writer.writeArray(destJson);
+			        writer.close();
+			        
+			        request.setAttribute("destJson", destJson.toString());
 					request.setAttribute("listDestinos", bd.listarDestinos());
 					request.setAttribute("listMediosPago", bd.getListadoMediosDePago());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				
 				
 				rd = request.getRequestDispatcher("/views/paquetes/create.jsp");
 			}
@@ -147,7 +167,7 @@ public class Paquetes extends HttpServlet {
 				catch(Exception ex)
 				{
 					ex.printStackTrace();
-					request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticiï¿½n.");
+					request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticion.");
 					rd = request.getRequestDispatcher("/error.jsp");
 				}
 			}
@@ -160,7 +180,7 @@ public class Paquetes extends HttpServlet {
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticiï¿½n.");
+			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticion.");
 			rd = request.getRequestDispatcher("/error.jsp");
 		}
 		
@@ -193,11 +213,8 @@ public class Paquetes extends HttpServlet {
 												request.getParameter("politicasCancelacion"),
 												Integer.parseInt(request.getParameter("cupo")),
 												Integer.parseInt(request.getParameter("cantPersonas")),
-												false,true
+												true,true
 												);
-			 
-			 System.out.println(nuevoPaquete.getFechaDesde());
-			 System.out.println(nuevoPaquete.getFechaHasta());
 			 
 			//Armo lista de servicio asociados al paquete.
 			 //Obtengo la lista de servicios
@@ -219,7 +236,7 @@ public class Paquetes extends HttpServlet {
 			 }
 			 
 			 //"Obtengo" el destino
-			 DestinoDTO dest =bd.obtenerDestino(Integer.parseInt(request.getParameter("destino")));
+			 DestinoDTO dest =bd.obtenerDestino(Integer.parseInt(request.getParameter("idDestino")));
 
 			 //Obtengo la agencia
 			 AgenciaDTO agen = bd.obtenerAgencia(Integer.parseInt(request.getParameter("agencia")));
@@ -230,9 +247,6 @@ public class Paquetes extends HttpServlet {
 			 nuevoPaquete.setAgencia(agen);
 			 nuevoPaquete.setMediosDePago(lstSelectedMediosPago);
 			 List<ImagenDTO> imagenes = new ArrayList<ImagenDTO>();
-			 //nuevoPaquete.setImagen(imagenes.get(0).ge);
-			 //TODO: guardar una URL a la imagen, que guardamos en un server local primero.
-			 //Cuando se ejecuta el envï¿½o por JMS la ponemos en un server remoto
 			 
 			 
 			 	// gets absolute path of the web application
@@ -246,7 +260,6 @@ public class Paquetes extends HttpServlet {
 		            fileSaveDir.mkdir();
 		        }
 		         
-		        
 		        	Part foto = request.getPart("foto");
 		            String fileName = extractFileName(foto);
 		            fileName = fileName.replace(" ", "_");
@@ -264,8 +277,8 @@ public class Paquetes extends HttpServlet {
 		 catch(Exception ex)
 		 {
 			ex.printStackTrace();
-			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticiï¿½n.");
-			rd = request.getRequestDispatcher("/views/error.jsp");
+			request.setAttribute("errorMsg", "Lo sentimos, ha sucedido un error al intentar realizar su peticion.");
+			rd = request.getRequestDispatcher("/error.jsp");
 			rd.forward(request, response);
 		 }
 		
@@ -279,6 +292,7 @@ public class Paquetes extends HttpServlet {
 		
 		//Llamada a BO
 		URL url = new URL("http://192.168.0.107:8080/TPO_BO_WEB/rest/ServiciosBO/GetServiciosPorTipo");
+		//URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServiciosPorTipo");
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		
 		urlConnection.setDoOutput(true);
@@ -302,7 +316,7 @@ public class Paquetes extends HttpServlet {
 				
 		
 		if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
-			throw new RuntimeException("Error de conexiï¿½n: " + urlConnection.getResponseCode());
+			throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
 		}
 		String response = IOUtils.toString(urlConnection.getInputStream());
 		System.out.println("Respuesta: " + response);
