@@ -26,7 +26,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="menu-link navbar-brand" href="/OfertaPaquetesWebSite/Index.jsp"><span class="glyphicon glyphicon-home"></span></a>
+      <a class="menu-link navbar-brand" href="/OfertaPaquetesWebSite/Home"><span class="glyphicon glyphicon-home"></span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,7 +56,7 @@
         <th>Fecha Regreso</th>
         <th>Estado</th>
         <th>Cupo</th>
-        <th>Acciones</th>
+        <!-- <th>Acciones</th> -->
       </tr>
     </thead>
     <tbody>
@@ -69,11 +69,19 @@
         <td><%=a.getNombre()%></td>
         <td><%=a.getDestino().getNombre()%></td> 
         
-        <td><%=a.getFechaDesde().toString().substring(0, 10)%></td>
-        <td><%=a.getFechaHasta().toString().substring(0, 10)%></td>
-        <td><%=a.isEstado()%></td>
+        <td><%=a.getFechaDesde().toString().substring(8, 10) %> / <%=a.getFechaDesde().toString().substring(5, 7) %> / <%=a.getFechaDesde().toString().substring(0, 4) %></td>
+        <td><%=a.getFechaHasta().toString().substring(8, 10) %> / <%=a.getFechaHasta().toString().substring(5, 7) %> / <%=a.getFechaHasta().toString().substring(0, 4) %></td>
+        <% if(a.isEstado())
+        	{%>
+        <td>Habilitado</td>
+        <%}
+        else
+        {
+        %>	
+        <td>Deshabilitado</td>
+        <%} %>
         <td><%=a.getCupo()%></td>
-        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Paquetes?accion=detalle&idPaquete=<%=a.getIdPaquete() %>" id="btnEdit"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+        <%-- <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Paquetes?accion=detalle&idPaquete=<%=a.getIdPaquete() %>" id="btnEdit"><span class="glyphicon glyphicon-eye-open"></span></a></td> --%>
       </tr>
 	<%}%>
     </tbody>

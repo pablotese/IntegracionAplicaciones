@@ -19,7 +19,12 @@
 <script type="text/javascript" src="js/jquery_ui/jquery-ui-datetimepicker-es.js"></script>
 <script type="text/javascript" src="js/jquery_validation/src/core.js"></script>
 <script type="text/javascript" src="js/jquery_validation/src/localization/messages_es_AR.js"></script>
+<script type="text/javascript" src="js/jquery_validation/src/additional/accept.js"></script>
+<script type="text/javascript" src="js/jquery_validation/src/additional/extension.js"></script>
 <script type="text/javascript" src="js/multiselect/bootstrap-multiselect.js"></script>
+<script type="text/javascript" src="js/typeahead/typeahead_bundle.js"></script>
+
+
 
 <link type="text/css" href="css/Site.css" rel="stylesheet" />
 <link type="text/css" href="css/jquery_ui/jquery-ui.css" rel="stylesheet" />
@@ -53,6 +58,24 @@
 	#frmGrpMediosPagos.form-group>span>.btn-group>button{
 		width:100%;
 	}
+	
+	#scrollable-dropdown-menu .tt-menu {
+  max-height: 150px;
+  overflow-y: auto;
+  width:100%;
+  background:white;
+  border:1px solid rgba(0, 0, 0, .15);
+  border-radius:4px;
+}
+
+.tt-dataset{
+	cursor:default;
+}
+
+.twitter-typeahead{
+	width:100%;
+}
+
 </style>
 
 </head>
@@ -96,14 +119,19 @@
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 	  <div class="form-group">
 		<label>Destino:</label>
-		<select class="form-control" id="destino" name="destino" required>
-			<option value="default">Seleccione...</option>
+		<%-- <select class="form-control" id="destino" name="destino" required>
+			<option value="default">Ingrese un destino...</option>
 			<% List<DestinoDTO> lstDest = (List<DestinoDTO>) request.getAttribute("listDestinos");
     		for(DestinoDTO d : lstDest)
     		{%>
 			<option value=<%=d.getIdDestino() %>><%=d.getNombre() %></option>
 			<%} %>
-		  </select>
+		  </select> --%>
+		  
+		  <input id="idDestino" name="idDestino" type="hidden" />
+		  <div id="scrollable-dropdown-menu">
+			  <input id="destino" name="destino" class="typeahead form-control" type="text" placeholder="Tipee un destino..." required>
+			</div>
 	  </div>
 	</div>
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -147,7 +175,7 @@
   
   <div class="form-group">
 	<label>Foto:</label>
-	 <input class="form-control" id="foto" name="foto" type="file" accept="image/*" required>
+	 <input class="form-control" id="foto" name="foto" type="file" required>
   </div>
   <div class="row">
   
@@ -193,7 +221,7 @@
   </div>
   
 	<div class="checkbox">
-		<label><input id="estado" name="estado" type="checkbox" checked="checked">Habilitado</label>
+		<label><input id="estado" name="estado" type="checkbox" checked="checked" disabled>Habilitado</label>
 	</div>
   
   <button type="submit" class="btn btn-primary center-block">Guardar</button>
@@ -212,11 +240,18 @@
    destino: { valueNotEquals: "default" },
    servicios: { valueNotEquals: "default" },
    agencia : { valueNotEquals: "default" },
+   foto:{
+	   	required: true,
+	   	extension: "jpg|png"
+	   }
   },
   messages: {
    destino: { valueNotEquals: "Este campo es requerido" },
    servicios: { valueNotEquals: "Este campo es requerido" },
-   agencia: { valueNotEquals: "Este campo es requerido" }
+   agencia: { valueNotEquals: "Este campo es requerido" },
+   foto:{
+	   	extension:"Formato no soportado"
+	   }
   }  
  });
   $( "#fechaSalida" ).datepicker();
@@ -233,7 +268,66 @@
   $("#mediosPagos").multiselect({
 	  nonSelectedText: 'Seleccione...'
 	  });
-  
+
+		var jsonDest = <%= request.getAttribute("destJson") %>
+
+		var destinos = new Bloodhound({
+			identify: function(obj) { return obj.idDestino; },
+			  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('nombreDestino'),
+			  queryTokenizer: Bloodhound.tokenizers.whitespace,
+			  // `states` is an array of state names defined in "The Basics"
+			  local: jsonDest
+			});
+
+			// initialize the bloodhound suggestion engine
+			destinos.initialize();
+
+
+			$('#destino').typeahead({
+			  hint: true,
+			  highlight: true,
+			  minLength: 1
+			},
+			{
+			  name: 'states',
+			  source: destinos,
+			  display:'nombreDestino',
+			  limit:10
+			});
+
+			$('#destino').bind('typeahead:select', function(ev, suggestion) {
+			  $("#idDestino").val(suggestion.idDestino);
+			});
+				
+
+		// Set up variables to store the selection and the original 
+		// value.
+		var selected      = null;
+		var originalVal   = null;
+
+		// When the typeahead becomes active reset these values.
+		$("#destino").on("typeahead:active", function(aEvent) {
+		   selected       = null;
+		   originalVal    = $("#destino").typeahead("val");
+		})
+
+		// When a suggestion gets selected save that
+		$("#destino").on("typeahead:select", function(aEvent, aSuggestion) {
+		   selected = aSuggestion;
+		});
+
+		// Once user leaves the component and a change was registered
+		// check whether or not something was selected. If not reset to
+		// the original value.
+		$("#destino").on("typeahead:change", function(aEvent, aSuggestion) {
+		   if (!selected) {
+			   $("#destino").typeahead("val", originalVal);
+		   }
+
+		   // Do something with the selected value here as needed...
+		});  
+
+		
   </script>
   </body>
 </html>
