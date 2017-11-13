@@ -10,6 +10,7 @@
 <title>Agencias - Listado</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="js/Site.js"></script>
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
 <link type="text/css" href="css/Site.css" rel="stylesheet" />
   
@@ -31,7 +32,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a class="menu-link" href="/OfertaPaquetesWebSite/Index.jsp">Volver</a></li>
+        <li><a class="menu-link" href="/OfertaPaquetesWebSite/Home">Volver</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -41,10 +42,8 @@
 
     <a class="btn btn-success btn-block" href="/OfertaPaquetesWebSite/Agencias?accion=crear"><span class="glyphicon glyphicon-plus"></span> Agregar agencia</a>
  
- 
- 
-
- 
+ <div id="overlay"></div>
+<div id="loader" style="visibility:hidden"></div>
   <div class="container">
   <h2>Agencias</h2>
   <p>Listado de las agencias cargadas en el sistema.</p>                                                                                      
@@ -57,7 +56,6 @@
         <th>Nombre</th>
         <th>Dirección</th>
         <th>Estado</th>
-        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -73,13 +71,14 @@
         <td><%=a.getNombre()%></td>
         <td><%=a.getCalle() + " " + a.getNro() + " " + a.getPiso() + a.getDepto() + ", " + a.getLocalidad() + ", " + a.getProvincia().getNombre()%></td>
         <td><%=a.isEstado()%></td>
-        <td><a class="btn btn-primary" href="/OfertaPaquetesWebSite/Agencias?accion=editar&idAgencia=<%=a.getIdAgencia() %>" id="btnEdit"><span class="glyphicon glyphicon-eye-open"></span></a></td>
       </tr>
 	<%}}%>
     </tbody>
   </table>
   </div>
 </div>
+
+
 
 </body>
 </html>

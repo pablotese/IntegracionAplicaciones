@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Módulo - Paquetes</title>
+<script type="text/javascript" src="js/Site.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
@@ -28,23 +29,25 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a class="menu-link" href="/OfertaPaquetesWebSite/Paquetes">Paquetes</a></li>
-        <li><a class="menu-link" href="/OfertaPaquetesWebSite/Agencias">Agencias</a></li>
+      	<li><a class="menu-link" onclick="redirect('/OfertaPaquetesWebSite/Agencias')" style="cursor:pointer">Agencias</a></li>
+        <li><a class="menu-link" onclick="redirect('/OfertaPaquetesWebSite/Paquetes')" style="cursor:pointer">Paquetes</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 <body>
+<div id="overlay"></div>
+	<div id="loader" style="visibility:hidden"></div>
   <div class="container">
 	  <div class="jumbotron">
-	    <h2>Administración de paquetes</h2>
+	    <h2>Administración de ofertas de paquetes</h2>
 	    <p>
-	      Bienvenido al módulo de administración de paquetes.
+	      Bienvenido al módulo de administración de agencias y ofertas de paquetes.
 	    </p>
 	  </div>
   </div>
-  <script>
-
+ <script>
+	
 </script>
 
 </body>

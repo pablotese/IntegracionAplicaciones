@@ -31,6 +31,7 @@ import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 
+import com.ofertaPaquetes.Utils.Config;
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.DestinoDTO;
@@ -291,7 +292,7 @@ public class Paquetes extends HttpServlet {
 		List<PaqueteServicioDTO> ret = new ArrayList<PaqueteServicioDTO>();
 		
 		//Llamada a BO
-		URL url = new URL("http://192.168.0.107:8080/TPO_BO_WEB/rest/ServiciosBO/GetServiciosPorTipo");
+		URL url = new URL(Config.URL_BO_SERVICIOS_POR_TIPO);
 		//URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServiciosPorTipo");
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		
