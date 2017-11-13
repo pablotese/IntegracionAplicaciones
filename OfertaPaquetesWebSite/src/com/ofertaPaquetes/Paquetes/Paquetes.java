@@ -31,6 +31,7 @@ import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 
+import com.ofertaPaquetes.Utils.Config;
 import com.ofertaPaquetes.businessDelegate.BusinessDelegate;
 import com.ofertaPaquetes.dtos.AgenciaDTO;
 import com.ofertaPaquetes.dtos.DestinoDTO;
@@ -285,61 +286,69 @@ public class Paquetes extends HttpServlet {
 		response.sendRedirect("/OfertaPaquetesWebSite/Paquetes");
 	}
 	
-	private List<PaqueteServicioDTO> getServiciosList() throws Exception
+	private List<PaqueteServicioDTO> getServiciosList() 
 	{
 		BusinessDelegate bd = BusinessDelegate.getInstance();
 		List<PaqueteServicioDTO> ret = new ArrayList<PaqueteServicioDTO>();
-		
-		//Llamada a BO
-		URL url = new URL("http://192.168.0.107:8080/TPO_BO_WEB/rest/ServiciosBO/GetServiciosPorTipo");
-		//URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServiciosPorTipo");
-		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		
-		urlConnection.setDoOutput(true);
-		urlConnection.setRequestMethod("POST");
-		urlConnection.setRequestProperty("Content-Type", "application/json");
-		
-		JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
-	   			.add("nombre","Paquete");
-   				
-		   	JsonObject agenciaJson = jsonBuilder.build();
-	        StringWriter stringWriter = new StringWriter();
-	        
-	        JsonWriter writer = Json.createWriter(stringWriter);
-	        writer.writeObject(agenciaJson);
-	        writer.close();
-	        
-	        String json2 = agenciaJson.toString();
-		
-		IOUtils.write(json2, urlConnection.getOutputStream());
-		
-				
-		
-		if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
-			throw new RuntimeException("Error de conexión: " + urlConnection.getResponseCode());
-		}
-		String response = IOUtils.toString(urlConnection.getInputStream());
-		System.out.println("Respuesta: " + response);
-		
-		JsonReader jsonReader = Json.createReader(new StringReader(response));
-		JsonArray jsonArray = jsonReader.readArray();
-		jsonReader.close();
-		
-		if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
-			String observacion = "Response code: "+urlConnection.getResponseCode();
-			bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", observacion);
-			
-			throw new RuntimeException("Error de conexion: " + urlConnection.getResponseCode());
-		}
-		
-		bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", "Obtencion de servicios exitosa");
-		for(JsonValue json : jsonArray)
+	
+		try
 		{
-			JsonObject obj = (JsonObject)json;
-			PaqueteServicioDTO dto = new PaqueteServicioDTO();
-			dto.setNombreServicio(obj.getString("nombre"));
-			dto.setIdServicio(obj.getInt("id"));
-			ret.add(dto);
+			//Llamada a BO
+			URL url = new URL(Config.URL_BO_SERVICIOS_POR_TIPO);
+			//URL url = new URL("http://localhost:8080/enviarSolicitud/rest/service/GetServiciosPorTipo");
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+			
+			urlConnection.setDoOutput(true);
+			urlConnection.setRequestMethod("POST");
+			urlConnection.setRequestProperty("Content-Type", "application/json");
+			
+			JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
+		   			.add("nombre","Paquete");
+	   				
+			   	JsonObject agenciaJson = jsonBuilder.build();
+		        StringWriter stringWriter = new StringWriter();
+		        
+		        JsonWriter writer = Json.createWriter(stringWriter);
+		        writer.writeObject(agenciaJson);
+		        writer.close();
+		        
+		        String json2 = agenciaJson.toString();
+			
+			IOUtils.write(json2, urlConnection.getOutputStream());
+			
+					
+			
+			if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
+				System.out.println("Error de conexión: " + urlConnection.getResponseCode());
+			
+				String response = IOUtils.toString(urlConnection.getInputStream());
+				System.out.println("Respuesta: " + response);
+				
+				JsonReader jsonReader = Json.createReader(new StringReader(response));
+				JsonArray jsonArray = jsonReader.readArray();
+				jsonReader.close();
+				
+				if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
+					String observacion = "Response code: "+urlConnection.getResponseCode();
+					bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", observacion);
+					
+					System.out.println("Error de conexion: " + urlConnection.getResponseCode());
+				}
+				
+				bd.enviarLog("Oferta Paquetes", "Back Office", "GetServiciosPorTipo", "Obtencion de servicios exitosa");
+				for(JsonValue json : jsonArray)
+				{
+					JsonObject obj = (JsonObject)json;
+					PaqueteServicioDTO dto = new PaqueteServicioDTO();
+					dto.setNombreServicio(obj.getString("nombre"));
+					dto.setIdServicio(obj.getInt("id"));
+					ret.add(dto);
+				}
+			}
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 		
 		return ret;

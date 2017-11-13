@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paquetes - Listado</title>
+<script type="text/javascript" src="js/Site.js"></script>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
 <link type="text/css" href="css/Site.css" rel="stylesheet" />
@@ -40,8 +41,9 @@
 
 <body>
 
-    <a class="btn btn-success btn-block" href="/OfertaPaquetesWebSite/Paquetes?accion=crear"><span class="glyphicon glyphicon-plus"></span> Agregar paquete</a>
- 
+    <a class="btn btn-success btn-block" style="cursor:pointer" onclick="redirect('/OfertaPaquetesWebSite/Paquetes?accion=crear')" ><span class="glyphicon glyphicon-plus"></span> Agregar paquete</a>
+ <div id="overlay"></div>
+	<div id="loader" style="visibility:hidden"></div>
   <div class="container">
   <h2>Oferta de paquetes</h2>
   <p>Listado de las ofertas de paquetes cargadas en el sistema.</p>                                                                                      

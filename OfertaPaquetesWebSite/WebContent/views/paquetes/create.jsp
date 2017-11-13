@@ -13,6 +13,7 @@
 <title>Paquetes - Alta</title>
 <script type="text/javascript" src="js/jquery/jquery-1.12.1.js"></script>
 <script type="text/javascript" src="js/Bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="js/Site.js"></script>
 <link type="text/css" href="css/Bootstrap/bootstrap.css" rel="stylesheet" />
 
 <script type="text/javascript" src="js/jquery_ui/jquery-ui.js"></script>
@@ -101,6 +102,8 @@
   </div><!-- /.container-fluid -->
 </nav>
 <body>
+<div id="overlay"></div>
+	<div id="loader" style="visibility:hidden"></div>
    <div class="container">
   <h2>Agregar paquetes</h2>
   <p>Formulario para la carga de paquetes al sistema.</p>                                                                                      
@@ -224,11 +227,16 @@
 		<label><input id="estado" name="estado" type="checkbox" checked="checked" disabled>Habilitado</label>
 	</div>
   
-  <button type="submit" class="btn btn-primary center-block">Guardar</button>
+  <button type="button" class="btn btn-primary center-block">Guardar</button>
 </form>
 </div>
 
 <script>
+
+	$("#btnSubmit").click(function(){
+		showLoading();
+		$("#frmPaquetes").submit();
+	})
 	
   $( function() {
    $.validator.addMethod("valueNotEquals", function(value, element, arg){
