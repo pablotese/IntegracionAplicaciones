@@ -86,7 +86,7 @@ public class Paquetes extends HttpServlet {
 				
 					JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 				   	List<DestinoDTO> dests = bd.listarDestinos();
-				    if (!getServiciosList().isEmpty()) {
+				    if (!dests.isEmpty()) {
 				        for (DestinoDTO destDTO : dests) {
 				            arrayBuilder.add(Json.createObjectBuilder()
 				                    .add("idDestino", destDTO.getIdDestino() )
@@ -320,7 +320,7 @@ public class Paquetes extends HttpServlet {
 			
 			if(urlConnection.getResponseCode() != 200 && urlConnection.getResponseCode() != 204) {
 				System.out.println("Error de conexión: " + urlConnection.getResponseCode());
-			
+			}else{
 				String response = IOUtils.toString(urlConnection.getInputStream());
 				System.out.println("Respuesta: " + response);
 				
