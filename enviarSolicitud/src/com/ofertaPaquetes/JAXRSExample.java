@@ -49,9 +49,9 @@ public class JAXRSExample {
 		try{
 			System.out.println("Solicitud servicios por tipo : " + request.getNombre());
 			List<ServicioJSON> test=new ArrayList<ServicioJSON>();
-			test.add(new ServicioJSON(1,new TipoServicioJSON(1,"Habitacion"),"wifi"));
-			test.add(new ServicioJSON(2,new TipoServicioJSON(1,"Habitacion"),"despertador"));
-			test.add(new ServicioJSON(3,new TipoServicioJSON(2,"Transporte"),"wifi"));
+			test.add(new ServicioJSON(1,new TipoServicioJSON(1,"Paquete"),"wifi"));
+			test.add(new ServicioJSON(2,new TipoServicioJSON(1,"Paquete"),"despertador"));
+			test.add(new ServicioJSON(3,new TipoServicioJSON(2,"Paquete"),"wifi"));
 			return test;
 		}
 		catch(Exception e){
